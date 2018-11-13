@@ -12,7 +12,7 @@ new RenderServer().run('./render', './tmp');
 
 You can accomplish the same thing from the Command Line Interface. 
 ```
-routine-design render routes ./routes.js -d ./tmp
+routine-design render ./render -d ./tmp
 ```
 
 You can specify a different port
@@ -22,7 +22,7 @@ new RenderServer().run('./render', './tmp', 8080 /* port */);
 
 Or from the command line 
 ```
-routine-design render routes ./routes.js -d ./tmp --port 8080
+routine-design render ./render -d ./tmp --port 8080
 ```
 
 ## RoutesSetup
