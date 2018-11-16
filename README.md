@@ -6,7 +6,7 @@ Provides tools for aligning code and design.
 
 Turns a directory with `React.Component`s into a Webpack server.
 ```
-routine-design render routes ./routes.js -d ./tmp
+routine-design render ./render -d ./tmp
 ```
 
 Run `routine-design -h` for more commands and help.

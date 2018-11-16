@@ -1,4 +1,6 @@
-import {Renderer} from 'routine-design';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {HashRouter} from 'react-router-dom';
 import './index.scss';
 import Routes from './routes.js';
-new Renderer(Routes, document.getElementById('foo')).render();
+ReactDOM.render(<HashRouter><Routes/></HashRouter>,document.getElementById('foo'));
