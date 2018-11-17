@@ -8,7 +8,7 @@ const mockFs = td.object(fs);
 describe('RoutesSetup', function() {
   describe('routes path in render directory', function() {
     const routesSetup = new RoutesSetup('./tmp', './tmp/routes.js', glob);
-    describe('./tmp/index.test.js', function() {
+    describe('./tmp/index.js', function() {
       td.when(glob.sync(td.matchers.anything())).thenReturn(['./tmp/index.js']);
       describe('#getRoutes', function() {
         const routes = routesSetup.getRoutes();
@@ -21,6 +21,18 @@ describe('RoutesSetup', function() {
         it('has correct import path', function() {
           expect(routes[0].importPath).to.equal("./index.js");
         });
+        it('has correct path', function() {
+          expect(routes[0].path).to.equal("");
+        });
+      });
+    });
+    describe('./tmp/foo.js', function() {
+      td.when(glob.sync(td.matchers.anything())).thenReturn(['./tmp/foo.js']);
+      describe('#getRoutes', function() {
+        const routes = routesSetup.getRoutes();
+        it('has correct path', function() {
+          expect(routes[0].path).to.equal("foo");
+        });
       });
     });
     describe('./tmp/foo/index.js', function() {
@@ -29,6 +41,9 @@ describe('RoutesSetup', function() {
         const routes = routesSetup.getRoutes();
         it('has correct import path', function() {
           expect(routes[0].importPath).to.equal("./foo/index.js");
+        });
+        it('has correct path', function() {
+          expect(routes[0].path).to.equal("foo");
         });
       });
     });
@@ -42,6 +57,18 @@ describe('RoutesSetup', function() {
         it('has correct import path', function() {
           expect(routes[0].importPath).to.equal("../render/index.js");
         });
+        it('has correct path', function() {
+          expect(routes[0].path).to.equal("");
+        });
+      });
+    });
+    describe('./tmp/foo.js', function() {
+      td.when(glob.sync(td.matchers.anything())).thenReturn(['./render/foo.js']);
+      describe('#getRoutes', function() {
+        const routes = routesSetup.getRoutes();
+        it('has correct path', function() {
+          expect(routes[0].path).to.equal("foo");
+        });
       });
     });
     describe('./render/foo/index.js', function() {
@@ -50,6 +77,9 @@ describe('RoutesSetup', function() {
         const routes = routesSetup.getRoutes();
         it('has correct import path', function() {
           expect(routes[0].importPath).to.equal("../render/foo/index.js");
+        });
+        it('has correct path', function() {
+          expect(routes[0].path).to.equal("foo");
         });
       });
     });

@@ -17,9 +17,13 @@ class RoutesSetup {
       const dirname = path.dirname(file);
       const route = {
         importPath: path.join(path.relative(path.dirname(routesPath), dirname), path.basename(file)),
-        path: path.relative(renderDirectory, dirname)};
+        path: path.relative(renderDirectory, dirname)
+      };
       if (route.importPath[0]!=".") {
         route.importPath = "./"+route.importPath;
+      }
+      if (path.basename(file)!="index.js") {
+        route.path = path.join(path.relative(renderDirectory, dirname), path.basename(file, '.js'));
       }
       routes.push(route);
     });
