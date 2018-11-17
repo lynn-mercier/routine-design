@@ -6,10 +6,14 @@ const Application = require('../application');
 const EntryPoint = require('./entry-point');
 
 class WebpackSetup {
-  constructor(webpackDir, javaScriptPath, MyApplication = Application) {
-    this.webpackDir_ = webpackDir;
+  constructor(MyApplication = Application) {
+    this.webpackDir_ = './routine-design-output';
     this.application_ = new MyApplication();
-    this.javaScriptPath_ = javaScriptPath;
+    this.javaScriptPath_ = this.webpackDir_+'/index.js';
+  }
+
+  getWebpackDir() {
+    return this.webpackDir_;
   }
 
   async emptyDirectory(myRimRaf = rimraf, myFs = fs) {

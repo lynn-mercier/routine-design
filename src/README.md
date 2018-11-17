@@ -2,32 +2,37 @@
 
 Provides JavaScript APIs for aligning code and design.
 
+* [RenderServer](#renderserver)
+* [RoutesSetup](#routessetup)
+* [Application](./application/README.md)
+* [WebpackSetup](./webpack-setup/README.md)
+
 ## RenderServer
 
-Turns a directory with `React.Component`s into a Webpack server.
+Turns a directory with many `React.Component` into a Webpack server. Say `./render` was the directory with the components, then JavaScript will turn it into a Webpack server.
 ```
 import {RenderServer} from 'routine-design';
-new RenderServer().run('./render', './tmp');
+new RenderServer().run('./render');
 ```
 
 You can accomplish the same thing from the Command Line Interface. 
 ```
-routine-design render ./render -d ./tmp
+routine-design render ./render
 ```
 
 You can specify a different port
 ```
-new RenderServer().run('./render', './tmp', 8080 /* port */);
+new RenderServer().run('./render', 8080 /* port */);
 ```
 
 Or from the command line 
 ```
-routine-design render ./render -d ./tmp --port 8080
+routine-design render ./render --port 8080
 ```
 
 ## RoutesSetup
 
-Turns a directory with `React.Component`s into a `routes.js` file. The `routes.js` file renders a set of `<Route>`s.
+Turns a directory with `React.Component` into a `routes.js` file. The `routes.js` file renders a set of `<Route>`.
 ```
 import {RoutesSetup} from 'routine-design';
 new RoutesSetup('./dir', './routes.js').writeRoutes();
@@ -44,12 +49,4 @@ Returns a list of route objects, one for each JavaScript file found in the `rend
 
 ### writeRoutes()
 
-Writes a JavaScript file to `routesPath`. The JavaScript file exports a `React.Component` that renders a set of `<Route>`s. Each `<Route>` matches a JavaScript file found in the `renderDirectory`.
-
-## Application
-
-Provides tools for creating a Web application.
-
-## WebpackSetup
-
-Provides tools for managing a Webpack server, including the content base.
+Writes a JavaScript file to `routesPath`. The JavaScript file exports a `React.Component` that renders a set of `<Route>`. Each `<Route>` matches a JavaScript file found in the `renderDirectory`.
