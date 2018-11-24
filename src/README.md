@@ -81,8 +81,7 @@ Determine if a URL resolves.
 import {WebsiteStatus} from 'routine-design';
 import puppeteer from 'puppeteer';
 const browser = await puppeteer.launch();
-const page = await browser.newPage();
-const websiteStatus = new WebsiteStatus(page, 'localhost:8080');
+const websiteStatus = new WebsiteStatus(browser, 'http://localhost:8080');
 ```
 
 ### resolves()

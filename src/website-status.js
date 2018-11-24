@@ -1,12 +1,22 @@
 
 class WebsiteStatus {
-  constructor(page, url) {
-    this.page_ = page;
+  constructor(browser, url) {
+    this.browser_ = browser;
     this.url_ = url;
+    this.page_;
+  }
+
+  async getPage() {
+    if (this.page_) {
+      return this.page_;
+    }
+
+    this.page_ = await this.browser_.newPage();
+    return this.page_;
   }
 
   async resolves() {
-    const page = this.page_;
+    const page = await this.getPage();
     const url = this.url_;
     return new Promise(async function(resolve, reject) {
       try {
