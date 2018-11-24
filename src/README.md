@@ -4,6 +4,7 @@ Provides JavaScript APIs for aligning code and design.
 
 * [RenderServer](#renderserver)
 * [RoutesSetup](#routessetup)
+* [WebsiteStatus](#websitestatus)
 * [Application](./application/README.md)
 * [WebpackSetup](./webpack-setup/README.md)
 
@@ -50,3 +51,23 @@ Returns a list of route objects, one for each JavaScript file found in the `rend
 ### writeRoutes()
 
 Writes a JavaScript file to `routesPath`. The JavaScript file exports a `React.Component` that renders a set of `<Route>`. Each `<Route>` matches a JavaScript file found in the `renderDirectory`.
+
+## WebsiteStatus
+
+Determine if a URL resolves.
+
+```
+import {WebsiteStatus} from 'routine-design';
+import puppeteer from 'puppeteer';
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
+const websiteStatus = new WebsiteStatus(page, 'localhost:8080');
+```
+
+### resolves()
+
+Returns true if the URL resolves.
+
+### waitForResolution(tryCount)
+
+Keeps trying until the URL resolves. 
