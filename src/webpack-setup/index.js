@@ -8,7 +8,7 @@ class WebpackSetup {
   constructor(MyLocalDirectory = LocalDirectory, MyApplication = Application) {
     this.localDirectory_ = new MyLocalDirectory('webpack');
     this.application_ = new MyApplication();
-    this.javaScriptPath_ = this.getWebpackDir()+'/index.js';
+    this.javaScriptPath_ = './'+this.getWebpackDir()+'/index.js';
   }
 
   getWebpackDir() {
