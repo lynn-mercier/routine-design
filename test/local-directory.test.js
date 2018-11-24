@@ -27,13 +27,11 @@ describe('LocalDirectory', function() {
         expect(fullPath).to.equal('routine-design-output/subpath');
       });
     });
-    it('#empty', async function() {
-      const promise = localDirectory.empty(rimraf).then(() => {
-        expect(td.explain(rimraf).calls[0].args[0]).to.deep.equal('routine-design-output/subpath');
-        expect(td.explain(fsExists.mkdirSync).calls[0].args[0]).to.deep.equal('routine-design-output/subpath');
-      })
-      td.explain(rimraf).calls[0].args[1]();
-      return promise;
+    describe('#create', function() {
+      localDirectory.create();
+      it('does not create directory', function() {
+        expect(td.explain(fsExists.mkdirSync).calls.length).to.equal(0);
+      });
     });
   });
   describe('directory does not exist', function() {
@@ -42,6 +40,25 @@ describe('LocalDirectory', function() {
     const localDirectory = new LocalDirectory('subpath', path, fsDoestNotExist);
     it('creates directory', function() {
       expect(td.explain(fsDoestNotExist.mkdirSync).calls[0].args[0]).to.equal('routine-design-output');
+    });
+    describe('#create', function() {
+      localDirectory.create();
+      it('does create directory', function() {
+        expect(td.explain(fsDoestNotExist.mkdirSync).calls[1].args[0]).to.equal('routine-design-output/subpath');
+      });
+    });
+  });
+  describe('directory for emptying', function() {
+    const fs2 = td.object(fs);
+    td.when(fs2.existsSync(td.matchers.anything())).thenReturn(true);
+    const localDirectory = new LocalDirectory('subpath', path, fs2);
+    it('#empty', async function() {
+      const promise = localDirectory.empty(rimraf).then(() => {
+        expect(td.explain(rimraf).calls[0].args[0]).to.deep.equal('routine-design-output/subpath');
+        expect(td.explain(fs2.mkdirSync).calls[0].args[0]).to.deep.equal('routine-design-output/subpath');
+      })
+      td.explain(rimraf).calls[0].args[1]();
+      return promise;
     });
   });
 });

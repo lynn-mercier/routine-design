@@ -2,11 +2,32 @@
 
 Provides JavaScript APIs for aligning code and design.
 
+* [LocalImage](#localimage)
 * [RenderServer](#renderserver)
 * [RoutesSetup](#routessetup)
 * [WebsiteStatus](#websitestatus)
 * [Application](./application/README.md)
 * [WebpackSetup](./webpack-setup/README.md)
+
+## LocalImage
+
+Manipulate a local PNG image. 
+
+### getPath()
+
+Returns the path to the local PNG image.
+
+### getPng()
+
+Returns a PNG object, like from https://www.npmjs.com/package/pngjs
+
+### write(png)
+
+Write a PNG object to the local PNG image.
+
+### delete()
+
+Delete the local PNG image.
 
 ## RenderServer
 

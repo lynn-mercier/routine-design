@@ -17,6 +17,12 @@ class LocalDirectory {
     return this.myPath_.join(this.path_, this.subpath_);
   }
 
+  async create() {
+    if (!this.myFs_.existsSync(this.getFullPath())) {
+      this.myFs_.mkdirSync(this.getFullPath());
+    }
+  }
+
   async empty(myRimRaf = rimraf) {
     const fullPath = this.getFullPath();
     const myFs = this.myFs_;
