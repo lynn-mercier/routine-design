@@ -29,7 +29,21 @@ class WebpackSetup {
   async startServer(port = 8080, MyWebpack = Webpack, MyWebpackDevServer = WebpackDevServer) {
     const compiler = MyWebpack(this.application_.createConfig(this.javaScriptPath_));
     const server = new MyWebpackDevServer(compiler, {
-      contentBase: this.getWebpackDir()
+      contentBase: this.getWebpackDir(),
+      stats: {
+        colors: true,
+        hash: false,
+        version: false,
+        timings: false,
+        assets: false,
+        chunks: false,
+        modules: false,
+        reasons: false,
+        children: false,
+        source: false,
+        warnings: false,
+        publicPath: false
+      }
     });
     return new Promise(function(resolve, reject) {
       server.listen(port, '127.0.0.1', () => {
