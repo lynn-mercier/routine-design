@@ -2,12 +2,25 @@
 
 Provides JavaScript APIs for aligning code and design.
 
+* [GcpImage](#gcpimage)
 * [LocalImage](#localimage)
 * [RenderServer](#renderserver)
 * [RoutesSetup](#routessetup)
 * [WebsiteStatus](#websitestatus)
 * [Application](./application/README.md)
 * [WebpackSetup](./webpack-setup/README.md)
+
+## GcpImage
+
+Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/). 
+
+### upload(png)
+
+Uploads a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
+
+### download()
+
+Downalds and returns PNG object.
 
 ## LocalImage
 
@@ -19,7 +32,7 @@ Returns the path to the local PNG image.
 
 ### getPng()
 
-Returns a PNG object, like from https://www.npmjs.com/package/pngjs
+Returns a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
 
 ### write(png)
 
