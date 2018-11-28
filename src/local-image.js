@@ -16,7 +16,11 @@ class LocalImage {
   }
 
   getPath() {
-    return this.myPath_.join(this.localDirectory_.getFullPath(), this.myRandomstring_.generate()+'.png');
+    if (this.path_) {
+      return this.path_;
+    }
+    this.path_ = this.myPath_.join(this.localDirectory_.getFullPath(), this.myRandomstring_.generate()+'.png');
+    return this.path_;
   }
 
   getPng() {
