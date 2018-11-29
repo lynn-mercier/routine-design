@@ -1,33 +1,45 @@
 const glob = require('glob');
 const fs = require('fs');
-const ComponentFile = require('./component-file');
+const path = require('path');
+const ComponentDirectory = require('./component-directory')
 const ComponentRoute = require('./component-route');
 
 class ComponentTree {
-  constructor(directory, myGlob = glob, MyComponentFile = ComponentFile) {
+  constructor(directory, myGlob = glob, MyComponentDirectory = ComponentDirectory) {
     this.directory_ = directory;
     this.myGlob_ = myGlob;
-    this.MyComponentFile_ = MyComponentFile;
+    this.MyComponentDirectory_ = MyComponentDirectory;
   }
 
-  getFiles() {
-    const componentFiles = [];
-    const directory = this.directory_;
-    const MyComponentFile = this.MyComponentFile_;
+  getDirectories() {
+    if (this.directories_) {
+      return this.directories_;
+    }
+
+    const dirnames = [];
     this.myGlob_.sync(this.directory_ + '/**/*.js').forEach(function(file) {
-      const componentFile = new MyComponentFile(directory, file);
-      componentFiles.push(componentFile);
+      const dirname = path.dirname(file);
+      if (!dirnames.includes(dirname)) {
+        dirnames.push(dirname);
+      }
     });
-    return componentFiles;
+
+    this.directories_ = [];
+    dirnames.forEach((dirname) => {
+      this.directories_.push(new this.MyComponentDirectory_(this.directory_, dirname));
+    })
+    return this.directories_;
   }
 
   async writeRoutes(routesPath, myFs = fs, MyComponentRoute = ComponentRoute) {
     let fileContent = "import React from 'react';\n";
     fileContent += "import {Route} from 'react-router-dom';\n";
     fileContent += "class Routes extends React.Component {\nrender() {return (<div>\n";
-    this.getFiles().forEach((componentFile) => {
-      const componentRoute = new MyComponentRoute(routesPath, componentFile);
-      fileContent += componentRoute.getRoute()+"\n";
+    this.getDirectories().forEach(function(componentDirectory) {
+      componentDirectory.getFiles().forEach(function(componentFile) {
+        const componentRoute = new MyComponentRoute(routesPath, componentFile);
+        fileContent += componentRoute.getRoute()+"\n";
+      });
     });
     fileContent += "</div>);}\n}\nexport default Routes\n";
     
