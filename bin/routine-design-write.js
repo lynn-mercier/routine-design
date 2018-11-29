@@ -22,7 +22,7 @@ program
   .command('routes <renderDirectory> <routesPath>')
   .action(async function(renderDirectory, routesPath) {
     try {
-      await new RoutesSetup(renderDirectory, routesPath).writeJavaScript();
+      await new RoutesSetup(renderDirectory).writeJavaScript(routesPath);
     } catch (err) {
       console.log(err.message);
     }

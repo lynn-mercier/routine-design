@@ -5,9 +5,10 @@ const RoutesSetup = require('../../src/routes-setup');
 const glob = td.func(require('glob'));
 const mockFs = td.object(fs);
 const ComponentFile = td.constructor(require('../../src/routes-setup/component-file'));
+const ComponentRoute = td.constructor(require('../../src/routes-setup/component-route'));
 
 describe('RoutesSetup', function() {
-  const routesSetup = new RoutesSetup('./tmp', './tmp/routes.js', glob, ComponentFile);
+  const routesSetup = new RoutesSetup('./tmp', glob, ComponentFile);
   td.when(glob.sync(td.matchers.anything())).thenReturn(['./tmp/index.js']);
   describe('#getComponentFiles', function() {
     const componentFiles = routesSetup.getComponentFiles();
@@ -19,8 +20,8 @@ describe('RoutesSetup', function() {
     });
   });
   it('#writeJavaScript', async function() {
-    td.when(ComponentFile.prototype.getRoute()).thenReturn("<Route/>");
-    const promise = routesSetup.writeJavaScript(mockFs).then(() => {
+    td.when(ComponentRoute.prototype.getRoute()).thenReturn("<Route/>");
+    const promise = routesSetup.writeJavaScript( './tmp/routes.js', mockFs, ComponentRoute).then(() => {
       expect(td.explain(mockFs.writeFile).calls[0].args[0]).to.equal('./tmp/routes.js');
       expect(td.explain(mockFs.writeFile).calls[0].args[1]).to.equal(fs.readFileSync('test/routes-setup/golden.js', 'utf8'));
     });

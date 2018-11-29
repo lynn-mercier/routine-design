@@ -3,7 +3,7 @@
 Turns a directory with `React.Component` into a `routes.js` file. The `routes.js` file renders a set of `<Route>`.
 ```
 import {RoutesSetup} from 'routine-design';
-new RoutesSetup('./dir', './routes.js').writeRoutes();
+new RoutesSetup('./dir').writeRoutes('./routes.js');
 ```
 
 You can accomplish the same thing from the Command Line Interface. 
@@ -19,13 +19,13 @@ Returns a list of `ComponentFile`, one for each JavaScript file found in the `re
 
 Returns the path from the `renderDirectory` to the JavaScript file.
 
-### ComponentFile.getImportPath()
+### ComponentFile.getBasename()
 
-Returns the path from `routes.js` to the JavaScript file.
+Returns the [basename](https://nodejs.org/api/path.html#path_path_basename_path_ext) of the JavaScript file.
 
-### ComponentFile.getRoute()
+### ComponentFile.getDirname()
 
-Returns a `<Route>` element that imports the JavaScript file.
+Returns the [dirname](https://nodejs.org/api/path.html#path_path_dirname_path) of the JavaScript file.
 
 ## writeRoutes()
 
