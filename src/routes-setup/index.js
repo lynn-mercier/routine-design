@@ -1,41 +1,33 @@
 const glob = require('glob');
-const path = require('path');
 const fs = require('fs');
+const ComponentFile = require('./component-file');
 
 class RoutesSetup {
-  constructor(renderDirectory, routesPath, myGlob = glob) {
+  constructor(renderDirectory, routesPath, myGlob = glob, MyComponentFile = ComponentFile) {
     this.renderDirectory_ = renderDirectory;
     this.routesPath_ = routesPath;
     this.myGlob_ = myGlob;
+    this.MyComponentFile_ = MyComponentFile;
   }
 
-  getRoutes() {
-    const routes = [];
+  getComponentFiles() {
+    const componentFiles = [];
     const routesPath = this.routesPath_;
     const renderDirectory = this.renderDirectory_;
+    const MyComponentFile = this.MyComponentFile_;
     this.myGlob_.sync(this.renderDirectory_ + '/**/*.js').forEach(function(file) {
-      const dirname = path.dirname(file);
-      const route = {
-        importPath: path.join(path.relative(path.dirname(routesPath), dirname), path.basename(file)),
-        path: path.relative(renderDirectory, dirname)
-      };
-      if (route.importPath[0]!=".") {
-        route.importPath = "./"+route.importPath;
-      }
-      if (path.basename(file)!="index.js") {
-        route.path = path.join(path.relative(renderDirectory, dirname), path.basename(file, '.js'));
-      }
-      routes.push(route);
+      const componentFile = new MyComponentFile(renderDirectory, routesPath, file);
+      componentFiles.push(componentFile);
     });
-    return routes;
+    return componentFiles;
   }
 
   async writeJavaScript(myFs = fs) {
     let fileContent = "import React from 'react';\n";
     fileContent += "import {Route} from 'react-router-dom';\n";
     fileContent += "class Routes extends React.Component {\nrender() {return (<div>\n";
-    this.getRoutes().forEach((route) => {
-      fileContent += "<Route exact path='/"+route.path+"' component={require('"+route.importPath+"').default} />\n";
+    this.getComponentFiles().forEach((componentFile) => {
+      fileContent += componentFile.getRoute()+"\n";
     });
     fileContent += "</div>);}\n}\nexport default Routes\n";
 

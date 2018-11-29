@@ -2,13 +2,13 @@
 
 Provides JavaScript APIs for aligning code and design.
 
+* [Application](./application/README.md)
 * [GcpImage](#gcpimage)
 * [LocalImage](#localimage)
 * [RenderServer](#renderserver)
-* [RoutesSetup](#routessetup)
-* [WebsiteStatus](#websitestatus)
-* [Application](./application/README.md)
 * [RoutesServer](./routes-server/README.md)
+* [RoutesSetup](./routes-setup/README.md)
+* [WebsiteStatus](#websitestatus)
 
 ## GcpImage
 
@@ -64,27 +64,6 @@ Or from the command line
 ```
 routine-design render ./render --port 8080
 ```
-
-## RoutesSetup
-
-Turns a directory with `React.Component` into a `routes.js` file. The `routes.js` file renders a set of `<Route>`.
-```
-import {RoutesSetup} from 'routine-design';
-new RoutesSetup('./dir', './routes.js').writeRoutes();
-```
-
-You can accomplish the same thing from the Command Line Interface. 
-```
-routine-design write routes ./dir ./routes.js
-```
-
-### getRoutes()
-
-Returns a list of route objects, one for each JavaScript file found in the `renderDirectory`. Each route object has an `importPath` and `path` field. `importPath` is the path from `routes.js` to the JavaScript file. `path` is from the `renderDirectory` to the same JavaScript file.
-
-### writeRoutes()
-
-Writes a JavaScript file to `routesPath`. The JavaScript file exports a `React.Component` that renders a set of `<Route>`. Each `<Route>` matches a JavaScript file found in the `renderDirectory`.
 
 ## WebsiteStatus
 
