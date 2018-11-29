@@ -3,29 +3,29 @@ const fs = require('fs');
 const ComponentFile = require('./component-file');
 const ComponentRoute = require('./component-route');
 
-class RoutesSetup {
-  constructor(renderDirectory, myGlob = glob, MyComponentFile = ComponentFile) {
-    this.renderDirectory_ = renderDirectory;
+class ComponentTree {
+  constructor(directory, myGlob = glob, MyComponentFile = ComponentFile) {
+    this.directory_ = directory;
     this.myGlob_ = myGlob;
     this.MyComponentFile_ = MyComponentFile;
   }
 
-  getComponentFiles() {
+  getFiles() {
     const componentFiles = [];
-    const renderDirectory = this.renderDirectory_;
+    const directory = this.directory_;
     const MyComponentFile = this.MyComponentFile_;
-    this.myGlob_.sync(this.renderDirectory_ + '/**/*.js').forEach(function(file) {
-      const componentFile = new MyComponentFile(renderDirectory, file);
+    this.myGlob_.sync(this.directory_ + '/**/*.js').forEach(function(file) {
+      const componentFile = new MyComponentFile(directory, file);
       componentFiles.push(componentFile);
     });
     return componentFiles;
   }
 
-  async writeJavaScript(routesPath, myFs = fs, MyComponentRoute = ComponentRoute) {
+  async writeRoutes(routesPath, myFs = fs, MyComponentRoute = ComponentRoute) {
     let fileContent = "import React from 'react';\n";
     fileContent += "import {Route} from 'react-router-dom';\n";
     fileContent += "class Routes extends React.Component {\nrender() {return (<div>\n";
-    this.getComponentFiles().forEach((componentFile) => {
+    this.getFiles().forEach((componentFile) => {
       const componentRoute = new MyComponentRoute(routesPath, componentFile);
       fileContent += componentRoute.getRoute()+"\n";
     });
@@ -43,4 +43,4 @@ class RoutesSetup {
   }
 }
 
-module.exports = RoutesSetup;
+module.exports = ComponentTree;

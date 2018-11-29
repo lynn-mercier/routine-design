@@ -14,6 +14,9 @@ Run `routine-design -h` for more commands and help.
 ## JavaScript APIs
 
 * [RenderServer](./src/README.md): Turns a directory with `React.Component` into a Webpack server.
-* [RoutesSetup](./src/README.md): Turns a directory with `React.Component` into a `routes.js` file. The `routes.js` file renders a set of `<Route>`.
+* [GcpImage](./src/README.md): Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/).
+* [LocalImage](./src/README.md): Manipulate a local PNG image.
+* [WebsiteStatus](./src/README.md): Determine if a URL resolves.
+* [ComponentTree](./src/component-tree/README.md): Manages a directory with `React.Component`.
 * [Application](./src/application/README.md): Provides tools for creating a Web application.
-* [WebpackSetup](./src/webpack-setup/README.md): Provides tools for managing a Webpack server, including the content base.
+* [RoutesServer](./src/routes-server/README.md): Manages a Webpack server built for a `routes.js`.

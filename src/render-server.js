@@ -1,14 +1,14 @@
 const RoutesServer = require('./routes-server');
-const RoutesSetup = require('./routes-setup');
+const ComponentTree = require('./component-tree');
 
 class RenderServer {
 
   async run(renderDirectory, port = 8080, 
-  	MyRoutesServer = RoutesServer, MyRoutesSetup = RoutesSetup) {
+  	MyRoutesServer = RoutesServer, MyComponentTree = ComponentTree) {
     const routesServer = new MyRoutesServer();
     await routesServer.emptyDirectory();
     const routesPath = routesServer.getWebpackDir()+"/routes.js";
-    new MyRoutesSetup(renderDirectory, routesPath).writeJavaScript();
+    new MyComponentTree(renderDirectory).writeRoutes(routesPath);
     await routesServer.writeFiles(routesPath);
     await routesServer.start(port);
   }

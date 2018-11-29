@@ -1,13 +1,13 @@
 const {expect} = require('chai');
 const td = require('testdouble');
 const fs = require('fs');
-const ComponentRoute = require('../../src/routes-setup/component-route');
+const ComponentRoute = require('../../src/component-tree/component-route');
 const glob = td.func(require('glob'));
 const mockFs = td.object(fs);
-const ComponentFile = td.constructor(require('../../src/routes-setup/component-file'));
+const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
 
-describe('routes-setup/ComponentRoute', function() {
-  describe('routes path in render directory', function() {
+describe('component-tree/ComponentRoute', function() {
+  describe('routes path in directory', function() {
     describe('./tmp/index.js', function() {
       const componentFile = new ComponentFile();
       td.when(ComponentFile.prototype.getDirname()).thenReturn('./tmp');
@@ -16,7 +16,7 @@ describe('routes-setup/ComponentRoute', function() {
       const componentRoute = new ComponentRoute('./tmp/routes.js', componentFile);
       describe('#getImportPath', function() {
         const importPath = componentRoute.getImportPath();
-        it('is relative to render directory', function() {
+        it('is relative to directory', function() {
           expect(importPath).to.equal("./index.js");
         });
       });
@@ -34,13 +34,13 @@ describe('routes-setup/ComponentRoute', function() {
       const componentRoute = new ComponentRoute('./tmp/routes.js', componentFile);
       describe('#getImportPath', function() {
         const importPath = componentRoute.getImportPath();
-        it('is relative to render directory', function() {
+        it('is relative to directory', function() {
           expect(importPath).to.equal("./foo/index.js");
         });
       });
     });
   });
-  describe('routes path not in render directory', function() {
+  describe('routes path not in directory', function() {
     describe('./render/index.js', function() {
       const componentFile = new ComponentFile();
       td.when(ComponentFile.prototype.getDirname()).thenReturn('./render');

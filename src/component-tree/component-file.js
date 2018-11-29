@@ -1,13 +1,13 @@
 const path = require('path');
 
 class ComponentFile {
-  constructor(renderDirectory, file) {
-    this.renderDirectory_ = renderDirectory;
+  constructor(directory, file) {
+    this.directory_ = directory;
     this.file_ = file;
   }
 
   getPath() {
-    let result = path.relative(this.renderDirectory_, this.getDirname());
+    let result = path.relative(this.directory_, this.getDirname());
     if (path.basename(this.file_)!="index.js") {
       result = path.join(result, path.basename(this.file_, '.js'));
     }

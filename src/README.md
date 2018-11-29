@@ -3,11 +3,11 @@
 Provides JavaScript APIs for aligning code and design.
 
 * [Application](./application/README.md)
+* [ComponentTree](./component-tree/README.md)
 * [GcpImage](#gcpimage)
 * [LocalImage](#localimage)
 * [RenderServer](#renderserver)
 * [RoutesServer](./routes-server/README.md)
-* [RoutesSetup](./routes-setup/README.md)
 * [WebsiteStatus](#websitestatus)
 
 ## GcpImage
