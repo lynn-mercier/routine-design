@@ -1,16 +1,16 @@
-const WebpackSetup = require('./webpack-setup');
+const RoutesServer = require('./routes-server');
 const RoutesSetup = require('./routes-setup');
 
 class RenderServer {
 
   async run(renderDirectory, port = 8080, 
-  	MyWebpackSetup = WebpackSetup, MyRoutesSetup = RoutesSetup) {
-    const webpackSetup = new MyWebpackSetup();
-    await webpackSetup.emptyDirectory();
-    const routesPath = webpackSetup.getWebpackDir()+"/routes.js";
+  	MyRoutesServer = RoutesServer, MyRoutesSetup = RoutesSetup) {
+    const routesServer = new MyRoutesServer();
+    await routesServer.emptyDirectory();
+    const routesPath = routesServer.getWebpackDir()+"/routes.js";
     new MyRoutesSetup(renderDirectory, routesPath).writeJavaScript();
-    await webpackSetup.write(routesPath);
-    await webpackSetup.startServer(port);
+    await routesServer.writeFiles(routesPath);
+    await routesServer.start(port);
   }
 }
 

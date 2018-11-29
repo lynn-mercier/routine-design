@@ -4,7 +4,7 @@ const LocalDirectory = require('../local-directory');
 const Application = require('../application');
 const EntryPoint = require('./entry-point');
 
-class WebpackSetup {
+class RoutesServer {
   constructor(MyLocalDirectory = LocalDirectory, MyApplication = Application) {
     this.localDirectory_ = new MyLocalDirectory('webpack');
     this.application_ = new MyApplication();
@@ -19,14 +19,14 @@ class WebpackSetup {
     await this.localDirectory_.empty();
   }
 
-  async write(routesPath, MyEntryPoint = EntryPoint) {
+  async writeFiles(routesPath, MyEntryPoint = EntryPoint) {
     const entryPoint = new MyEntryPoint();
     const entryPointPromise = entryPoint.write(this.getWebpackDir(), routesPath, this.javaScriptPath_);
     const htmlPromise = this.application_.writeHtml(this.getWebpackDir()+"/index.html", entryPoint.getDiv());
     return Promise.all([entryPointPromise, htmlPromise]);
   }
 
-  async startServer(port = 8080, MyWebpack = Webpack, MyWebpackDevServer = WebpackDevServer) {
+  async start(port = 8080, MyWebpack = Webpack, MyWebpackDevServer = WebpackDevServer) {
     const compiler = MyWebpack(this.application_.createConfig(this.javaScriptPath_));
     const server = new MyWebpackDevServer(compiler, {
       contentBase: this.getWebpackDir(),
@@ -53,4 +53,4 @@ class WebpackSetup {
   }
 }
 
-module.exports = WebpackSetup;
+module.exports = RoutesServer;

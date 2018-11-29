@@ -8,7 +8,7 @@ Provides JavaScript APIs for aligning code and design.
 * [RoutesSetup](#routessetup)
 * [WebsiteStatus](#websitestatus)
 * [Application](./application/README.md)
-* [WebpackSetup](./webpack-setup/README.md)
+* [RoutesServer](./routes-server/README.md)
 
 ## GcpImage
 
