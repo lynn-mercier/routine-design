@@ -8,7 +8,6 @@ class LocalImage {
   constructor(MyLocalDirectory = LocalDirectory, myPath = path, 
     myRandomstring = randomstring, myPngSync = pngSync, myFs = fs) {
     this.localDirectory_ = new MyLocalDirectory('images');
-    this.localDirectory_.create();
     this.myPath_ = myPath;
     this.myRandomstring_ = myRandomstring;
     this.myPngSync_ = myPngSync;
@@ -23,19 +22,36 @@ class LocalImage {
     return this.path_;
   }
 
-  getPng() {
-    return this.myPngSync_.read(this.myFs_.readFileSync(this.getPath()));
+  async getPng() {
+    const readPromise = new Promise((resolve, reject) => {
+      this.myFs_.readFile(this.getPath(), function(err, data) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+
+    return this.myPngSync_.read(await readPromise);
   }
 
-  write(png) {
-    this.myFs_.writeFileSync(this.getPath(), this.myPngSync_.write(png));
+  async write(png) {
+    await this.localDirectory_.create();
+    return new Promise((resolve, reject) => {
+      this.myFs_.writeFile(this.getPath(), this.myPngSync_.write(png), function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
   }
 
   async delete() {
-    const myPath = this.getPath();
-    const myFs = this.myFs_;
-    return new Promise(function(resolve, reject) {
-      myFs.unlink(myPath, (err) => {
+    return new Promise((resolve, reject) => {
+      this.myFs_.unlink(this.getPath(),function(err) {
         if (err) {
           reject(err);
         } else {

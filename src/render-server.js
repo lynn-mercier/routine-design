@@ -8,7 +8,7 @@ class RenderServer {
     const routesServer = new MyRoutesServer();
     await routesServer.emptyDirectory();
     const routesPath = routesServer.getWebpackDir()+"/routes.js";
-    new MyComponentTree(renderDirectory).writeRoutes(routesPath);
+    await new MyComponentTree(renderDirectory).writeRoutes(routesPath);
     await routesServer.writeFiles(routesPath);
     await routesServer.start(port);
   }

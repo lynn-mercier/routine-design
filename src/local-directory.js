@@ -11,6 +11,7 @@ class LocalDirectory {
     if (!myFs.existsSync(this.path_)) {
       myFs.mkdirSync(this.path_);
     }
+    this.exists_ = this.myFs_.existsSync(this.getFullPath());
   }
 
   getFullPath() {
@@ -18,8 +19,17 @@ class LocalDirectory {
   }
 
   async create() {
-    if (!this.myFs_.existsSync(this.getFullPath())) {
-      this.myFs_.mkdirSync(this.getFullPath());
+    if (!this.exists_) {
+      return new Promise((resolve, reject) => {
+        this.myFs_.mkdir(this.getFullPath(), (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            this.exists_ = true;
+            resolve();
+          }
+        });
+      });
     }
   }
 

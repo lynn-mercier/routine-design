@@ -27,11 +27,10 @@ describe('LocalDirectory', function() {
         expect(fullPath).to.equal('routine-design-output/subpath');
       });
     });
-    describe('#create', function() {
-      localDirectory.create();
-      it('does not create directory', function() {
-        expect(td.explain(fsExists.mkdirSync).calls.length).to.equal(0);
-      });
+    it('#create', async function() {
+      return localDirectory.create().then(function() {
+        expect(td.explain(fsExists.mkdir).calls.length).to.equal(0);
+      })
     });
   });
   describe('directory does not exist', function() {
@@ -41,11 +40,28 @@ describe('LocalDirectory', function() {
     it('creates directory', function() {
       expect(td.explain(fsDoestNotExist.mkdirSync).calls[0].args[0]).to.equal('routine-design-output');
     });
-    describe('#create', function() {
-      localDirectory.create();
-      it('does create directory', function() {
-        expect(td.explain(fsDoestNotExist.mkdirSync).calls[1].args[0]).to.equal('routine-design-output/subpath');
+    it('#create', async function() {
+      const promise = localDirectory.create().then(function() {
+        expect(td.explain(fsDoestNotExist.mkdir).calls[0].args[0]).to.equal('routine-design-output/subpath');
       });
+      td.explain(fsDoestNotExist.mkdir).calls[0].args[1]();
+      return promise;
+    });
+  });
+  describe('directory does not exist', function() {
+    const fsDoestNotExist = td.object(fs);
+    td.when(fsDoestNotExist.existsSync(td.matchers.anything())).thenReturn(false);
+    const localDirectory = new LocalDirectory('subpath', path, fsDoestNotExist);
+    it('#create unsuccessfully', async function() {
+      td.when(fsDoestNotExist.mkdir(td.matchers.anything())).thenCallback('error');
+
+      let caughtError = false;
+      try {
+        await localDirectory.create();
+      } catch (error) {
+        caughtError = true;
+      };
+      expect(caughtError).to.equal(true);
     });
   });
   describe('directory for emptying', function() {

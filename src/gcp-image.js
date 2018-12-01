@@ -11,7 +11,7 @@ class GcpImage {
 
   async upload(png) {
     const localImage = new this.MyLocalImage_();
-    localImage.write(png);
+    await localImage.write(png);
     await this.storageBucket_.upload(localImage.getPath(), {destination: this.gcpPath_});
     await localImage.delete();
   }
@@ -23,7 +23,7 @@ class GcpImage {
     } catch (error) {
       throw error;
     }
-    const png = localImage.getPng();
+    const png = await localImage.getPng();
     await localImage.delete();
     return png;
   }

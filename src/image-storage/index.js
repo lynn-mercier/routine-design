@@ -11,14 +11,24 @@ class ImageStorage {
     this.MyComponentImage_ = MyComponentImage;
   }
 
-  getImages() {
+  async getImages() {
     if (this.images_) {
       return this.images_;
     }
 
     let imageJson = {};
     if (this.myFs_.existsSync(this.componentDirectory_.getDirectory()+"/image.json")) {
-      imageJson = JSON.parse(this.myFs_.readFileSync(this.directory_+"/image.json"));
+      const imageJsonPromise = new Promise((resolve, reject) => {
+        this.myFs_.readFile(this.componentDirectory_.getDirectory()+"/image.json", function(err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
+      });
+
+      imageJson = JSON.parse(await imageJsonPromise);
     }
 
     this.images_ = [];
@@ -33,12 +43,13 @@ class ImageStorage {
     return this.images_;
   }
 
-  save() {
+  async save() {
     const json = {};
 
     const componentFiles = this.componentDirectory_.getFiles();
+    const componentImages = await this.getImages();
 
-    this.getImages().forEach((componentImage, index) => {
+    componentImages.forEach((componentImage, index) => {
       const imageId = componentImage.getId();
       if (imageId) {
         json[componentFiles[index].getBasename()] = {
@@ -47,7 +58,16 @@ class ImageStorage {
         };
       }
     });
-    this.myFs_.writeFileSync(this.componentDirectory_.getDirectory()+"/image.json", JSON.stringify(json, null, 2), 'utf8', () => {});
+
+    return new Promise((resolve, reject) => {
+      this.myFs_.writeFile(this.componentDirectory_.getDirectory()+"/image.json", JSON.stringify(json, null, 2), 'utf8', function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
   }
 }
 
