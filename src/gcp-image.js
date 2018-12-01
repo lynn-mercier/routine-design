@@ -2,8 +2,9 @@ const LocalImage = require('./local-image');
 const {PNG} = require('pngjs');
 
 class GcpImage {
-  constructor(storageBucket, gcpPath, MyLocalImage = LocalImage) {
-    this.storageBucket_ = storageBucket;
+  constructor(storage, screenshotBucketName, gcpPath, MyLocalImage = LocalImage) {
+    this.storageBucket_ = storage.bucket(screenshotBucketName);
+    this.screenshotBucketName_ = screenshotBucketName;
     this.gcpPath_ = gcpPath;
     this.MyLocalImage_ = MyLocalImage;
   }
@@ -25,6 +26,10 @@ class GcpImage {
     const png = localImage.getPng();
     await localImage.delete();
     return png;
+  }
+
+  getUrl() {
+    return "https://storage.googleapis.com/" + this.screenshotBucketName_ + "/" + this.gcpPath_;
   }
 }
 

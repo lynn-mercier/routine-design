@@ -21,6 +21,10 @@ class ComponentDirectory {
     });
     return this.files_;
   }
+
+  getDirectory() {
+    return this.directory_;
+  }
 }
 
 module.exports = ComponentDirectory;

@@ -1,13 +1,13 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const fs = require('fs');
 const ComponentDirectory = require('../../src/component-tree/component-directory');
 const glob = td.func(require('glob'));
-const mockFs = td.object(fs);
 const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
 
 describe('component-tree/ComponentDirectory', function() {
-  const componentDirectory = new ComponentDirectory('./tmp', './tmp', glob, ComponentFile);
+  td.when(ComponentFile.prototype.getBasename()).thenReturn('index.js');
+  const componentDirectory = 
+    new ComponentDirectory('./tmp', './tmp', glob, ComponentFile);
   td.when(glob.sync(td.matchers.anything())).thenReturn(['./tmp/index.js']);
   describe('#getFiles', function() {
     const componentFiles = componentDirectory.getFiles();

@@ -5,6 +5,7 @@ Provides JavaScript APIs for aligning code and design.
 * [Application](./application/README.md)
 * [ComponentTree](./component-tree/README.md)
 * [GcpImage](#gcpimage)
+* [ImageStorage](./image-storage/README.md)
 * [LocalImage](#localimage)
 * [RenderServer](#renderserver)
 * [RoutesServer](./routes-server/README.md)
@@ -14,6 +15,13 @@ Provides JavaScript APIs for aligning code and design.
 
 Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/). 
 
+```
+const {GcpImage} = require('routine-design');
+const {Storage} = require('@google-cloud/storage');
+const storage = new Storage({projectId: 'project-id'});
+const gcpImage = new GcpImage(storage, 'storage-bucket-name', 'foo.png');
+```
+
 ### upload(png)
 
 Uploads a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
@@ -21,6 +29,10 @@ Uploads a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
 ### download()
 
 Downalds and returns PNG object.
+
+### getUrl()
+
+Returns the URL for viewing the image.
 
 ## LocalImage
 

@@ -14,6 +14,10 @@ Returns a list of `ComponentDirectory`, one for the root directory, and for each
 
 Returns a list of `ComponentFile`, one for each JavaScript file found in the directory.
 
+### ComponentDirectory.getDirectory()
+
+Returns the path to the directory.
+
 ### ComponentFile.getPath()
 
 Returns the path from the `directory` to the JavaScript file.
@@ -34,7 +38,3 @@ You can accomplish the same thing from the Command Line Interface.
 ```
 routine-design write routes ./dir ./routes.js
 ```
-
-
-
-
