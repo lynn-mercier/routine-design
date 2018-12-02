@@ -2,7 +2,6 @@ const {expect} = require('chai');
 const td = require('testdouble');
 const GcpImage = require('../src/gcp-image');
 const LocalImage = require('../src/local-image');
-const PNG = td.constructor(require('pngjs').PNG);
 
 describe('GcpImage', function() {
   const storage = td.object({
@@ -59,7 +58,7 @@ describe('GcpImage', function() {
 
     let caughtError = false;
     try {
-      await gcpImage.download(PNG);
+      await gcpImage.download();
     } catch (error) {
       expect(error).to.equal('error');
       caughtError = true;

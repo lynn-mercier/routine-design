@@ -46,6 +46,10 @@ Returns the path to the local PNG image.
 
 Returns a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
 
+### prepareForWriting()
+
+Prepare the `LocalImage` to be written to.
+
 ### write(png)
 
 Write a PNG object to the local PNG image.

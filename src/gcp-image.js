@@ -15,7 +15,7 @@ class GcpImage {
     await localImage.delete();
   }
 
-  async download(MyPng = PNG) {
+  async download() {
     const localImage = new this.MyLocalImage_();
     try {
       await this.storageBucket_.file(this.gcpPath_).download({destination: localImage.getPath()});

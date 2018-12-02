@@ -36,8 +36,12 @@ class LocalImage {
     return this.myPngSync_.read(await readPromise);
   }
 
-  async write(png) {
+  async prepareForWriting() {
     await this.localDirectory_.create();
+  }
+
+  async write(png) {
+    await this.prepareForWriting();
     return new Promise((resolve, reject) => {
       this.myFs_.writeFile(this.getPath(), this.myPngSync_.write(png), function(err) {
         if (err) {
