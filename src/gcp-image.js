@@ -1,5 +1,4 @@
 const LocalImage = require('./local-image');
-const {PNG} = require('pngjs');
 
 class GcpImage {
   constructor(storage, screenshotBucketName, gcpPath, MyLocalImage = LocalImage) {
