@@ -28,7 +28,7 @@ class ComponentImage {
 
   async saveImage(localImage, myRandomstring = randomstring) {
     this.id_ = myRandomstring.generate();
-    await this.createGcpImage().upload(localImage.getPng());
+    await this.createGcpImage().upload(await localImage.getPng());
   }
 }
 
