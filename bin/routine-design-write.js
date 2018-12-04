@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
 const Application = require('../src/application');
-const RoutesSetup = require('../src/routes-setup');
+const ComponentTree = require('../src/component-tree');
 
 program
   .version('0.1.0')
@@ -19,10 +19,10 @@ program
   });
 
 program
-  .command('routes <renderDirectory> <routesPath>')
-  .action(async function(renderDirectory, routesPath) {
+  .command('routes <directory> <routesPath>')
+  .action(async function(directory, routesPath) {
     try {
-      await new RoutesSetup(renderDirectory, routesPath).writeJavaScript();
+      await new ComponentTree(directory).writeRoutes(routesPath);
     } catch (err) {
       console.log(err.message);
     }

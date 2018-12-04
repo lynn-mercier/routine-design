@@ -2,10 +2,61 @@
 
 Provides JavaScript APIs for aligning code and design.
 
-* [RenderServer](#renderserver)
-* [RoutesSetup](#routessetup)
 * [Application](./application/README.md)
-* [WebpackSetup](./webpack-setup/README.md)
+* [ComponentTree](./component-tree/README.md)
+* [GcpImage](#gcpimage)
+* [ImageStorage](./image-storage/README.md)
+* [LocalImage](#localimage)
+* [RenderServer](#renderserver)
+* [RoutesServer](./routes-server/README.md)
+* [WebsiteStatus](#websitestatus)
+
+## GcpImage
+
+Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/). 
+
+```
+const {GcpImage} = require('routine-design');
+const {Storage} = require('@google-cloud/storage');
+const storage = new Storage({projectId: 'project-id'});
+const gcpImage = new GcpImage(storage, 'storage-bucket-name', 'foo.png');
+```
+
+### upload(png)
+
+Uploads a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
+
+### download()
+
+Downalds and returns PNG object.
+
+### getUrl()
+
+Returns the URL for viewing the image.
+
+## LocalImage
+
+Manipulate a local PNG image. 
+
+### getPath()
+
+Returns the path to the local PNG image.
+
+### getPng()
+
+Returns a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
+
+### prepareForWriting()
+
+Prepare the `LocalImage` to be written to.
+
+### write(png)
+
+Write a PNG object to the local PNG image.
+
+### delete()
+
+Delete the local PNG image.
 
 ## RenderServer
 
@@ -30,23 +81,21 @@ Or from the command line
 routine-design render ./render --port 8080
 ```
 
-## RoutesSetup
+## WebsiteStatus
 
-Turns a directory with `React.Component` into a `routes.js` file. The `routes.js` file renders a set of `<Route>`.
-```
-import {RoutesSetup} from 'routine-design';
-new RoutesSetup('./dir', './routes.js').writeRoutes();
-```
+Determine if a URL resolves.
 
-You can accomplish the same thing from the Command Line Interface. 
 ```
-routine-design write routes ./dir ./routes.js
+import {WebsiteStatus} from 'routine-design';
+import puppeteer from 'puppeteer';
+const browser = await puppeteer.launch();
+const websiteStatus = new WebsiteStatus(browser, 'http://localhost:8080');
 ```
 
-### getRoutes()
+### resolves()
 
-Returns a list of route objects, one for each JavaScript file found in the `renderDirectory`. Each route object has an `importPath` and `path` field. `importPath` is the path from `routes.js` to the JavaScript file. `path` is from the `renderDirectory` to the same JavaScript file.
+Returns true if the URL resolves.
 
-### writeRoutes()
+### waitForResolution(tryCount)
 
-Writes a JavaScript file to `routesPath`. The JavaScript file exports a `React.Component` that renders a set of `<Route>`. Each `<Route>` matches a JavaScript file found in the `renderDirectory`.
+Keeps trying until the URL resolves. 

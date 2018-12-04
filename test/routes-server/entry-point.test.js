@@ -2,9 +2,9 @@ const {expect} = require('chai');
 const fs = require('fs');
 const td = require('testdouble');
 const mockFs = td.object(fs);
-const EntryPoint = require('../../src/webpack-setup/entry-point');
+const EntryPoint = require('../../src/routes-server/entry-point');
 
-describe('webpack-setup/EntryPoint', function() {
+describe('routes-server/EntryPoint', function() {
   //TODO make tmp dir
   const entryPoint = new EntryPoint("foo");    
   it('#write(routesPath, webpackDir, javaScriptPath)', async function() {
@@ -12,7 +12,7 @@ describe('webpack-setup/EntryPoint', function() {
       expect(td.explain(mockFs.writeFile).calls[0].args[0]).to.equal('tmp/index.scss');
       expect(td.explain(mockFs.writeFile).calls[0].args[1]).to.equal("");
       expect(td.explain(mockFs.writeFile).calls[1].args[0]).to.equal('./tmp/index.js');
-      expect(td.explain(mockFs.writeFile).calls[1].args[1]).to.equal(fs.readFileSync('test/webpack-setup/golden.js', 'utf8'));
+      expect(td.explain(mockFs.writeFile).calls[1].args[1]).to.equal(fs.readFileSync('test/routes-server/golden.js', 'utf8'));
     });
     td.explain(mockFs.writeFile).calls[1].args[2]();
     return promise;

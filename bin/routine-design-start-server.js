@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander');
-const WebpackSetup = require('../src/webpack-setup');
+const RoutesServer = require('../src/routes-server');
 const Application = require('../src/application');
 
 program
@@ -11,10 +11,10 @@ program
   .arguments('<routesPath>')
   .action(async function(routesPath) {
     try {
-      const webpackSetup = new WebpackSetup();
-      await webpackSetup.emptyDirectory();
-      await webpackSetup.write(routesPath);
-      await webpackSetup.startServer(program.port);
+      const routesServer = new RoutesServer();
+      await routesServer.emptyDirectory();
+      await routesServer.write(routesPath);
+      await routesServer.startServer(program.port);
     } catch (err) {
       console.log(err.message);
     }
