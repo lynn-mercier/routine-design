@@ -28,7 +28,7 @@ describe('ComponentTree', function() {
         expect(td.explain(ComponentDirectory).calls[0].args[1]).to.equal('./tmp');
       });
       it('one component directory', function() {
-        expect(componentDirectories.length).to.equal(1);
+        expect(componentDirectories.size).to.equal(1);
       });
     });
     it('#writeRoutes', async function() {
@@ -60,7 +60,7 @@ describe('ComponentTree', function() {
     describe('#getDirectories', function() {
       const componentDirectories = componentTree.getDirectories();
       it('one component directory', function() {
-        expect(componentDirectories.length).to.equal(1);
+        expect(componentDirectories.size).to.equal(1);
       });
     });
   });

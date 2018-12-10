@@ -24,9 +24,9 @@ class ComponentTree {
       }
     });
 
-    this.directories_ = [];
+    this.directories_ = new Map();
     dirnames.forEach((dirname) => {
-      this.directories_.push(new this.MyComponentDirectory_(this.directory_, dirname));
+      this.directories_.set(dirname, new this.MyComponentDirectory_(this.directory_, dirname));
     })
     return this.directories_;
   }

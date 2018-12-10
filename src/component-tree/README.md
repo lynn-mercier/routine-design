@@ -8,7 +8,7 @@ const componentTree = new ComponentTree('./dir');
 
 ## getDirectories()
 
-Returns a list of `ComponentDirectory`, one for the root directory, and for each sub-directory found in the `directory`. 
+Returns a Map of `dirname` to `ComponentDirectory`. There is an entry for the root directory, and an entry for each sub-directory found in the `directory`. 
 
 ### ComponentDirectory.getFiles()
 
