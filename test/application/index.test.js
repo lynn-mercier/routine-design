@@ -21,12 +21,21 @@ describe('Application', function() {
     expect(td.explain(JavaScriptSetup).calls[0].args[0]).to.equal('js.js');
   });
   it('#writeHtml', async function() {
-    const promise = application.writeHtml('./tmp/index.html', '<div id="root"/>', mockFs).then(() => {
+    td.when(mockFs.writeFile(td.matchers.anything(),td.matchers.anything())).thenCallback();
+    await application.writeHtml('./tmp/index.html', '<div id="root"/>', mockFs).then(() => {
       expect(td.explain(mockFs.writeFile).calls[0].args[0]).to.equal("./tmp/index.html");
       expect(td.explain(mockFs.writeFile).calls[0].args[1]).to.equal(fs.readFileSync('test/application/golden.html', 'utf8'));
     });
-    td.explain(mockFs.writeFile).calls[0].args[2]();
-    return promise;
+  });
+  it('#writeHtml unsuccessfully', async function() {
+    td.when(mockFs.writeFile(td.matchers.anything(),td.matchers.anything())).thenCallback('err');
+    let caughtError = false;
+    try {
+      await application.writeHtml('./tmp/index.html', '<div id="root"/>', mockFs);
+    } catch (err) {
+      caughtError = true;
+    }
+    expect(caughtError).to.equal(true);
   });
   describe('#createConfig', function() {
     const config = application.createConfig('./tmp/index.js');
