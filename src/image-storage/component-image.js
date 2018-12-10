@@ -2,8 +2,8 @@ const randomstring = require('randomstring');
 const GcpImage = require('../gcp-image');
 
 class ComponentImage {
-  constructor(storage, screenshotBucketName, componentFile, id, MyGcpImage = GcpImage) {
-    this.storage_ = storage;
+  constructor(projectId, screenshotBucketName, componentFile, id, MyGcpImage = GcpImage) {
+    this.projectId_ = projectId;
     this.screenshotBucketName_ = screenshotBucketName;
     this.componentFile_ = componentFile;
     this.id_ = id;
@@ -23,7 +23,7 @@ class ComponentImage {
   }
 
   createGcpImage() {
-    return new this.MyGcpImage_(this.storage_, this.screenshotBucketName_, this.getGcpPath());
+    return new this.MyGcpImage_(this.projectId_, this.screenshotBucketName_, this.getGcpPath());
   }
 
   async saveImage(localImage, myRandomstring = randomstring) {

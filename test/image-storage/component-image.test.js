@@ -10,7 +10,7 @@ describe('image-storage/ComponentImage', function() {
   describe('has GCP ID', function() {
     const componentFile = new ComponentFile();
     td.when(componentFile.getPath()).thenReturn('foo');
-    const componentImage = new ComponentImage('storage', 'storage-bucket', componentFile, 'ID', GcpImage);
+    const componentImage = new ComponentImage('project-id', 'storage-bucket', componentFile, 'ID', GcpImage);
     describe('#getId', function() {
       it('returns GCP ID', function() {
         expect(componentImage.getId()).to.equal('ID');
@@ -24,7 +24,7 @@ describe('image-storage/ComponentImage', function() {
     describe('#createGcpImage', function() {
       const gcpImage = componentImage.createGcpImage();
       it("uses storage bucket", function() {
-        expect(td.explain(GcpImage).calls[0].args[0]).to.equal('storage');
+        expect(td.explain(GcpImage).calls[0].args[0]).to.equal('project-id');
         expect(td.explain(GcpImage).calls[0].args[1]).to.equal('storage-bucket');
       });
       it("uses GCP Path", function() {
@@ -34,7 +34,7 @@ describe('image-storage/ComponentImage', function() {
   });
   describe('has no GCP ID', function() {
     const componentFile = new ComponentFile();
-    const componentImage = new ComponentImage('storage', 'storage-bucket', componentFile, null, GcpImage);
+    const componentImage = new ComponentImage('project-id', 'storage-bucket', componentFile, null, GcpImage);
     describe('#getGcpPath', function() {
       it("throws error", function() {
         let caughtError = false;
@@ -49,7 +49,7 @@ describe('image-storage/ComponentImage', function() {
   });
   it('#saveImage', async function() {
     const componentFile = new ComponentFile();
-    const componentImage = new ComponentImage('storage', 'storage-bucket', componentFile, null, GcpImage);
+    const componentImage = new ComponentImage('project-id', 'storage-bucket', componentFile, null, GcpImage);
     const localImage = new LocalImage();
     td.when(randomstring.generate()).thenReturn('random');
     td.when(localImage.getPng()).thenReturn('png');

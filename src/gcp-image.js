@@ -1,9 +1,10 @@
+const {Storage} = require('@google-cloud/storage');
 const LocalImage = require('./local-image');
 
 class GcpImage {
-  constructor(storage, screenshotBucketName, gcpPath, MyLocalImage = LocalImage) {
-    this.storageBucket_ = storage.bucket(screenshotBucketName);
-    this.screenshotBucketName_ = screenshotBucketName;
+  constructor(projectId, storageBucketName, gcpPath, MyStorage = Storage, MyLocalImage = LocalImage) {
+    this.storageBucket_ = new MyStorage({projectId: projectId}).bucket(storageBucketName);
+    this.storageBucketName_ = storageBucketName;
     this.gcpPath_ = gcpPath;
     this.MyLocalImage_ = MyLocalImage;
   }
@@ -28,7 +29,7 @@ class GcpImage {
   }
 
   getUrl() {
-    return "https://storage.googleapis.com/" + this.screenshotBucketName_ + "/" + this.gcpPath_;
+    return "https://storage.googleapis.com/" + this.storageBucketName_ + "/" + this.gcpPath_;
   }
 }
 

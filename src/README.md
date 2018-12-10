@@ -17,9 +17,7 @@ Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.co
 
 ```
 const {GcpImage} = require('routine-design');
-const {Storage} = require('@google-cloud/storage');
-const storage = new Storage({projectId: 'project-id'});
-const gcpImage = new GcpImage(storage, 'storage-bucket-name', 'foo.png');
+const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png');
 ```
 
 ### upload(png)

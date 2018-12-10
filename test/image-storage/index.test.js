@@ -18,14 +18,14 @@ describe('ImageStorage', function() {
     td.when(gcpImage.getUrl()).thenReturn('https://gcp.com');
     const componentDirectory = new ComponentDirectory();
     const imageStorage = 
-      new ImageStorage('storage', 'storage-bucket', componentDirectory, fsExists, ComponentImage);
+      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsExists, ComponentImage);
     const componentFile = new ComponentFile();
     td.when(componentDirectory.getDirectory()).thenReturn("./tmp");
     td.when(componentDirectory.getFiles()).thenReturn([componentFile]);
     td.when(componentFile.getBasename()).thenReturn('index.js');
     it('#getImages', async function() {
       return imageStorage.getImages().then(function(componentImages) {
-        expect(td.explain(ComponentImage).calls[0].args[0]).to.equal("storage");
+        expect(td.explain(ComponentImage).calls[0].args[0]).to.equal("project-id");
         expect(td.explain(ComponentImage).calls[0].args[1]).to.equal("storage-bucket");
         expect(td.explain(ComponentImage).calls[0].args[2]).to.equal(componentDirectory.getFiles()[0]);
         expect(td.explain(ComponentImage).calls[0].args[3]).to.equal("random");
@@ -52,7 +52,7 @@ describe('ImageStorage', function() {
     td.when(fsDoesNotExist.readFile(td.matchers.anything())).thenCallback('error');
     const componentDirectory = new ComponentDirectory();
     const imageStorage = 
-      new ImageStorage('storage', 'storage-bucket', componentDirectory, fsDoesNotExist, ComponentImage);
+      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsDoesNotExist, ComponentImage);
     it('#getImages', async function() {
       td.when(fsDoesNotExist.readFile(td.matchers.anything())).thenCallback('error');
 

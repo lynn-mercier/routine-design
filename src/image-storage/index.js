@@ -2,9 +2,9 @@ const fs = require('fs');
 const ComponentImage = require('./component-image');
 
 class ImageStorage {
-  constructor(storage, storageBucketName, componentDirectory, myFs = fs, 
+  constructor(projectId, storageBucketName, componentDirectory, myFs = fs, 
     MyComponentImage = ComponentImage) {
-    this.storage_ = storage;
+    this.projectId_ = projectId;
     this.storageBucketName_ = storageBucketName;
     this.componentDirectory_ = componentDirectory;
     this.myFs_ = myFs;
@@ -37,7 +37,7 @@ class ImageStorage {
       if (imageJson[componentFile.getBasename()]) {
         imageId = imageJson[componentFile.getBasename()].id
       }
-      const componentImage = new this.MyComponentImage_(this.storage_, this.storageBucketName_, componentFile, imageId);
+      const componentImage = new this.MyComponentImage_(this.projectId_, this.storageBucketName_, componentFile, imageId);
       this.images_.push(componentImage);
     });
     return this.images_;
