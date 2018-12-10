@@ -9,7 +9,7 @@ Provides JavaScript APIs for aligning code and design.
 * [LocalImage](#localimage)
 * [RenderServer](#renderserver)
 * [RoutesServer](./routes-server/README.md)
-* [WebsiteStatus](#websitestatus)
+* [WebPage](#webpage)
 
 ## GcpImage
 
@@ -81,16 +81,20 @@ Or from the command line
 routine-design render ./render --port 8080
 ```
 
-## WebsiteStatus
+## WebPage
 
-Determine if a URL resolves.
+Interact with a local Web page.
 
 ```
-import {WebsiteStatus} from 'routine-design';
+import {WebPage} from 'routine-design';
 import puppeteer from 'puppeteer';
 const browser = await puppeteer.launch();
-const websiteStatus = new WebsiteStatus(browser, 'http://localhost:8080');
+const webPage = new WebPage(browser, 8080, 'path');
 ```
+
+### screenshot()
+
+Returns a screenshot as a `LocalImage`.
 
 ### resolves()
 

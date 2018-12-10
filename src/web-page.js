@@ -1,9 +1,9 @@
+const LocalImage = require('./local-image');
 
-class WebsiteStatus {
-  constructor(browser, url) {
+class WebPage {
+  constructor(browser, port, path) {
     this.browser_ = browser;
-    this.url_ = url;
-    this.page_;
+    this.url_ = 'http://localhost:'+port+'/#/'+path;
   }
 
   async getPage() {
@@ -15,12 +15,18 @@ class WebsiteStatus {
     return this.page_;
   }
 
+  async screenshot(MyLocalImage = LocalImage) {
+    const localImage = new MyLocalImage();
+    await localImage.prepareForWriting();
+    await (await this.getPage()).screenshot({path: localImage.getPath()});
+    return localImage;
+  }
+
   async resolves() {
     const page = await this.getPage();
-    const url = this.url_;
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async (resolve, reject) => {
       try {
-        await page.goto(url, {timeout: 1000});
+        await page.goto(this.url_, {timeout: 1000});
         return resolve(true);
       } catch (error) {
         if (!error.message.includes('net::ERR_CONNECTION_REFUSED') && 
@@ -45,4 +51,4 @@ class WebsiteStatus {
   }
 }
 
-module.exports = WebsiteStatus;
+module.exports = WebPage;
