@@ -13,6 +13,7 @@ Run `routine-design -h` for more commands and help.
 
 ## JavaScript APIs
 
+* [Capturer](./src/README.md): Capture screenshot images on a given port.
 * [RenderServer](./src/README.md): Turns a directory with `React.Component` into a Webpack server.
 * [GcpImage](./src/README.md): Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/).
 * [LocalImage](./src/README.md): Manipulate a local PNG image.
