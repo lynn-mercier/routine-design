@@ -34,7 +34,18 @@ class Studio {
   }
 
   async getComponent(index, MyComponentStudio = ComponentStudio) {
-    return new MyComponentStudio(this.componentFiles_[index], (await this.getComponentImages())[index], (await this.getBrowser()), this.port_, this.tryCount_);
+    const componentImagePromise = this.getComponentImages().then(function(componentImages) {
+      return componentImages[index];
+    });
+    const browserPromise = this.getBrowser();
+
+    let componentImage;
+    let browser;
+    await Promise.all([componentImagePromise, browserPromise]).then(function(values) {
+      componentImage = values[0];
+      browser = values[1];
+    });
+    return new MyComponentStudio(this.componentFiles_[index], componentImage, browser, this.port_, this.tryCount_);
   }
 
   async save() {

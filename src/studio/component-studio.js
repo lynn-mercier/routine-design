@@ -31,8 +31,18 @@ class ComponentStudio {
   }
 
   async isSame() {
-    const oldPng = await this.image_.createGcpImage().download();
-    const newPng = await (await this.getNewImage()).getPng();
+    const oldPngPromise = this.image_.createGcpImage().download();
+    const newPngPromise = this.getNewImage().then(function(newImage) {
+      return newImage.getPng();
+    });
+
+    let oldPng;
+    let newPng;
+    await Promise.all([oldPngPromise, newPngPromise]).then(function(values) {
+      oldPng = values[0];
+      newPng = values[1];
+    });
+
     if (Buffer.compare(oldPng.data, newPng.data) === 0) {
       return true;
     }
