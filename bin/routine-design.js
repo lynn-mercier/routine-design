@@ -2,7 +2,6 @@
 const program = require('commander');
 
 program
-  .version('0.1.0')
   .command('capture', 'Capture screenshots for a directory')
   .command('render', 'Render a directory')
   .command('write', 'Write files')

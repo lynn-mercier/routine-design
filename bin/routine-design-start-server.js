@@ -4,7 +4,6 @@ const RoutesServer = require('../src/routes-server');
 const Application = require('../src/application');
 
 program
-  .version('0.1.0')
   .option('--port <port>', 'Specify port');
 
 program

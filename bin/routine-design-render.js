@@ -3,7 +3,6 @@ const program = require('commander');
 const RenderServer = require('../src/render-server');
 
 program
-  .version('0.1.0')
   .option('--port <port>', 'Specify port');
 
 program

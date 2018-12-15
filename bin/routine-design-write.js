@@ -4,9 +4,6 @@ const Application = require('../src/application');
 const ComponentTree = require('../src/component-tree');
 
 program
-  .version('0.1.0')
-
-program
   .command('html <element> <htmlPath>')
   .option('--css-filename <cssFilename>', 'Specify CSS filename')
   .option('--javascript-filename <javaScriptFilename>', 'Specify JavaScript filename')

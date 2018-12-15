@@ -4,7 +4,6 @@ const Capturer = require('../src/capturer');
 const ComponentTree = require('../src/component-tree');
 
 program
-  .version('0.1.0')
   .option('--port <port>', 'Specify port');
 
 program
