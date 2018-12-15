@@ -2,10 +2,10 @@
 
 Connects the `React.Component` in a directory to images stored on [Google Cloud Platform](https://cloud.google.com/)(GCP).  
 ```
-import {ImageJson, ComponentTree} from 'routine-design';
+import {ImageStorage, ComponentTree} from 'routine-design';
 const componentTree = new ComponentTree('./dir');
 componentTree.getDirectories().forEach((componentDirectory) => {
-  const imageJson = new ImageJson('project-id', 'storage-bucket-name', componentDirectory);
+  const imageStorage = new ImageStorage('project-id', 'storage-bucket-name', componentDirectory);
 });
 ```
 
