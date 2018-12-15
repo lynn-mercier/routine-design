@@ -54,4 +54,9 @@ describe('Studio', function() {
       expect(td.explain(ImageStorage.prototype.save).calls.length).to.equal(1);
     });
   });
+  it('#cleanup', async function() {
+    return studio.cleanup().then(function() {
+      expect(td.explain(mockBrowser.close).calls.length).to.equal(1);
+    });
+  });
 });

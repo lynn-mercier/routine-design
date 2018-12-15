@@ -27,6 +27,7 @@ class Capturer {
     }
     await Promise.all(promises);
     await studio.save();
+    await studio.cleanup();
   }
 }
 

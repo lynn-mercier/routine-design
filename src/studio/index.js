@@ -51,6 +51,12 @@ class Studio {
   async save() {
     await this.imageStorage_.save();
   }
+
+  async cleanup() {
+    if (this.browser_) {
+      await this.browser_.close();
+    }
+  }
 }
 
 module.exports = Studio;

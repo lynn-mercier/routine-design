@@ -27,6 +27,7 @@ describe('Capturer', function() {
         expect(td.explain(NotSetComponentStudio.prototype.saveNewImage).calls.length).to.equal(1);
         expect(td.explain(NotSetComponentStudio.prototype.cleanup).calls.length).to.equal(1);
         expect(td.explain(NotSetStudio.prototype.save).calls.length).to.equal(1);
+        expect(td.explain(NotSetStudio.prototype.cleanup).calls.length).to.equal(1);
       })
     });
   });
