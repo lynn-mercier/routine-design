@@ -9,6 +9,7 @@ Provides JavaScript APIs for aligning code and design.
 * [LocalImage](#localimage)
 * [RenderServer](#renderserver)
 * [RoutesServer](./routes-server/README.md)
+* [Studio](./studio/README.md)
 * [WebPage](#webpage)
 
 ## GcpImage
