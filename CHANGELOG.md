@@ -1,3 +1,9 @@
+# 0.4.1
+
+## Fixes
+
+* Close the browser after capturing screenshots 
+
 # 0.4.0
 
 ## Breaking Changes
