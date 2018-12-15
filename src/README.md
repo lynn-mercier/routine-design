@@ -15,31 +15,28 @@ Provides JavaScript APIs for aligning code and design.
 
 ## Capturer
 
-Capture screenshot images on a given port. Defaults to port 8080.
-
-```
-const {Capturer} = require('routine-design');
-const capturer = new Capturer(8080 /* port */);
-```
-
-### render(renderDirectory)
-
-Turns a directory with many `React.Component` into a Webpack server. 
-
-```
-import {Capturer} from 'routine-design';
-new Capturer().render('./render');
-```
-
-### capture(projectId, screenshotBucketName, componentDirectory)
-
-Save screenshot images on [Google Cloud Platform](https://cloud.google.com/).
+Save screenshot images on [Google Cloud Platform](https://cloud.google.com/). Say `./render` is a directory with many `React.Component`.
 
 ```
 import {Capturer, ComponentTree} from 'routine-design';
 const componentTree = new ComponentTree('./render');
-const componentDirectory = componentTree.getDirectories().get('render/foo');
+const componentDirectory = componentTree.getDirectories().get('foo');
 new Capturer().capture('project-id', 'storage-bucket-name', componentDirectory);
+```
+
+You can accomplish the same thing from the Command Line Interface.
+```
+routine-design capture project-id storage-bucket-name ./render foo
+```
+
+You can specify a different port
+```
+new Capturer().capture('project-id', 'storage-bucket-name', componentDirectory, 8080 /* port */);
+```
+
+Or from the command line 
+```
+routine-design capture project-id storage-bucket-name ./render foo --port 8080
 ```
 
 ## GcpImage

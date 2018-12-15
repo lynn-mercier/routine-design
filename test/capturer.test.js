@@ -7,13 +7,7 @@ const Studio = require('../src/studio');
 const ComponentStudio = require('../src/studio/component-studio');
 
 describe('Capturer', function() {
-  const capturer = new Capturer(1234);
-  it('#render', async function() {
-    return capturer.render('./render', RenderServer).then(function() {
-      expect(td.explain(RenderServer.prototype.run).calls[0].args[0]).to.equal('./render');
-      expect(td.explain(RenderServer.prototype.run).calls[0].args[1]).to.equal(1234);
-    })
-  });
+  const capturer = new Capturer();
   const componentDirectory = new ComponentDirectory();
   describe('image is not set', function() {
     const NotSetStudio = td.constructor(Studio);
@@ -23,7 +17,7 @@ describe('Capturer', function() {
     td.when(NotSetStudio.prototype.getComponent(td.matchers.anything())).thenResolve(componentStudio);
     td.when(NotSetComponentStudio.prototype.isImageSet()).thenReturn(false);
     it('#capture', async function() {
-      return capturer.capture('project-id', 'screenshot-bucket', componentDirectory, 3, NotSetStudio).then(function() {
+      return capturer.run('project-id', 'screenshot-bucket', componentDirectory, 1234, 3, NotSetStudio).then(function() {
         expect(td.explain(NotSetStudio).calls[0].args[0]).to.equal('project-id');
         expect(td.explain(NotSetStudio).calls[0].args[1]).to.equal('screenshot-bucket');
         expect(td.explain(NotSetStudio).calls[0].args[2]).to.equal(componentDirectory);
@@ -45,7 +39,7 @@ describe('Capturer', function() {
     td.when(SetComponentStudio.prototype.isImageSet()).thenReturn(true);
     td.when(SetComponentStudio.prototype.isSame()).thenResolve(false);
     it('#capture', async function() {
-      return capturer.capture('project-id', 'screenshot-bucket', componentDirectory, 3, SetStudio).then(function() {
+      return capturer.run('project-id', 'screenshot-bucket', componentDirectory, 1234, 3, SetStudio).then(function() {
         expect(td.explain(SetComponentStudio.prototype.saveNewImage).calls.length).to.equal(1);
       })
     });
@@ -59,7 +53,7 @@ describe('Capturer', function() {
     td.when(SameComponentStudio.prototype.isImageSet()).thenReturn(true);
     td.when(SameComponentStudio.prototype.isSame()).thenResolve(true);
     it('#capture', async function() {
-      return capturer.capture('project-id', 'screenshot-bucket', componentDirectory, 3, SameStudio).then(function() {
+      return capturer.run('project-id', 'screenshot-bucket', componentDirectory, 1234, 3, SameStudio).then(function() {
         expect(td.explain(SameComponentStudio.prototype.saveNewImage).calls.length).to.equal(0);
       })
     });
