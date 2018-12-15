@@ -1,4 +1,20 @@
-# 0.3.0 / 2018-12-03
+# 0.4.0
+
+## Breaking Changes
+
+* Renamed `WebsiteStatus` to `WebPage`
+* Pass `port` and `path` to `WebPage`, instead of `url`
+* Pass `project-id` to `GcpImage`, instead of a `storage` object
+* Pass `project-id` to `ImageStorage`, instead of a `storage` object
+* `ComponentTree.getDirectories()` returns a Map, instead of an Array
+
+## Features
+
+* Capturer: Save screenshot images on [Google Cloud Platform](https://cloud.google.com/)
+* New CLI command: `routine-design capture project-id storage-bucket-name ./render foo`
+* Studio: Opens a browser for a directory, then opens a tab per component file in the directory
+
+# 0.3.0
 
 ## Breaking Changes
 
