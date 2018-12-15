@@ -1,6 +1,6 @@
 {
   "name": "routine-design",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Align code and design",
   "main": "index.js",
   "bin": {
@@ -18,6 +18,11 @@
   ],
   "author": "Lynn Mercier",
   "license": "MIT",
+  "homepage": "https://github.com/lynn-mercier/routine-design",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com:lynn-mercier/routine-design.git"
+  },
   "dependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
