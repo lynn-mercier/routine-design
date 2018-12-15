@@ -30,6 +30,9 @@ describe('ComponentTree', function() {
       it('one component directory', function() {
         expect(componentDirectories.size).to.equal(1);
       });
+      it('can get root directory', function() {
+        expect(componentDirectories.get('')).to.not.be.undefined;
+      });
     });
     it('#writeRoutes', async function() {
       td.when(mockFs.writeFile(td.matchers.anything(),td.matchers.anything())).thenCallback();
@@ -61,6 +64,17 @@ describe('ComponentTree', function() {
       const componentDirectories = componentTree.getDirectories();
       it('one component directory', function() {
         expect(componentDirectories.size).to.equal(1);
+      });
+    });
+  });
+  describe('sub-directory', function() {
+    const multiGlob = td.func(glob);
+    const componentTree = new ComponentTree('./tmp', multiGlob, ComponentDirectory);
+    td.when(multiGlob.sync(td.matchers.anything())).thenReturn(['./tmp/foo/index.js']);
+    describe('#getDirectories', function() {
+      const componentDirectories = componentTree.getDirectories();
+      it('can get sub-directory', function() {
+        expect(componentDirectories.get('foo')).to.not.be.undefined;
       });
     });
   });

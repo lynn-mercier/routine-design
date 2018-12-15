@@ -8,7 +8,11 @@ const componentTree = new ComponentTree('./dir');
 
 ## getDirectories()
 
-Returns a Map of `dirname` to `ComponentDirectory`. There is an entry for the root directory, and an entry for each sub-directory found in the `directory`. 
+Returns a Map of entries, each with a `ComponentDirectory` value. There is an entry for the root directory, and an entry for each sub-directory found in the `directory`. Say `./dir` has one subdirectory, `./dir/foo`. Then you could access the two directories with the following code
+```
+const rootComponentDirectory = componentTree.getDirectories().get('');
+const fooComponentDirectory = componentTree.getDirectories().get('foo');
+```
 
 ### ComponentDirectory.getFiles()
 
