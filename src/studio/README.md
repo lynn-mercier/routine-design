@@ -1,6 +1,6 @@
 # Studio
 
-Opens a browser for a `directory`, then opens a tab per component file in the directory.
+Opens a browser for a directory, then opens a tab per component file in the directory.
 
 ```
 const {ComponentTree, Studio} = require('routine-design');

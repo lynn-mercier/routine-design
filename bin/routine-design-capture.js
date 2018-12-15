@@ -16,7 +16,6 @@ program
       }
       const componentDirectory = componentTree.getDirectories().get(captureDirectory);
       await new Capturer().run(projectId, storageBucketName, componentDirectory, program.port);
-      process.exit(0);
     } catch (err) {
       console.log(err.message);
     }
