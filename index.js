@@ -3,10 +3,10 @@ const ComponentTree = require('./src/component-tree');
 const ImageStorage = require('./src/image-storage');
 const RoutesServer = require('./src/routes-server');
 const Studio = require('./src/studio');
-const Capturer = require('./src/capturer');
+const DirectoryCapturer = require('./src/directory-capturer');
 const GcpImage = require('./src/gcp-image');
 const LocalImage = require('./src/local-image');
 const RenderServer = require('./src/render-server');
 const WebPage = require('./src/web-page');
 
-module.exports = {Application, ComponentTree, ImageStorage, RoutesServer, Studio, Capturer, GcpImage, LocalImage, RenderServer, WebPage};
+module.exports = {Application, ComponentTree, ImageStorage, RoutesServer, Studio, DirectoryCapturer, GcpImage, LocalImage, RenderServer, WebPage};

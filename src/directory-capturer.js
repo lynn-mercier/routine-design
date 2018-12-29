@@ -1,7 +1,7 @@
 const Studio = require('./studio');
 const RenderServer = require('./render-server');
 
-class Capturer {
+class DirectoryCapturer {
 
   async run(projectId, screenshotBucketName, componentDirectory, port = 8080, tryCount = 10, MyStudio = Studio) {
     const studio = new MyStudio(projectId, screenshotBucketName, componentDirectory, port, tryCount);
@@ -31,4 +31,4 @@ class Capturer {
   }
 }
 
-module.exports = Capturer;
+module.exports = DirectoryCapturer;

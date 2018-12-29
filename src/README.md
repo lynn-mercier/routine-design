@@ -3,8 +3,8 @@
 Provides JavaScript APIs for aligning code and design.
 
 * [Application](./application/README.md)
-* [Capturer](#capturer)
 * [ComponentTree](./component-tree/README.md)
+* [DirectoryCapturer](#directorycapturer)
 * [GcpImage](#gcpimage)
 * [ImageStorage](./image-storage/README.md)
 * [LocalImage](#localimage)
@@ -13,30 +13,30 @@ Provides JavaScript APIs for aligning code and design.
 * [Studio](./studio/README.md)
 * [WebPage](#webpage)
 
-## Capturer
+## DirectoryCapturer
 
 Save screenshot images on [Google Cloud Platform](https://cloud.google.com/). Say `./render` is a directory with many `React.Component`.
 
 ```
-import {Capturer, ComponentTree} from 'routine-design';
+import {DirectoryCapturer, ComponentTree} from 'routine-design';
 const componentTree = new ComponentTree('./render');
 const componentDirectory = componentTree.getDirectories().get('foo');
-new Capturer().capture('project-id', 'storage-bucket-name', componentDirectory);
+new DirectoryCapturer().capture('project-id', 'storage-bucket-name', componentDirectory);
 ```
 
 You can accomplish the same thing from the Command Line Interface.
 ```
-routine-design capture project-id storage-bucket-name ./render foo
+routine-design directory capture project-id storage-bucket-name ./render --component-directory=foo 
 ```
 
 You can specify a different port
 ```
-new Capturer().capture('project-id', 'storage-bucket-name', componentDirectory, 8080 /* port */);
+new DirectoryCapturer().capture('project-id', 'storage-bucket-name', componentDirectory, 8080 /* port */);
 ```
 
 Or from the command line 
 ```
-routine-design capture project-id storage-bucket-name ./render foo --port 8080
+routine-design directory capture project-id storage-bucket-name ./render foo --component-directory=foo --port 8080
 ```
 
 ## GcpImage
