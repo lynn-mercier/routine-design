@@ -25,7 +25,14 @@ class Studio {
       return this.browser_;
     }
 
-    this.browser_ = await this.myPuppeteer_.launch();
+    const launchOptions = {};
+    const isDocker = process.env.ROUTINE_DESIGN_DOCKER;
+    if (isDocker === 'true') {
+      launchOptions.executablePath = 'google-chrome-unstable';
+      launchOptions.args = ['--disable-dev-shm-usage'];
+    }
+
+    this.browser_ = await this.myPuppeteer_.launch(launchOptions);
     return this.browser_;
   }
 

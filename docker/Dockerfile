@@ -17,6 +17,7 @@ RUN rm -rf /src/*.deb
 RUN npm i -g npm
 RUN npm -g config set user root
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV ROUTINE_DESIGN_DOCKER true
 RUN npm i -g routine-design
 
 RUN mkdir -p /home/routine-design
