@@ -5,7 +5,7 @@ notifications:
     on_failure: always
 matrix:
   include:
-    - node_js: "node"
+    - node_js: "11.4.0"
       install:
         - cd nodejs
         - npm install
