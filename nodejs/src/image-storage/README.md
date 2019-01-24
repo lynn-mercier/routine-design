@@ -9,6 +9,8 @@ componentTree.getDirectories().forEach((componentDirectory) => {
 });
 ```
 
+Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
+
 ## getImages()
 
 Returns a list of `ComponentImage`, one for each JavaScript file found in the directory. Each `ComponentImage` has the latest GCP information, as pulled from the JSON file stored in this directory.

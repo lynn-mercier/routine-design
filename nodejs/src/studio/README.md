@@ -51,7 +51,7 @@ Returns true if the new image is the same as the image saved in the `image.json`
 
 ### ComponentStudio.saveNewImage()
 
-Updates the `image.json` file with the new image.
+Updates the `image.json` file with the new image. Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
 
 ## save()
 

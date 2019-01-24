@@ -3,10 +3,9 @@ const path = require('path');
 const rimraf = require('rimraf');
 
 class LocalDirectory {
-  constructor(subpath, myPath = path, myFs = fs) {
+  constructor(subpath, myFs = fs) {
     this.path_ = 'routine-design-output';
     this.subpath_ = subpath;
-    this.myPath_ = myPath;
     this.myFs_ = myFs;
     if (!myFs.existsSync(this.path_)) {
       myFs.mkdirSync(this.path_);
@@ -15,7 +14,11 @@ class LocalDirectory {
   }
 
   getFullPath() {
-    return this.myPath_.join(this.path_, this.subpath_);
+    return path.join(this.path_, this.subpath_);
+  }
+
+  getFilePath(filename) {
+    return path.join(this.getFullPath(), filename);
   }
 
   async create() {

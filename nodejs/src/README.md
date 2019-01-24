@@ -10,6 +10,7 @@ Provides JavaScript APIs for aligning code and design.
 * [LocalImage](#localimage)
 * [RenderServer](#renderserver)
 * [RoutesServer](./routes-server/README.md)
+* [RoutineDesignContainer](#routinedesigncontainer)
 * [Studio](./studio/README.md)
 * [WebPage](#webpage)
 
@@ -39,9 +40,11 @@ Or from the command line
 routine-design directory capture project-id storage-bucket-name ./render foo --component-directory=foo --port 8080
 ```
 
+Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
+
 ## GcpImage
 
-Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/). 
+Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/). Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
 
 ```
 const {GcpImage} = require('routine-design');
@@ -106,6 +109,22 @@ Or from the command line
 ```
 routine-design render ./render --port 8080
 ```
+
+## RoutineDesignContainer
+
+Manages a routine design [Docker](https://www.docker.com/) container. Requires your `ROUTINE_DESIGN_GOOGLE_CREDS` environment variable to be set to valid [Google Cloud](https://cloud.google.com/) JSON credentials.
+
+### start()
+
+Starts a new Docker container from the routine design Docker image. 
+
+### run(command)
+
+Runs a command in the Docker container.
+
+### cleanup()
+
+Stops and removes the Docker container. 
 
 ## WebPage
 

@@ -7,6 +7,7 @@ const DirectoryCapturer = require('./src/directory-capturer');
 const GcpImage = require('./src/gcp-image');
 const LocalImage = require('./src/local-image');
 const RenderServer = require('./src/render-server');
+const RoutineDesignContainer = require('./src/routine-design-container');
 const WebPage = require('./src/web-page');
 
-module.exports = {Application, ComponentTree, ImageStorage, RoutesServer, Studio, DirectoryCapturer, GcpImage, LocalImage, RenderServer, WebPage};
+module.exports = {Application, ComponentTree, ImageStorage, RoutesServer, Studio, DirectoryCapturer, GcpImage, LocalImage, RenderServer, RoutineDesignContainer, WebPage};
