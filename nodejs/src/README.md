@@ -22,7 +22,7 @@ Save screenshot images on [Google Cloud Platform](https://cloud.google.com/). Sa
 import {DirectoryCapturer, ComponentTree} from 'routine-design';
 const componentTree = new ComponentTree('./render');
 const componentDirectory = componentTree.getDirectories().get('foo');
-new DirectoryCapturer().capture('project-id', 'storage-bucket-name', componentDirectory);
+new DirectoryCapturer().run('project-id', 'storage-bucket-name', componentDirectory);
 ```
 
 You can accomplish the same thing from the Command Line Interface.
@@ -32,7 +32,7 @@ routine-design directory capture project-id storage-bucket-name ./render --compo
 
 You can specify a different port
 ```
-new DirectoryCapturer().capture('project-id', 'storage-bucket-name', componentDirectory, 8080 /* port */);
+new DirectoryCapturer().run('project-id', 'storage-bucket-name', componentDirectory, 8080 /* port */);
 ```
 
 Or from the command line 
