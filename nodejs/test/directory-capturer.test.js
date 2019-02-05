@@ -25,7 +25,6 @@ describe('DirectoryCapturer', function() {
         expect(td.explain(NotSetStudio).calls[0].args[4]).to.equal(3);
         expect(td.explain(NotSetStudio.prototype.getComponent).calls[0].args[0]).to.equal(0);
         expect(td.explain(NotSetComponentStudio.prototype.saveNewImage).calls.length).to.equal(1);
-        expect(td.explain(NotSetComponentStudio.prototype.cleanup).calls.length).to.equal(1);
         expect(td.explain(NotSetStudio.prototype.save).calls.length).to.equal(1);
         expect(td.explain(NotSetStudio.prototype.cleanup).calls.length).to.equal(1);
       })

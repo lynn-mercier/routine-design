@@ -26,9 +26,9 @@ class ComponentImage {
     return new this.MyGcpImage_(this.projectId_, this.screenshotBucketName_, this.getGcpPath());
   }
 
-  async saveImage(localImage, myRandomstring = randomstring) {
+  async saveImage(png, myRandomstring = randomstring) {
     this.id_ = myRandomstring.generate();
-    await this.createGcpImage().upload(await localImage.getPng());
+    await this.createGcpImage().upload(png);
   }
 }
 

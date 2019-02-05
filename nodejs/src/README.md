@@ -139,7 +139,7 @@ const webPage = new WebPage(browser, 8080, 'path');
 
 ### screenshot()
 
-Returns a screenshot as a `LocalImage`.
+Returns a screenshot as a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
 
 ### resolves()
 

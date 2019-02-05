@@ -19,7 +19,9 @@ class WebPage {
     const localImage = new MyLocalImage();
     await localImage.prepareForWriting();
     await (await this.getPage()).screenshot({path: localImage.getPath()});
-    return localImage;
+    const localImagePng = localImage.getPng();
+    await localImage.delete();
+    return localImagePng;
   }
 
   async resolves() {

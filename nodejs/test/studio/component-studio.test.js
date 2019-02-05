@@ -14,9 +14,7 @@ describe('studio/ComponentStudio', function() {
   describe('Images are the same', function() {
     const SameWebPage = td.constructor(WebPage);
     const newPng = PNG.sync.read(fs.readFileSync('test/studio/image.png'));
-    const mockNewImage = new LocalImage();
-    td.when(mockNewImage.getPng()).thenResolve(newPng);
-    td.when(SameWebPage.prototype.screenshot()).thenResolve(mockNewImage);
+    td.when(SameWebPage.prototype.screenshot()).thenResolve(newPng);
     const oldPng = PNG.sync.read(fs.readFileSync('test/studio/image.png'));
     const SameGcpImage = td.constructor(GcpImage);
     td.when(SameGcpImage.prototype.download()).thenResolve(oldPng);
@@ -37,14 +35,20 @@ describe('studio/ComponentStudio', function() {
           expect(td.explain(SameWebPage).calls[0].args[1]).to.equal(1234);
           expect(td.explain(SameWebPage).calls[0].args[2]).to.equal('path');
           expect(td.explain(SameWebPage.prototype.waitForResolution).calls[0].args[0]).to.equal(3);
-          expect(newImage).to.equal(mockNewImage);
+          expect(newImage).to.equal(newPng);
         });
       });
       it('#getNewImage twice', async function() {
         await componentStudio.getNewImage();
         return componentStudio.getNewImage().then((newImage) => {
           expect(td.explain(SameWebPage.prototype.screenshot).calls.length).to.equal(1);
-          expect(newImage).to.equal(mockNewImage);
+          expect(newImage).to.equal(newPng);
+        });
+      });
+      it('#getOldImage', async function() {
+        return componentStudio.getOldImage().then((oldImage) => {
+          expect(td.explain(SameGcpImage.prototype.download).calls.length).to.equal(1);
+          expect(oldImage).to.equal(oldPng);
         });
       });
       it('#isSame', async function() {
@@ -54,12 +58,7 @@ describe('studio/ComponentStudio', function() {
       });
       it('#saveNewImage', async function() {
         return componentStudio.saveNewImage().then(() => {
-          expect(td.explain(IdComponentImage.prototype.saveImage).calls[0].args[0]).to.equal(mockNewImage);
-        });
-      });
-      it('#cleanup', async function() {
-        return componentStudio.cleanup().then(() => {
-          expect(td.explain(mockNewImage.delete).calls.length).to.equal(1);
+          expect(td.explain(IdComponentImage.prototype.saveImage).calls[0].args[0]).to.equal(newPng);
         });
       });
     });
@@ -72,14 +71,23 @@ describe('studio/ComponentStudio', function() {
           expect(componentStudio.isImageSet()).to.equal(false);
         });
       });
+      describe('#getOldImage', function() {
+        it('throw an error', async function() {
+          let caughtError = false;
+          try {
+            await componentStudio.getOldImage();
+          } catch (err) {
+            caughtError = true;
+          }
+          expect(caughtError).to.equal(true);
+        });
+      });
     });
   });
   describe('Images are not the same', function() {
     const DifferentWebPage = td.constructor(WebPage);
     const newPng = PNG.sync.read(fs.readFileSync('test/studio/image.png'));
-    const mockNewImage = new LocalImage();
-    td.when(mockNewImage.getPng()).thenResolve(newPng);
-    td.when(DifferentWebPage.prototype.screenshot()).thenResolve(mockNewImage);
+    td.when(DifferentWebPage.prototype.screenshot()).thenResolve(newPng);
     const oldPng = PNG.sync.read(fs.readFileSync('test/studio/image.png'));
     const DifferentGcpImage = td.constructor(GcpImage);
     td.when(DifferentGcpImage.prototype.download()).thenResolve(oldPng);

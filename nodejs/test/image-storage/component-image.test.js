@@ -4,7 +4,6 @@ const ComponentImage = require('../../src/image-storage/component-image');
 const randomstring = td.object(require('randomstring'));
 const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
 const GcpImage = td.constructor(require('../../src/gcp-image'));
-const LocalImage = td.constructor(require('../../src/local-image'));
 
 describe('image-storage/ComponentImage', function() {
   describe('has GCP ID', function() {
@@ -50,10 +49,8 @@ describe('image-storage/ComponentImage', function() {
   it('#saveImage', async function() {
     const componentFile = new ComponentFile();
     const componentImage = new ComponentImage('project-id', 'storage-bucket', componentFile, null, GcpImage);
-    const localImage = new LocalImage();
     td.when(randomstring.generate()).thenReturn('random');
-    td.when(localImage.getPng()).thenReturn('png');
-    return componentImage.saveImage(localImage, randomstring).then(function() {
+    return componentImage.saveImage('png', randomstring).then(function() {
       expect(componentImage.getId()).to.equal('random');
       expect(td.explain(GcpImage.prototype.upload).calls[0].args[0]).to.equal('png');
     });

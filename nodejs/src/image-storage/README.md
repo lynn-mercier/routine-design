@@ -19,9 +19,9 @@ Returns a list of `ComponentImage`, one for each JavaScript file found in the di
 
 Returns the GCP ID.
 
-### ComponentImage.saveImage(localImage)
+### ComponentImage.saveImage(png)
 
-Saves a `LocalImage` as the new image for the component.
+Saves a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs), as the new image for the component.
 
 ### ComponentImage.getGcpPath()
 

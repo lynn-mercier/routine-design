@@ -30,15 +30,20 @@ class ComponentStudio {
     return this.newImage_;
   }
 
-  async isSame() {
-    const oldPngPromise = this.image_.createGcpImage().download();
-    const newPngPromise = this.getNewImage().then(function(newImage) {
-      return newImage.getPng();
-    });
+  async getOldImage() {
+    if (this.oldImage_) {
+      return this.oldImage_;
+    } else if (!this.isImageSet()) {
+      throw new Error("there is no old image");
+    }
+    this.oldImage_ = await this.image_.createGcpImage().download();
+    return this.oldImage_;
+  }
 
+  async isSame() {
     let oldPng;
     let newPng;
-    await Promise.all([oldPngPromise, newPngPromise]).then(function(values) {
+    await Promise.all([this.getOldImage(), this.getNewImage()]).then(function(values) {
       oldPng = values[0];
       newPng = values[1];
     });
@@ -52,12 +57,6 @@ class ComponentStudio {
 
   async saveNewImage() {
     await this.image_.saveImage(await this.getNewImage());
-  }
-
-  async cleanup() {
-    if (this.newImage_) {
-      await this.newImage_.delete();
-    }
   }
 }
 

@@ -19,8 +19,6 @@ class DirectoryCapturer {
             });
             resolve(similarityPromise);
           }
-        }).then(function() {
-          return componentStudio.cleanup();
         });
       });
       promises.push(promise);

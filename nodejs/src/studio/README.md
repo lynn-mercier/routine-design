@@ -43,7 +43,11 @@ Returns true if this component is saved in the `image.json` file.
 
 ### ComponentStudio.getNewImage()
 
-Returns a `LocalImage`, a screenshot of the component.
+Returns a screenshot of the component as a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
+
+### ComponentStudio.getOldImage()
+
+Returns the image saved in the `image.json` file as a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
 
 ### ComponentStudio.isSame()
 
