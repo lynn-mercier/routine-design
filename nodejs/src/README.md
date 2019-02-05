@@ -5,6 +5,7 @@ Provides JavaScript APIs for aligning code and design.
 * [Application](./application/README.md)
 * [ComponentTree](./component-tree/README.md)
 * [DirectoryCapturer](#directorycapturer)
+* [DirectoryPixelValidator](#directorypixelvalidator)
 * [GcpImage](#gcpimage)
 * [ImageStorage](./image-storage/README.md)
 * [LocalImage](#localimage)
@@ -38,6 +39,35 @@ new DirectoryCapturer().run('project-id', 'storage-bucket-name', componentDirect
 Or from the command line 
 ```
 routine-design directory capture project-id storage-bucket-name ./render foo --component-directory=foo --port 8080
+```
+
+Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
+
+
+## DirectoryPixelValidator
+
+Checks that all screenshot images are identical to the screenshots saved on [Google Cloud Platform](https://cloud.google.com/). If the images are not identical, it uploads the new image and a `diff` image. Say `./render` is a directory with many `React.Component`.
+
+```
+import {DirectoryPixelValidator, ComponentTree} from 'routine-design';
+const componentTree = new ComponentTree('./render');
+const componentDirectory = componentTree.getDirectories().get('foo');
+new DirectoryPixelValidator().run('project-id', 'storage-bucket-name', componentDirectory);
+```
+
+You can accomplish the same thing from the Command Line Interface.
+```
+routine-design directory pixel-validate project-id storage-bucket-name ./render --component-directory=foo 
+```
+
+You can specify a different port
+```
+new DirectoryPixelValidator().run('project-id', 'storage-bucket-name', componentDirectory, 8080 /* port */);
+```
+
+Or from the command line 
+```
+routine-design directory pixel-validate project-id storage-bucket-name ./render foo --component-directory=foo --port 8080
 ```
 
 Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.

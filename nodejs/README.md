@@ -16,11 +16,17 @@ Save screenshot images of `./render/foo` on [Google Cloud Platform](https://clou
 routine-design directory capture project-id storage-bucket-name ./render --component-directory=foo 
 ```
 
+Checks that all screenshot images are identical to the screenshots saved on [Google Cloud Platform](https://cloud.google.com/). Check screenshot images of `./render/foo`
+```
+routine-design directory pixel-validate project-id storage-bucket-name ./render --component-directory=foo 
+```
+
 Run `routine-design -h` for more commands and help.
 
 ## JavaScript APIs
 
 * [DirectoryCapturer](./src/README.md): Save screenshot images on [Google Cloud Platform](https://cloud.google.com/).
+* [DirectoryPixelValidator](./src/README.md): Checks that all screenshot images are identical to the screenshots saved on [Google Cloud Platform](https://cloud.google.com/).
 * [RenderServer](./src/README.md): Turns a directory with `React.Component` into a Webpack server.
 * [GcpImage](./src/README.md): Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/).
 * [LocalImage](./src/README.md): Manipulate a local PNG image.
