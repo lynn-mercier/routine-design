@@ -1,14 +1,17 @@
 const fs = require('fs');
+const randomstring = require('randomstring');
 const ComponentImage = require('./component-image');
 
 class ImageStorage {
-  constructor(projectId, storageBucketName, componentDirectory, myFs = fs, 
-    MyComponentImage = ComponentImage) {
+  constructor(projectId, storageBucketName, componentDirectory, 
+    myFs = fs, MyComponentImage = ComponentImage, myRandomstring = randomstring) {
     this.projectId_ = projectId;
     this.storageBucketName_ = storageBucketName;
     this.componentDirectory_ = componentDirectory;
     this.myFs_ = myFs;
     this.MyComponentImage_ = MyComponentImage;
+    this.debugId_ = myRandomstring.generate();
+    this.gcpDebugPath_ = componentDirectory.getDirectory() + "/" + this.debugId_;
   }
 
   async getImages() {
@@ -37,7 +40,7 @@ class ImageStorage {
       if (imageJson[componentFile.getBasename()]) {
         imageId = imageJson[componentFile.getBasename()].id
       }
-      const componentImage = new this.MyComponentImage_(this.projectId_, this.storageBucketName_, componentFile, imageId);
+      const componentImage = new this.MyComponentImage_(this.projectId_, this.storageBucketName_, this.gcpDebugPath_, componentFile, imageId);
       this.images_.push(componentImage);
     });
     return this.images_;
@@ -68,6 +71,10 @@ class ImageStorage {
         }
       });
     });
+  }
+
+  getDebugId() {
+    return this.debugId_;
   }
 }
 

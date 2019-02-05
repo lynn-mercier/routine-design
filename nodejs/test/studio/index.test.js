@@ -13,12 +13,16 @@ describe('Studio', function() {
   td.when(ComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
   const componentImage = new ComponentImage();
   td.when(ImageStorage.prototype.getImages()).thenReturn([componentImage]);
+  td.when(ImageStorage.prototype.getDebugId()).thenReturn('image-storage-debug-id');
   const componentDirectory = new ComponentDirectory();
   describe('not on Docker', function() {
     const mockBrowser = td.object();
     const notOnDockerPuppeteer = td.object(puppeteer);
     td.when(notOnDockerPuppeteer.launch(td.matchers.anything())).thenResolve(mockBrowser);
     const studio = new Studio('project-id', 'storage-bucket', componentDirectory, 1234, 3, ImageStorage, notOnDockerPuppeteer);
+    it('returns debug id', function() {
+      expect(studio.getDebugId()).to.equal('image-storage-debug-id');
+    });
     it('stores images in the GCP project', function() {
       expect(td.explain(ImageStorage).calls[0].args[0]).to.equal('project-id');
     });

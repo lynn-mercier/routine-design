@@ -31,7 +31,15 @@ Returns the GCP path.
 
 Creates a new `GcpImage` with the GCP path.
 
+### ComponentImage.createGcpDebugImage(filename)
+
+Creates a new `GcpImage` in the GCP debug directory with the given `filename`.
+
 ## save()
 
 Saves a JSON file with the latest GCP information for each JavaScript file.
+
+## getDebugId()
+
+Returns the ID for the GCP debug directory.
 

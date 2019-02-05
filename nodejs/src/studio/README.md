@@ -53,6 +53,10 @@ Returns the image saved in the `image.json` file as a PNG object, like from [png
 
 Returns true if the new image is the same as the image saved in the `image.json` file.
 
+### ComponentStudio.diff()
+
+Compares the new image to the old image. Returns the `pixelDiffCount`. Uploads a `diff.png` and `new.png` to the GCP debug directory if the `pixelDiffCount` is greater than zero.
+
 ### ComponentStudio.saveNewImage()
 
 Updates the `image.json` file with the new image. Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
@@ -60,3 +64,7 @@ Updates the `image.json` file with the new image. Requires your `GOOGLE_APPLICAT
 ## save()
 
 Saves the `image.json` file with the latest information from each `ComponentStudio`.
+
+## getDebugId()
+
+Returns the ID for the GCP debug directory.

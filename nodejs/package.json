@@ -34,6 +34,7 @@
     "file-loader": "^2.0.0",
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.10.0",
+    "pixelmatch": "^4.0.2",
     "pngjs": "^3.3.3",
     "puppeteer": "^1.11.0",
     "randomstring": "^1.1.5",

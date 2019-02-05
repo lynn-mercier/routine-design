@@ -2,6 +2,7 @@ const {expect} = require('chai');
 const td = require('testdouble');
 const {PNG} = require('pngjs');
 const fs = require('fs');
+const pixelmatch = require('pixelmatch');
 const ComponentStudio = require('../../src/studio/component-studio');
 const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
 const ComponentImage = require('../../src/image-storage/component-image');
@@ -56,6 +57,18 @@ describe('studio/ComponentStudio', function() {
           expect(isSame).to.equal(true);
         });
       });
+      it('#diff', async function() {
+        const myPixelmatch = td.function(pixelmatch);
+        td.when(myPixelmatch(td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything()))
+          .thenReturn(0);
+        return componentStudio.diff(myPixelmatch).then((pixelDiffCount) => {
+          expect(pixelDiffCount).to.equal(0);
+          expect(td.explain(myPixelmatch).calls[0].args[0]).to.equal(newPng.data);
+          expect(td.explain(myPixelmatch).calls[0].args[1]).to.equal(oldPng.data);
+          expect(td.explain(myPixelmatch).calls[0].args[3]).to.equal(420);
+          expect(td.explain(myPixelmatch).calls[0].args[4]).to.equal(420);
+        });
+      });
       it('#saveNewImage', async function() {
         return componentStudio.saveNewImage().then(() => {
           expect(td.explain(IdComponentImage.prototype.saveImage).calls[0].args[0]).to.equal(newPng);
@@ -88,7 +101,7 @@ describe('studio/ComponentStudio', function() {
     const DifferentWebPage = td.constructor(WebPage);
     const newPng = PNG.sync.read(fs.readFileSync('test/studio/image.png'));
     td.when(DifferentWebPage.prototype.screenshot()).thenResolve(newPng);
-    const oldPng = PNG.sync.read(fs.readFileSync('test/studio/image.png'));
+    const oldPng = PNG.sync.read(fs.readFileSync('test/studio/image2.png'));
     const DifferentGcpImage = td.constructor(GcpImage);
     td.when(DifferentGcpImage.prototype.download()).thenResolve(oldPng);
     describe('ComponentImage has ID', function() {
@@ -96,10 +109,25 @@ describe('studio/ComponentStudio', function() {
       td.when(IdComponentImage.prototype.getId()).thenReturn('id');
       const gcpImage = new DifferentGcpImage();
       td.when(IdComponentImage.prototype.createGcpImage()).thenReturn(gcpImage);
+      td.when(IdComponentImage.prototype.createGcpDebugImage(td.matchers.anything())).thenReturn(gcpImage);
       const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, DifferentWebPage);
       it('#isSame', async function() {
         return componentStudio.isSame().then((isSame) => {
-          expect(isSame).to.equal(true);
+          expect(isSame).to.equal(false);
+        });
+      });
+      it('#diff', async function() {
+        const myPixelmatch = td.function(pixelmatch);
+        td.when(myPixelmatch(td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything()))
+          .thenReturn(100);
+        return componentStudio.diff(myPixelmatch).then((pixelDiffCount) => {
+          expect(pixelDiffCount).to.equal(100);
+          expect(td.explain(IdComponentImage.prototype.createGcpDebugImage).calls[0].args[0]).to.equal("diff.png");
+          expect(td.explain(IdComponentImage.prototype.createGcpDebugImage).calls[1].args[0]).to.equal("new.png");
+          const diffImage = td.explain(DifferentGcpImage.prototype.upload).calls[0].args[0];
+          expect(diffImage.width).to.equal(420);
+          expect(diffImage.height).to.equal(420);
+          expect(td.explain(DifferentGcpImage.prototype.upload).calls[1].args[0]).to.equal(newPng);
         });
       });
     });

@@ -59,6 +59,10 @@ class Studio {
     await this.imageStorage_.save();
   }
 
+  getDebugId() {
+    return this.imageStorage_.getDebugId();
+  }
+
   async cleanup() {
     if (this.browser_) {
       await this.browser_.close();
