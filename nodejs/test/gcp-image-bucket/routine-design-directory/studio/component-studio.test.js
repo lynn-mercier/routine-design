@@ -2,20 +2,20 @@ const {expect} = require('chai');
 const td = require('testdouble');
 const {PNG} = require('pngjs');
 const fs = require('fs');
-const ComponentStudio = require('../../../src/routine-design-directory/studio/component-studio');
-const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
-const ComponentImage = require('../../../src/routine-design-directory/image-storage/component-image');
-const WebPage = require('../../../src/web-page');
-const GcpImage = require('../../../src/gcp-image');
-const PngFactory = require('../../../src/routine-design-directory/studio/png-factory');
+const ComponentStudio = require('../../../../src/gcp-image-bucket/routine-design-directory/studio/component-studio');
+const ComponentFile = td.constructor(require('../../../../src/routine-design-tree/component-tree/component-file'));
+const ComponentImage = require('../../../../src/gcp-image-bucket/routine-design-directory/image-storage/component-image');
+const WebPage = require('../../../../src/web-page');
+const GcpImage = require('../../../../src/gcp-image-bucket/gcp-image');
+const PngFactory = require('../../../../src/gcp-image-bucket/routine-design-directory/studio/png-factory');
 
-describe('routine-design-directory/studio/ComponentStudio', function() {
+describe('gcp-image-bucket/routine-design-directory/studio/ComponentStudio', function() {
   td.when(ComponentFile.prototype.getPath()).thenReturn('path');
   describe('Images are the same', function() {
     const SameWebPage = td.constructor(WebPage);
-    const newPng = PNG.sync.read(fs.readFileSync('test/routine-design-directory/studio/image.png'));
+    const newPng = PNG.sync.read(fs.readFileSync('test/gcp-image-bucket/routine-design-directory/studio/image.png'));
     td.when(SameWebPage.prototype.screenshot()).thenResolve(newPng);
-    const oldPng = PNG.sync.read(fs.readFileSync('test/routine-design-directory/studio/image.png'));
+    const oldPng = PNG.sync.read(fs.readFileSync('test/gcp-image-bucket/routine-design-directory/studio/image.png'));
     const SameGcpImage = td.constructor(GcpImage);
     td.when(SameGcpImage.prototype.download()).thenResolve(oldPng);
     describe('ComponentImage has ID', function() {
@@ -101,9 +101,9 @@ describe('routine-design-directory/studio/ComponentStudio', function() {
   });
   describe('Images are not the same', function() {
     const DifferentWebPage = td.constructor(WebPage);
-    const newPng = PNG.sync.read(fs.readFileSync('test/routine-design-directory/studio/image.png'));
+    const newPng = PNG.sync.read(fs.readFileSync('test/gcp-image-bucket/routine-design-directory/studio/image.png'));
     td.when(DifferentWebPage.prototype.screenshot()).thenResolve(newPng);
-    const oldPng = PNG.sync.read(fs.readFileSync('test/routine-design-directory/studio/image2.png'));
+    const oldPng = PNG.sync.read(fs.readFileSync('test/gcp-image-bucket/routine-design-directory/studio/image2.png'));
     const DifferentGcpImage = td.constructor(GcpImage);
     td.when(DifferentGcpImage.prototype.download()).thenResolve(oldPng);
     describe('ComponentImage has ID', function() {

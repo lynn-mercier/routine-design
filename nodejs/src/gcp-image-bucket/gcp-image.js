@@ -1,5 +1,5 @@
 const {Storage} = require('@google-cloud/storage');
-const LocalStorage = require('./local-storage');
+const LocalStorage = require('../local-storage');
 
 class GcpImage {
   constructor(projectId, storageBucketName, gcpPath, MyStorage = Storage, MyLocalStorage = LocalStorage) {

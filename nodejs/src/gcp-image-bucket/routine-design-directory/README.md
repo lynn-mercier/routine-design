@@ -3,10 +3,11 @@
 Manages screenshot images of `React.Component` on [Google Cloud Platform](https://cloud.google.com/). Say `./render/foo` is a directory with `React.Component`.
 
 ```
-import {RoutineDesignTree, RoutineDesignDirectory} from 'routine-design';
+import {RoutineDesignTree, GcpImageBucket} from 'routine-design';
 const routineDesignTree = new RoutineDesignTree('./render');
 const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get('foo');
-const routineDesignDirectory = new RoutineDesignDirectory('project-id', 'storage-bucket-name', componentDirectory);
+const gcpImageBucket = new GcpImageBucket('project-id', 'storage-bucket-name');
+const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
 ```
 
 Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.

@@ -1,6 +1,6 @@
 const PngFactory = require('./png-factory')
 const {PNG} = require('pngjs');
-const WebPage = require('../../web-page');
+const WebPage = require('../../../web-page');
 
 class ComponentStudio {
   constructor(componentFile, componentImage, browser, port, tryCount, MyWebPage = WebPage, MyPngFactory = PngFactory) {

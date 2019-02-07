@@ -1,11 +1,11 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const ScreenshotCollection = require('../../src/routine-design-directory/screenshot-collection');
-const ComponentDirectory = td.constructor(require('../../src/routine-design-tree/component-tree/component-directory'));
-const Studio = require('../../src/routine-design-directory/studio');
-const ComponentStudio = require('../../src/routine-design-directory/studio/component-studio');
+const ScreenshotCollection = require('../../../src/gcp-image-bucket/routine-design-directory/screenshot-collection');
+const ComponentDirectory = td.constructor(require('../../../src/routine-design-tree/component-tree/component-directory'));
+const Studio = require('../../../src/gcp-image-bucket/routine-design-directory/studio');
+const ComponentStudio = require('../../../src/gcp-image-bucket/routine-design-directory/studio/component-studio');
 
-describe('routine-design-directory/ScreenshotCollection', function() {
+describe('gcp-image-bucket/routine-design-directory/ScreenshotCollection', function() {
   const componentDirectory = new ComponentDirectory();
   describe('image is not set', function() {
     const NotSetStudio = td.constructor(Studio);

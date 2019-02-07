@@ -1,11 +1,11 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const GcpImage = require('../src/gcp-image');
-const LocalStorage = require('../src/local-storage');
-const LocalImage = require('../src/local-storage/local-image');
+const GcpImage = require('../../src/gcp-image-bucket/gcp-image');
+const LocalStorage = require('../../src/local-storage');
+const LocalImage = require('../../src/local-storage/local-image');
 const Storage = td.constructor(require('@google-cloud/storage').Storage);
 
-describe('GcpImage', function() {
+describe('gcp-image-bucket/GcpImage', function() {
   const storageBucket = td.object({
     upload: () => {},
     file: () => {}

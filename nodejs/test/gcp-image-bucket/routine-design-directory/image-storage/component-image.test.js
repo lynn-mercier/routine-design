@@ -1,11 +1,11 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const ComponentImage = require('../../../src/routine-design-directory/image-storage/component-image');
+const ComponentImage = require('../../../../src/gcp-image-bucket/routine-design-directory/image-storage/component-image');
 const randomstring = td.object(require('randomstring'));
-const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
-const GcpImage = require('../../../src/gcp-image');
+const ComponentFile = td.constructor(require('../../../../src/routine-design-tree/component-tree/component-file'));
+const GcpImage = require('../../../../src/gcp-image-bucket/gcp-image');
 
-describe('routine-design-directory/image-storage/ComponentImage', function() {
+describe('gcp-image-bucket/routine-design-directory/image-storage/ComponentImage', function() {
   describe('has GCP ID', function() {
     const componentFile = new ComponentFile();
     td.when(componentFile.getPath()).thenReturn('foo');

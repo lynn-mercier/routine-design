@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander');
-const RoutineDesignDirectory = require('../src/routine-design-directory');
+const GcpImageBucket = require('../src/gcp-image-bucket');
 const RoutineDesignTree = require('../src/routine-design-tree');
 
 program
@@ -15,7 +15,8 @@ program
         componentDirectoryId = program.componentDirectory;
       }
       const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get(componentDirectoryId);
-      const routineDesignDirectory = new RoutineDesignDirectory(projectId, storageBucketName, componentDirectory);
+      const gcpImageBucket = new GcpImageBucket(projectId, storageBucketName);
+      const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
       await (routineDesignDirectory.createScreenshotCollection(program.port)).capture();
     } catch (err) {
       console.log(err.message);
@@ -34,7 +35,8 @@ program
         componentDirectoryId = program.componentDirectoryId;
       }
       const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get(componentDirectoryId);
-      const routineDesignDirectory = new RoutineDesignDirectory(projectId, storageBucketName, componentDirectory);
+      const gcpImageBucket = new GcpImageBucket(projectId, storageBucketName);
+      const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
       const result = await (routineDesignDirectory.createScreenshotCollection(program.port)).pixelValidate();
       console.log(JSON.stringify(result));
     } catch (err) {
