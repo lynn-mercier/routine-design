@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
 const Application = require('../src/application');
-const ComponentTree = require('../src/component-tree');
+const RoutineDesignTree = require('../src/routine-design-tree');
 
 program
   .command('html <element> <htmlPath>')
@@ -19,7 +19,8 @@ program
   .command('routes <directory> <routesPath>')
   .action(async function(directory, routesPath) {
     try {
-      await new ComponentTree(directory).writeRoutes(routesPath);
+      const routineDesignTree = new RoutineDesignTree(directory);
+      await routineDesignTree.getComponentTree().writeRoutes(routesPath);
     } catch (err) {
       console.log(err.message);
     }

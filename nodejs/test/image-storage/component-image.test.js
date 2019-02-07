@@ -2,7 +2,7 @@ const {expect} = require('chai');
 const td = require('testdouble');
 const ComponentImage = require('../../src/image-storage/component-image');
 const randomstring = td.object(require('randomstring'));
-const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
+const ComponentFile = td.constructor(require('../../src/routine-design-tree/component-tree/component-file'));
 const GcpImage = require('../../src/gcp-image');
 
 describe('image-storage/ComponentImage', function() {

@@ -2,8 +2,9 @@
 
 Manages a directory with `React.Component`. 
 ```
-import {ComponentTree} from 'routine-design';
-const componentTree = new ComponentTree('./dir');
+import {RoutineDesignTree} from 'routine-design';
+const routineDesignTree = new RoutineDesignTree('./dir');
+const componentTree = routineDesignTree.getComponentTree();
 ```
 
 ## getDirectories()

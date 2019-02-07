@@ -3,13 +3,12 @@
 Provides JavaScript APIs for aligning code and design.
 
 * [Application](./application/README.md)
-* [ComponentTree](./component-tree/README.md)
 * [DirectoryCapturer](#directorycapturer)
 * [DirectoryPixelValidator](#directorypixelvalidator)
 * [GcpImage](#gcpimage)
 * [ImageStorage](./image-storage/README.md)
 * [LocalStorage](./local-storage/README.md)
-* [RenderServer](#renderserver)
+* [RoutineDesignTree](./routine-design-tree/README.md)
 * [Studio](./studio/README.md)
 * [WebPage](#webpage)
 
@@ -18,9 +17,9 @@ Provides JavaScript APIs for aligning code and design.
 Save screenshot images on [Google Cloud Platform](https://cloud.google.com/). Say `./render` is a directory with many `React.Component`.
 
 ```
-import {DirectoryCapturer, ComponentTree} from 'routine-design';
-const componentTree = new ComponentTree('./render');
-const componentDirectory = componentTree.getDirectories().get('foo');
+import {DirectoryCapturer, RoutineDesignTree} from 'routine-design';
+const routineDesignTree = new RoutineDesignTree('./render');
+const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get('foo');
 new DirectoryCapturer().run('project-id', 'storage-bucket-name', componentDirectory);
 ```
 
@@ -47,9 +46,9 @@ Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
 Checks that all screenshot images are identical to the screenshots saved on [Google Cloud Platform](https://cloud.google.com/). If the images are not identical, it uploads the new image and a `diff` image. Say `./render` is a directory with many `React.Component`.
 
 ```
-import {DirectoryPixelValidator, ComponentTree} from 'routine-design';
-const componentTree = new ComponentTree('./render');
-const componentDirectory = componentTree.getDirectories().get('foo');
+import {DirectoryPixelValidator, RoutineDesignTree} from 'routine-design';
+const routineDesignTree = new RoutineDesignTree('./render');
+const componentDirectory = routineDesignTree.getComponent().getDirectories().get('foo');
 new DirectoryPixelValidator().run('project-id', 'storage-bucket-name', componentDirectory);
 ```
 
@@ -90,29 +89,6 @@ Downalds and returns PNG object.
 ### getUrl()
 
 Returns the URL for viewing the image.
-
-## RenderServer
-
-Turns a directory with many `React.Component` into a Webpack server. Say `./render` was the directory with the components, then JavaScript will turn it into a Webpack server.
-```
-import {RenderServer} from 'routine-design';
-new RenderServer().run('./render');
-```
-
-You can accomplish the same thing from the Command Line Interface. 
-```
-routine-design render ./render
-```
-
-You can specify a different port
-```
-new RenderServer().run('./render', 8080 /* port */);
-```
-
-Or from the command line 
-```
-routine-design render ./render --port 8080
-```
 
 ## WebPage
 

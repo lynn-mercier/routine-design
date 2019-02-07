@@ -1,14 +1,14 @@
 const {expect} = require('chai');
 const td = require('testdouble');
 const fs = require('fs');
-const ComponentTree = require('../../src/component-tree');
+const ComponentTree = require('../../../src/routine-design-tree/component-tree');
 const glob = require('glob');
 const mockFs = td.object(fs);
-const ComponentDirectory = td.constructor(require('../../src/component-tree/component-directory'));
-const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
-const ComponentRoute = td.constructor(require('../../src/component-tree/component-route'));
+const ComponentDirectory = td.constructor(require('../../../src/routine-design-tree/component-tree/component-directory'));
+const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
+const ComponentRoute = td.constructor(require('../../../src/routine-design-tree/component-tree/component-route'));
 
-describe('ComponentTree', function() {
+describe('routine-design-tree/ComponentTree', function() {
   const componentFile = new ComponentFile();
   td.when(ComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
   td.when(ComponentRoute.prototype.getRoute()).thenReturn("<Route/>");
@@ -38,7 +38,7 @@ describe('ComponentTree', function() {
       td.when(mockFs.writeFile(td.matchers.anything(),td.matchers.anything())).thenCallback();
       await componentTree.writeRoutes( './tmp/routes.js', mockFs, ComponentRoute).then(() => {
         expect(td.explain(mockFs.writeFile).calls[0].args[0]).to.equal('./tmp/routes.js');
-        expect(td.explain(mockFs.writeFile).calls[0].args[1]).to.equal(fs.readFileSync('test/component-tree/golden.js', 'utf8'));
+        expect(td.explain(mockFs.writeFile).calls[0].args[1]).to.equal(fs.readFileSync('test/routine-design-tree/component-tree/golden.js', 'utf8'));
         expect(td.explain(ComponentRoute).calls[0].args[0]).to.equal('./tmp/routes.js');
         expect(td.explain(ComponentRoute).calls[0].args[1]).to.equal(componentFile);
       });

@@ -1,12 +1,12 @@
 const {expect} = require('chai');
 const td = require('testdouble');
 const fs = require('fs');
-const ComponentRoute = require('../../src/component-tree/component-route');
+const ComponentRoute = require('../../../src/routine-design-tree/component-tree/component-route');
 const glob = td.func(require('glob'));
 const mockFs = td.object(fs);
-const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
+const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
 
-describe('component-tree/ComponentRoute', function() {
+describe('routine-design-tree/component-tree/ComponentRoute', function() {
   describe('routes path in directory', function() {
     describe('./tmp/index.js', function() {
       const componentFile = new ComponentFile();

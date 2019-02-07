@@ -3,8 +3,8 @@ const td = require('testdouble');
 const ImageStorage = require('../../src/image-storage');
 const fs = require('fs');
 const randomstring = td.object(require('randomstring'));
-const ComponentDirectory = td.constructor(require('../../src/component-tree/component-directory'));
-const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
+const ComponentDirectory = td.constructor(require('../../src/routine-design-tree/component-tree/component-directory'));
+const ComponentFile = td.constructor(require('../../src/routine-design-tree/component-tree/component-file'));
 const ComponentImage = td.constructor(require('../../src/image-storage/component-image'));
 const GcpImage = td.constructor(require('../../src/gcp-image'));
 

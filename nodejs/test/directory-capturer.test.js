@@ -1,8 +1,7 @@
 const {expect} = require('chai');
 const td = require('testdouble');
 const DirectoryCapturer = require('../src/directory-capturer');
-const RenderServer = td.constructor(require('../src/render-server'));
-const ComponentDirectory = td.constructor(require('../src/component-tree/component-directory'));
+const ComponentDirectory = td.constructor(require('../src/routine-design-tree/component-tree/component-directory'));
 const Studio = require('../src/studio');
 const ComponentStudio = require('../src/studio/component-studio');
 

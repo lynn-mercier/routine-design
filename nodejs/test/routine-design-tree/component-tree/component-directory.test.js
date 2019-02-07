@@ -1,10 +1,10 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const ComponentDirectory = require('../../src/component-tree/component-directory');
+const ComponentDirectory = require('../../../src/routine-design-tree/component-tree/component-directory');
 const glob = td.func(require('glob'));
-const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
+const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
 
-describe('component-tree/ComponentDirectory', function() {
+describe('routine-design-tree/component-tree/ComponentDirectory', function() {
   td.when(ComponentFile.prototype.getBasename()).thenReturn('index.js');
   const componentDirectory = 
     new ComponentDirectory('./tmp', './tmp', glob, ComponentFile);
