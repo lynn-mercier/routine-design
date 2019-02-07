@@ -1,10 +1,10 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const LocalDirectory = require('../src/local-directory');
+const LocalDirectory = require('../../src/local-storage/local-directory');
 const rimraf = td.func(require('rimraf').default);
 const fs = require('fs');
 
-describe('LocalDirectory', function() {
+describe('local-storage/LocalDirectory', function() {
   describe('directory exists', function() {
     const fsExists = td.object(fs);
     td.when(fsExists.existsSync(td.matchers.anything())).thenReturn(true);

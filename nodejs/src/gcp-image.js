@@ -1,23 +1,23 @@
 const {Storage} = require('@google-cloud/storage');
-const LocalImage = require('./local-image');
+const LocalStorage = require('./local-storage');
 
 class GcpImage {
-  constructor(projectId, storageBucketName, gcpPath, MyStorage = Storage, MyLocalImage = LocalImage) {
+  constructor(projectId, storageBucketName, gcpPath, MyStorage = Storage, MyLocalStorage = LocalStorage) {
     this.storageBucket_ = new MyStorage({projectId: projectId}).bucket(storageBucketName);
     this.storageBucketName_ = storageBucketName;
     this.gcpPath_ = gcpPath;
-    this.MyLocalImage_ = MyLocalImage;
+    this.localStorage_ = new MyLocalStorage();
   }
 
   async upload(png) {
-    const localImage = new this.MyLocalImage_();
+    const localImage = this.localStorage_.createLocalImage();
     await localImage.write(png);
     await this.storageBucket_.upload(localImage.getPath(), {destination: this.gcpPath_});
     await localImage.delete();
   }
 
   async download() {
-    const localImage = new this.MyLocalImage_();
+    const localImage = this.localStorage_.createLocalImage();
     try {
       await this.storageBucket_.file(this.gcpPath_).download({destination: localImage.getPath()});
     } catch (error) {

@@ -1,12 +1,12 @@
 const Webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const LocalDirectory = require('../local-directory');
-const Application = require('../application');
+const Application = require('../../application');
 const EntryPoint = require('./entry-point');
 
 class RoutesServer {
-  constructor(MyLocalDirectory = LocalDirectory, MyApplication = Application) {
-    this.localDirectory_ = new MyLocalDirectory('webpack');
+  constructor(name, MyLocalDirectory = LocalDirectory, MyApplication = Application) {
+    this.localDirectory_ = new MyLocalDirectory(name);
     this.application_ = new MyApplication();
     this.javaScriptPath_ = './'+this.getWebpackDir()+'/index.js';
   }

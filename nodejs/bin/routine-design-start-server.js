@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 const program = require('commander');
-const RoutesServer = require('../src/routes-server');
-const Application = require('../src/application');
+const LocalStorage = require('../src/local-storage');
 
 program
-  .option('--port <port>', 'Specify port');
+  .option('--port <port>', 'Specify port')
+  .option('--name <name>', 'Specify name');
 
 program
   .arguments('<routesPath>')
   .action(async function(routesPath) {
     try {
-      const routesServer = new RoutesServer();
+      const localStorage = new LocalStorage();
+      const routesServer = localStorage.createRoutesServer(program.name);
       await routesServer.emptyDirectory();
       await routesServer.write(routesPath);
       await routesServer.startServer(program.port);

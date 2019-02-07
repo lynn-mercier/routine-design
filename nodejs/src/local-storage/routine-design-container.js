@@ -6,10 +6,10 @@ const fs = require('fs');
 const LocalDirectory = require('./local-directory');
 
 class RoutineDesignContainer {
-	constructor(containerName = 'routine-design', MyDocker = Docker, MyLocalDirectory = LocalDirectory, myFs = fs) {
+	constructor(containerName, MyDocker = Docker, MyLocalDirectory = LocalDirectory, myFs = fs) {
     this.containerName_ = containerName;
     this.docker_ = new MyDocker();
-    const localDirectory = new MyLocalDirectory('docker');
+    const localDirectory = new MyLocalDirectory(containerName);
     this.googleCredentialsPath_ = localDirectory.getFilePath('auth.json');
     this.myFs_ = myFs;
   }

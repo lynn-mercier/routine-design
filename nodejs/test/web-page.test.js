@@ -1,15 +1,18 @@
 const {expect} = require('chai');
 const td = require('testdouble');
 const WebPage = require('../src/web-page');
-const LocalImage = td.constructor(require('../src/local-image'));
+const LocalImage = td.constructor(require('../src/local-storage/local-image'));
+const LocalStorage = td.constructor(require('../src/local-storage'));
 
 describe('WebPage', function() {
+  const localImage = new LocalImage();
+  td.when(LocalStorage.prototype.createLocalImage()).thenReturn(localImage);
   td.when(LocalImage.prototype.getPath()).thenReturn('local-image.png');
   describe('resolves successfully', function() {
     const goodBrowser = td.object({
       newPage: () => {}
     });
-    const webPage = new WebPage(goodBrowser, 8080, 'url');
+    const webPage = new WebPage(goodBrowser, 8080, 'url', LocalStorage);
     const goodPage = td.object({
       goto: () => {},
       screenshot: () => {}
@@ -27,7 +30,7 @@ describe('WebPage', function() {
       });
     });
     it('#screenshot', async function() {
-      await webPage.screenshot(LocalImage);
+      await webPage.screenshot();
       expect(td.explain(LocalImage.prototype.prepareForWriting).calls.length).to.equal(1);
       expect(td.explain(goodPage.screenshot).calls[0].args[0]).to.deep.equal({path: 'local-image.png'});
       expect(td.explain(LocalImage.prototype.delete).calls.length).to.equal(1);

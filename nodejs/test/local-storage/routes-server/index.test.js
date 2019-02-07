@@ -1,17 +1,17 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const RoutesServer = require('../../src/routes-server');
+const RoutesServer = require('../../../src/local-storage/routes-server');
 const Webpack = td.func(require('webpack').default);
 const WebpackDevServer = td.constructor(require('webpack-dev-server'));
-const LocalDirectory = td.constructor(require('../../src/local-directory'));
-const Application = td.constructor(require('../../src/application'));
-const EntryPoint = td.constructor(require('../../src/routes-server/entry-point'));
+const LocalDirectory = td.constructor(require('../../../src/local-storage/local-directory'));
+const Application = td.constructor(require('../../../src/application'));
+const EntryPoint = td.constructor(require('../../../src/local-storage/routes-server/entry-point'));
 
-describe('RoutesServer', function() {
+describe('local-storage/RoutesServer', function() {
   td.when(LocalDirectory.prototype.getFullPath()).thenReturn('webpack');
-  const webpackSetup = new RoutesServer(LocalDirectory, Application);
+  const webpackSetup = new RoutesServer('foo', LocalDirectory, Application);
   it('creates local directory', function() {
-    expect(td.explain(LocalDirectory).calls[0].args[0]).to.equal('webpack');
+    expect(td.explain(LocalDirectory).calls[0].args[0]).to.equal('foo');
   });
   describe('#getWebpackDir', function() {
     const webpackDir = webpackSetup.getWebpackDir();

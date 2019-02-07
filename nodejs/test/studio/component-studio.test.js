@@ -7,7 +7,6 @@ const ComponentFile = td.constructor(require('../../src/component-tree/component
 const ComponentImage = require('../../src/image-storage/component-image');
 const WebPage = require('../../src/web-page');
 const GcpImage = require('../../src/gcp-image');
-const LocalImage = td.constructor(require('../../src/local-image'));
 const PngFactory = require('../../src/studio/png-factory');
 
 describe('studio/ComponentStudio', function() {

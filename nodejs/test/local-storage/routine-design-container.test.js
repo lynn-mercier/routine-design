@@ -4,10 +4,10 @@ const Docker = require('docker-cli-js').Docker;
 const fs = require('fs');
 const username = td.func(require('username'));
 const userid = td.object(require('userid'));
-const RoutineDesignContainer = require('../src/routine-design-container');
-const LocalDirectory = td.constructor(require('../src/local-directory'));
+const RoutineDesignContainer = require('../../src/local-storage/routine-design-container');
+const LocalDirectory = td.constructor(require('../../src/local-storage/local-directory'));
 
-describe('RoutineDesignContainer', function() {
+describe('local-storage/RoutineDesignContainer', function() {
   process.env.PWD = '/home';
   process.env.ROUTINE_DESIGN_GOOGLE_CREDS = 'routine-design-google-creds';
   td.when(LocalDirectory.prototype.getFilePath(td.matchers.anything())).thenReturn('auth.json');

@@ -2,7 +2,9 @@
 
 Manages a Webpack server built for a `routes.js`.
 ```
-import {RoutesServer} from 'routine-design';
+import {LocalStorage} from 'routine-design';
+const localStorage = new LocalStorage();
+const routesServer = localStorage.createRoutesServer();
 ```
 
 Say you have a `routes.js` which exports a `React.Component` with many `<Route>`s
@@ -24,12 +26,9 @@ export default Routes;
 
 You can quickly turn that `routes.js` into a Webpack server using `RoutesServer`. 
 
-`RoutesServer` writes files to `./routine-design-output`. We recommend you add this directory to your `.gitignore`.
-
 First, empty this directory by calling `emptyDirectory`. Then connect the content base to `routes.js` by calling `RoutesServer.writeFiles`. And finally, start the server by calling `start`.
 
 ```
-const routesServer = new RoutesServer();
 await routesServer.emptyDirectory();
 await routesServer.writeFiles('./routes.js');
 await routesServer.start();

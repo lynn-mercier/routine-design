@@ -8,10 +8,8 @@ Provides JavaScript APIs for aligning code and design.
 * [DirectoryPixelValidator](#directorypixelvalidator)
 * [GcpImage](#gcpimage)
 * [ImageStorage](./image-storage/README.md)
-* [LocalImage](#localimage)
+* [LocalStorage](./local-storage/README.md)
 * [RenderServer](#renderserver)
-* [RoutesServer](./routes-server/README.md)
-* [RoutineDesignContainer](#routinedesigncontainer)
 * [Studio](./studio/README.md)
 * [WebPage](#webpage)
 
@@ -93,30 +91,6 @@ Downalds and returns PNG object.
 
 Returns the URL for viewing the image.
 
-## LocalImage
-
-Manipulate a local PNG image. 
-
-### getPath()
-
-Returns the path to the local PNG image.
-
-### getPng()
-
-Returns a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
-
-### prepareForWriting()
-
-Prepare the `LocalImage` to be written to.
-
-### write(png)
-
-Write a PNG object to the local PNG image.
-
-### delete()
-
-Delete the local PNG image.
-
 ## RenderServer
 
 Turns a directory with many `React.Component` into a Webpack server. Say `./render` was the directory with the components, then JavaScript will turn it into a Webpack server.
@@ -139,22 +113,6 @@ Or from the command line
 ```
 routine-design render ./render --port 8080
 ```
-
-## RoutineDesignContainer
-
-Manages a routine design [Docker](https://www.docker.com/) container. Requires your `ROUTINE_DESIGN_GOOGLE_CREDS` environment variable to be set to valid [Google Cloud](https://cloud.google.com/) JSON credentials.
-
-### start()
-
-Starts a new Docker container from the routine design Docker image. 
-
-### run(command)
-
-Runs a command in the Docker container.
-
-### cleanup()
-
-Stops and removes the Docker container. 
 
 ## WebPage
 

@@ -1,13 +1,13 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const LocalImage = require('../src/local-image');
+const LocalImage = require('../../src/local-storage/local-image');
 const randomstring = td.object(require('randomstring'));
 const fs = require('fs');
 const path = td.object(require('path'));
 const pngSync = td.object(require('pngjs').PNG.sync);
-const LocalDirectory = td.constructor(require('../src/local-directory'));
+const LocalDirectory = td.constructor(require('../../src/local-storage/local-directory'));
 
-describe('LocalImage', function() {
+describe('local-storage/LocalImage', function() {
   describe('image exists', function() {
     td.when(LocalDirectory.prototype.getFullPath()).thenReturn('images');
     td.when(randomstring.generate()).thenReturn('random');

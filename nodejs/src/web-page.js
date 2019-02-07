@@ -1,9 +1,10 @@
-const LocalImage = require('./local-image');
+const LocalStorage = require('./local-storage');
 
 class WebPage {
-  constructor(browser, port, path) {
+  constructor(browser, port, path, MyLocalStorage = LocalStorage) {
     this.browser_ = browser;
     this.url_ = 'http://localhost:'+port+'/#/'+path;
+    this.localStorage_ = new MyLocalStorage();
   }
 
   async getPage() {
@@ -15,8 +16,8 @@ class WebPage {
     return this.page_;
   }
 
-  async screenshot(MyLocalImage = LocalImage) {
-    const localImage = new MyLocalImage();
+  async screenshot() {
+    const localImage = this.localStorage_.createLocalImage();
     await localImage.prepareForWriting();
     await (await this.getPage()).screenshot({path: localImage.getPath()});
     const localImagePng = localImage.getPng();

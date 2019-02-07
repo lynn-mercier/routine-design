@@ -1,7 +1,8 @@
 const {expect} = require('chai');
 const td = require('testdouble');
 const GcpImage = require('../src/gcp-image');
-const LocalImage = require('../src/local-image');
+const LocalStorage = require('../src/local-storage');
+const LocalImage = require('../src/local-storage/local-image');
 const Storage = td.constructor(require('@google-cloud/storage').Storage);
 
 describe('GcpImage', function() {
@@ -11,14 +12,17 @@ describe('GcpImage', function() {
   });
   td.when(Storage.prototype.bucket(td.matchers.anything())).thenReturn(storageBucket);
   describe('#getUrl', function() {
-    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, td.constructor(LocalImage));
+    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, td.constructor(LocalStorage));
     it('url includes storage bucket and GCP path', function() {
       expect(gcpImage.getUrl()).to.equal("https://storage.googleapis.com/storage-bucket-name/foo.png");
     });
   });
   it('#upload', async function() {
+    const UploadLocalStorage = td.constructor(LocalStorage);
     const UploadLocalImage = td.constructor(LocalImage);
-    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, UploadLocalImage);
+    const uploadLocalImage = new UploadLocalImage();
+    td.when(UploadLocalStorage.prototype.createLocalImage()).thenReturn(uploadLocalImage);
+    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, UploadLocalStorage);
     td.when(UploadLocalImage.prototype.getPath()).thenReturn('local.png');
     const promise = gcpImage.upload('png').then(function() {
       expect(td.explain(Storage.prototype.bucket).calls[0].args[0]).to.equal('storage-bucket-name');
@@ -30,8 +34,11 @@ describe('GcpImage', function() {
     return promise
   });
   it('#download', async function() {
+    const DownloadLocalStorage = td.constructor(LocalStorage);
     const DownloadLocalImage = td.constructor(LocalImage);
-    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, DownloadLocalImage);
+    const downloadLocalImage = new DownloadLocalImage();
+    td.when(DownloadLocalStorage.prototype.createLocalImage()).thenReturn(downloadLocalImage);
+    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, DownloadLocalStorage);
     const gcpFile = td.object({
       download: () => {}
     });
@@ -45,8 +52,11 @@ describe('GcpImage', function() {
     expect(png).to.equal('png');
   });
   it('#download fails', async function() {
+    const NoDownloadLocalStorage = td.constructor(LocalStorage);
     const NoDownloadLocalImage = td.constructor(LocalImage);
-    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, NoDownloadLocalImage);
+    const noDownloadLocalImage = new NoDownloadLocalImage();
+    td.when(NoDownloadLocalStorage.prototype.createLocalImage()).thenReturn(noDownloadLocalImage);
+    const gcpImage = new GcpImage('project-id', 'storage-bucket-name', 'foo.png', Storage, NoDownloadLocalStorage);
     const gcpFile = td.object({
       download: () => {}
     });
