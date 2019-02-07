@@ -2,13 +2,13 @@ const {expect} = require('chai');
 const td = require('testdouble');
 const {PNG} = require('pngjs');
 const fs = require('fs');
-const pixelmatch = require('pixelmatch');
 const ComponentStudio = require('../../src/studio/component-studio');
 const ComponentFile = td.constructor(require('../../src/component-tree/component-file'));
 const ComponentImage = require('../../src/image-storage/component-image');
 const WebPage = require('../../src/web-page');
 const GcpImage = require('../../src/gcp-image');
 const LocalImage = td.constructor(require('../../src/local-image'));
+const PngFactory = require('../../src/studio/png-factory');
 
 describe('studio/ComponentStudio', function() {
   td.when(ComponentFile.prototype.getPath()).thenReturn('path');
@@ -24,7 +24,11 @@ describe('studio/ComponentStudio', function() {
       td.when(IdComponentImage.prototype.getId()).thenReturn('id');
       const gcpImage = new SameGcpImage();
       td.when(IdComponentImage.prototype.createGcpImage()).thenReturn(gcpImage);
-      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, SameWebPage);
+      const MyPngFactory = td.constructor(PngFactory);
+      td.when(MyPngFactory.prototype.pixelmatch(td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything()))
+        .thenReturn(0); 
+      td.when(MyPngFactory.prototype.createPng(td.matchers.anything())).thenReturn(new PNG());
+      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, SameWebPage, MyPngFactory);
       describe('#isImageSet', function() {
         it('image is set', function() {
           expect(componentStudio.isImageSet()).to.equal(true);
@@ -58,15 +62,14 @@ describe('studio/ComponentStudio', function() {
         });
       });
       it('#diff', async function() {
-        const myPixelmatch = td.function(pixelmatch);
-        td.when(myPixelmatch(td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything()))
-          .thenReturn(0);
-        return componentStudio.diff(myPixelmatch).then((pixelDiffCount) => {
+        return componentStudio.diff().then((pixelDiffCount) => {
           expect(pixelDiffCount).to.equal(0);
-          expect(td.explain(myPixelmatch).calls[0].args[0]).to.equal(newPng.data);
-          expect(td.explain(myPixelmatch).calls[0].args[1]).to.equal(oldPng.data);
-          expect(td.explain(myPixelmatch).calls[0].args[3]).to.equal(420);
-          expect(td.explain(myPixelmatch).calls[0].args[4]).to.equal(420);
+          expect(td.explain(MyPngFactory.prototype.createPng).calls[0].args[0].width).to.equal(420);
+          expect(td.explain(MyPngFactory.prototype.createPng).calls[0].args[0].height).to.equal(420);
+          expect(td.explain(MyPngFactory.prototype.pixelmatch).calls[0].args[0]).to.equal(newPng.data);
+          expect(td.explain(MyPngFactory.prototype.pixelmatch).calls[0].args[1]).to.equal(oldPng.data);
+          expect(td.explain(MyPngFactory.prototype.pixelmatch).calls[0].args[3]).to.equal(420);
+          expect(td.explain(MyPngFactory.prototype.pixelmatch).calls[0].args[4]).to.equal(420);
         });
       });
       it('#saveNewImage', async function() {
@@ -110,23 +113,23 @@ describe('studio/ComponentStudio', function() {
       const gcpImage = new DifferentGcpImage();
       td.when(IdComponentImage.prototype.createGcpImage()).thenReturn(gcpImage);
       td.when(IdComponentImage.prototype.createGcpDebugImage(td.matchers.anything())).thenReturn(gcpImage);
-      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, DifferentWebPage);
+      const MyPngFactory = td.constructor(PngFactory);
+      td.when(MyPngFactory.prototype.pixelmatch(td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything()))
+        .thenReturn(100);
+      const diffPng = new PNG();
+      td.when(MyPngFactory.prototype.createPng(td.matchers.anything())).thenReturn(diffPng);
+      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, DifferentWebPage, MyPngFactory);
       it('#isSame', async function() {
         return componentStudio.isSame().then((isSame) => {
           expect(isSame).to.equal(false);
         });
       });
       it('#diff', async function() {
-        const myPixelmatch = td.function(pixelmatch);
-        td.when(myPixelmatch(td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything()))
-          .thenReturn(100);
-        return componentStudio.diff(myPixelmatch).then((pixelDiffCount) => {
+        return componentStudio.diff().then((pixelDiffCount) => {
           expect(pixelDiffCount).to.equal(100);
           expect(td.explain(IdComponentImage.prototype.createGcpDebugImage).calls[0].args[0]).to.equal("diff.png");
           expect(td.explain(IdComponentImage.prototype.createGcpDebugImage).calls[1].args[0]).to.equal("new.png");
-          const diffImage = td.explain(DifferentGcpImage.prototype.upload).calls[0].args[0];
-          expect(diffImage.width).to.equal(420);
-          expect(diffImage.height).to.equal(420);
+          expect(td.explain(DifferentGcpImage.prototype.upload).calls[0].args[0]).to.equal(diffPng);
           expect(td.explain(DifferentGcpImage.prototype.upload).calls[1].args[0]).to.equal(newPng);
         });
       });

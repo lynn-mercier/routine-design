@@ -1,15 +1,16 @@
-const pixelmatch = require('pixelmatch');
+const PngFactory = require('./png-factory')
 const {PNG} = require('pngjs');
 const WebPage = require('../web-page');
 
 class ComponentStudio {
-  constructor(componentFile, componentImage, browser, port, tryCount, MyWebPage = WebPage) {
+  constructor(componentFile, componentImage, browser, port, tryCount, MyWebPage = WebPage, MyPngFactory = PngFactory) {
     this.file_ = componentFile;
     this.image_ = componentImage;
     this.browser_ = browser;
     this.port_ = port;
     this.tryCount_ = tryCount;
     this.MyWebPage_ = MyWebPage;
+    this.pngFactory = new MyPngFactory();
   }
 
   isImageSet() {
@@ -57,15 +58,15 @@ class ComponentStudio {
     return false;
   }
 
-  async diff(myPixelmatch = pixelmatch) {
+  async diff() {
     let oldImage;
     let newImage;
     await Promise.all([this.getOldImage(), this.getNewImage()]).then(function(values) {
       oldImage = values[0];
       newImage = values[1];
     });
-    const diffImage = new PNG({width: newImage.width, height: newImage.height});
-    const pixelDiffCount = myPixelmatch(newImage.data, oldImage.data, diffImage.data, newImage.width, newImage.height, {threshold: 0.1});
+    const diffImage = this.pngFactory.createPng({width: newImage.width, height: newImage.height});
+    const pixelDiffCount = this.pngFactory.pixelmatch(newImage.data, oldImage.data, diffImage.data, newImage.width, newImage.height, {threshold: 0.1});
     if (pixelDiffCount > 0) {
       const diffUploadPromise = this.image_.createGcpDebugImage("diff.png").upload(diffImage);
       const newUploadPromise = this.image_.createGcpDebugImage("new.png").upload(newImage);
