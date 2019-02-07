@@ -1,14 +1,14 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const ImageStorage = require('../../src/image-storage');
+const ImageStorage = require('../../../src/routine-design-directory/image-storage');
 const fs = require('fs');
 const randomstring = td.object(require('randomstring'));
-const ComponentDirectory = td.constructor(require('../../src/routine-design-tree/component-tree/component-directory'));
-const ComponentFile = td.constructor(require('../../src/routine-design-tree/component-tree/component-file'));
-const ComponentImage = td.constructor(require('../../src/image-storage/component-image'));
-const GcpImage = td.constructor(require('../../src/gcp-image'));
+const ComponentDirectory = td.constructor(require('../../../src/routine-design-tree/component-tree/component-directory'));
+const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
+const ComponentImage = td.constructor(require('../../../src/routine-design-directory/image-storage/component-image'));
+const GcpImage = td.constructor(require('../../../src/gcp-image'));
 
-describe('ImageStorage', function() {
+describe('routine-design-directory/ImageStorage', function() {
   td.when(randomstring.generate()).thenReturn('random');
   describe('#getDebugId', function() {
     const componentDirectory = new ComponentDirectory();

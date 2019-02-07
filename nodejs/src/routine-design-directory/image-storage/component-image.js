@@ -1,5 +1,5 @@
 const randomstring = require('randomstring');
-const GcpImage = require('../gcp-image');
+const GcpImage = require('../../gcp-image');
 
 class ComponentImage {
   constructor(projectId, screenshotBucketName, gcpDebugPath, componentFile, id, MyGcpImage = GcpImage) {

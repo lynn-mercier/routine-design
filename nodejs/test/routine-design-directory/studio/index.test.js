@@ -1,12 +1,12 @@
 const {expect} = require('chai');
 const td = require('testdouble');
-const Studio = require('../../src/studio');
-const ComponentDirectory = td.constructor(require('../../src/routine-design-tree/component-tree/component-directory'));
-const ComponentFile = td.constructor(require('../../src/routine-design-tree/component-tree/component-file'));
-const ImageStorage = td.constructor(require('../../src/image-storage'));
-const ComponentImage = td.constructor(require('../../src/image-storage/component-image'));
+const Studio = require('../../../src/routine-design-directory/studio');
+const ComponentDirectory = td.constructor(require('../../../src/routine-design-tree/component-tree/component-directory'));
+const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
+const ImageStorage = td.constructor(require('../../../src/routine-design-directory/image-storage'));
+const ComponentImage = td.constructor(require('../../../src/routine-design-directory/image-storage/component-image'));
 const puppeteer = require('puppeteer');
-const ComponentStudio = td.constructor(require('../../src/studio/component-studio'));
+const ComponentStudio = td.constructor(require('../../../src/routine-design-directory/studio/component-studio'));
 
 describe('Studio', function() {
   const componentFile = new ComponentFile();

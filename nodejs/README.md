@@ -25,14 +25,9 @@ Run `routine-design -h` for more commands and help.
 
 ## JavaScript APIs
 
-* [DirectoryCapturer](./src/README.md): Save screenshot images on [Google Cloud Platform](https://cloud.google.com/).
-* [DirectoryPixelValidator](./src/README.md): Checks that all screenshot images are identical to the screenshots saved on [Google Cloud Platform](https://cloud.google.com/).
-* [RenderServer](./src/README.md): Turns a directory with `React.Component` into a Webpack server.
+* [RoutineDesignDirectory](./src/routine-design-directory/README.md): Manages screenshot images of `React.Component` on [Google Cloud Platform](https://cloud.google.com/).
+* [RoutineDesignTree](./src/routine-design-tree/README.md): Provides tools for operating on a directory with `React.Component`..
 * [GcpImage](./src/README.md): Manipulate a PNG image stored on [Google Cloud Platform](https://cloud.google.com/).
-* [LocalImage](./src/README.md): Manipulate a local PNG image.
-* [Studio](./src/studio/README.md): Opens a browser for a directory, then opens a tab per component file in the directory.
+* [LocalStorage](./src/local-storage/README.md): Provides tools for writing local files.
 * [WebPage](./src/README.md): Interact with a local Web page.
-* [ComponentTree](./src/component-tree/README.md): Manages a directory with `React.Component`.
-* [ImageStorage](./image-storage/README.md): Connects the `React.Component` in a directory to images stored on [Google Cloud Platform](https://cloud.google.com/).
 * [Application](./src/application/README.md): Provides tools for creating a Web application.
-* [RoutesServer](./src/routes-server/README.md): Manages a Webpack server built for a `routes.js`.

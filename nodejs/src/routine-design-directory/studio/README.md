@@ -3,22 +3,13 @@
 Opens a browser for a directory, then opens a tab per component file in the directory.
 
 ```
-const {ComponentTree, Studio} = require('routine-design');
-const componentTree = new ComponentTree('./dir');
+const {RoutineDesignTree, RoutineDesignDirectory} = require('routine-design');
+const routineDesignTree = new RoutineDesignTree('./dir');
+const componentTree = routineDesignTree.getComponentTree();
 const componentDirectory = componentTree.getDirectories().get('dir/foo');
-const studio = new Studio('project-id', 'storage-bucket', componentDirectory);
-```
-
-You can specify the port.
-
-```
-const studio = new Studio('project-id', 'storage-bucket', componentDirectory, 8080 /* port */);
-```
-
-You can specify the number of times to retry before taking a screenshot
-
-```
-const studio = new Studio('project-id', 'storage-bucket', componentDirectory, {tryCount: 10});
+const routineDesignDirectory = new RoutineDesignDirectory('project-id', 'storage-bucket-name', componentDirectory);
+const screenshotCollection = routineDesignDirectory.createScreenshotCollection();
+const studio = screenshotCollection.getStudio();
 ```
 
 ## getComponentImages()

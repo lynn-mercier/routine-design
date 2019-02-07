@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander');
-const DirectoryCapturer = require('../src/directory-capturer');
-const DirectoryPixelValidator = require('../src/directory-pixel-validator');
+const RoutineDesignDirectory = require('../src/routine-design-directory');
 const RoutineDesignTree = require('../src/routine-design-tree');
 
 program
@@ -16,7 +15,8 @@ program
         componentDirectoryId = program.componentDirectory;
       }
       const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get(componentDirectoryId);
-      await new DirectoryCapturer().run(projectId, storageBucketName, componentDirectory, program.port);
+      const routineDesignDirectory = new RoutineDesignDirectory(projectId, storageBucketName, componentDirectory);
+      await (routineDesignDirectory.createScreenshotCollection(program.port)).capture();
     } catch (err) {
       console.log(err.message);
     }
@@ -34,7 +34,8 @@ program
         componentDirectoryId = program.componentDirectoryId;
       }
       const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get(componentDirectoryId);
-      const result = await new DirectoryPixelValidator().run(projectId, storageBucketName, componentDirectory, program.port);
+      const routineDesignDirectory = new RoutineDesignDirectory(projectId, storageBucketName, componentDirectory);
+      const result = await (routineDesignDirectory.createScreenshotCollection(program.port)).pixelValidate();
       console.log(JSON.stringify(result));
     } catch (err) {
       console.log(err.message);
@@ -42,4 +43,3 @@ program
   });
 
 program.parse(process.argv);
-

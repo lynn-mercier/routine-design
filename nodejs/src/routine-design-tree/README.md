@@ -7,7 +7,7 @@ Provides tools for operating on a directory with `React.Component`.
 Turns the directory a Webpack server. Say `./render` was the directory with the components, then JavaScript will turn it into a Webpack server.
 ```
 import {RoutineDesignTree} from 'routine-design';
-const routineDesignTree = new RoutineDesignTree('./render')
+const routineDesignTree = new RoutineDesignTree('./render');
 routineDesignTree.run();
 ```
 
