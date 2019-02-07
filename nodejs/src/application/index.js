@@ -3,8 +3,7 @@ const JavaScriptSetup = require('./javascript-setup');
 const fs = require('fs');
 
 class Application {
-  constructor(cssFilename = "bundle.css", javaScriptFilename = "bundle.js", 
-    MyCssSetup = CssSetup, MyJavaScriptSetup = JavaScriptSetup) {
+  constructor(cssFilename, javaScriptFilename, MyCssSetup = CssSetup, MyJavaScriptSetup = JavaScriptSetup) {
     this.cssSetup_ = new MyCssSetup(cssFilename);
     this.javaScriptSetup_ = new MyJavaScriptSetup(javaScriptFilename);
   }
