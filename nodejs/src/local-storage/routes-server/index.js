@@ -7,7 +7,7 @@ const EntryPoint = require('./entry-point');
 class RoutesServer {
   constructor(name, MyLocalDirectory = LocalDirectory, MyApplication = Application) {
     this.localDirectory_ = new MyLocalDirectory(name);
-    this.application_ = new MyApplication();
+    this.application_ = new MyApplication('bundle.css', 'bundle.js');
     this.javaScriptPath_ = './'+this.getWebpackDir()+'/index.js';
   }
 

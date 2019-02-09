@@ -8,7 +8,7 @@ class LocalStorage {
   }
 
   createRoutesServer(name = 'routes-server') {
-    if (this.RoutesServer_) {
+    if (!this.RoutesServer_) {
       this.RoutesServer_ = require('./routes-server');
     }
     return new this.RoutesServer_(name);

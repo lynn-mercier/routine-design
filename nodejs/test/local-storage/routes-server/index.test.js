@@ -13,6 +13,10 @@ describe('local-storage/RoutesServer', function() {
   it('creates local directory', function() {
     expect(td.explain(LocalDirectory).calls[0].args[0]).to.equal('foo');
   });
+  it('creates application', function() {
+    expect(td.explain(Application).calls[0].args[0]).to.equal('bundle.css');
+    expect(td.explain(Application).calls[0].args[1]).to.equal('bundle.js');
+  });
   describe('#getWebpackDir', function() {
     const webpackDir = webpackSetup.getWebpackDir();
     it('returns local directory', function() {
