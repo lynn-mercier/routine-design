@@ -30,6 +30,7 @@
     "babel-loader": "^8.0.4",
     "commander": "^2.19.0",
     "css-loader": "^2.1.0",
+    "docker-cli-js": "^2.5.1",
     "file-loader": "^3.0.1",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.10.0",
@@ -45,7 +46,7 @@
     "username": "^4.0.0",
     "webpack": "^4.24.0",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.1.11"
   },
   "devDependencies": {
     "chai": "^4.2.0",
