@@ -16,7 +16,7 @@ program
       await routesServer.write(routesPath);
       await routesServer.startServer(program.port);
     } catch (err) {
-      console.log(err.message);
+      console.error(err);
     }
   });
 

@@ -11,7 +11,7 @@ program
     try {
       await new Application(options.cssFilename, options.javascriptFilename).writeHtml(htmlPath, element);
     } catch (err) {
-      console.log(err.message);
+      console.error(err);
     }
   });
 
@@ -22,7 +22,7 @@ program
       const routineDesignTree = new RoutineDesignTree(directory);
       await routineDesignTree.getComponentTree().writeRoutes(routesPath);
     } catch (err) {
-      console.log(err.message);
+      console.error(err);
     }
   });
 

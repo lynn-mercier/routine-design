@@ -12,7 +12,7 @@ program
       const routineDesignTree = new RoutineDesignTree(renderDirectory);
       await routineDesignTree.render(program.port);
     } catch (err) {
-      console.log(err.message);
+      console.error(err);
     }
   });
 
