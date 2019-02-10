@@ -3,11 +3,13 @@
 Opens a browser for a directory, then opens a tab per component file in the directory.
 
 ```
-const {RoutineDesignTree, RoutineDesignDirectory} = require('routine-design');
-const routineDesignTree = new RoutineDesignTree('./dir');
+const RoutineDesign = require('routine-design');
+const routineDesign = new RoutineDesign();
+const routineDesignTree = routineDesign.createRoutineDesignTree('./dir');
 const componentTree = routineDesignTree.getComponentTree();
-const componentDirectory = componentTree.getDirectories().get('dir/foo');
-const routineDesignDirectory = new RoutineDesignDirectory('project-id', 'storage-bucket-name', componentDirectory);
+const componentDirectory = componentTree.getDirectories().get('foo');
+const gcpImageBucket = routineDesign.createGcpImageBucket('project-id', 'storage-bucket-name');
+const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
 const screenshotCollection = routineDesignDirectory.createScreenshotCollection();
 const studio = screenshotCollection.getStudio();
 ```

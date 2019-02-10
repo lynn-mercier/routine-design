@@ -1,11 +1,6 @@
 # Application
 
-Provides tools for creating a Web application.
-```
-import {Application} from 'routine-design';
-```
-
-Say you have a JavaScript file, `index.js` which interacts with the DOM
+Provides tools for creating a Web application. Say you have a JavaScript file, `index.js` which interacts with the DOM
 ```
 document.getElementById('foo').addEventListener('click', () => {
   console.log('foo was clicked');
@@ -14,7 +9,9 @@ document.getElementById('foo').addEventListener('click', () => {
 
 You can turn that JavaScript file into a full application
 ```
-const application = new Application();
+const RoutineDesign = require('routine-design');
+const routineDesign = new RoutineDesign();
+const application = routineDesign.createApplication();
 application.writeHtml('./index.html', htmlBodyInnerHtml);
 const config = application.createConfig('./index.js');
 new WebpackDevServer(compiler).listen(8080, '127.0.0.1', () => {});
@@ -45,7 +42,7 @@ module.exports = {
 
 Pass the CSS filename to the `Application` constructor, then `writeHtml` for HTML file.
 ```
-const application = new Application(cssFilename = './foo/bar.css');
+const application = routineDesign.createApplication(cssFilename = './foo/bar.css');
 application.writeHtml('./index.html', htmlBodyInnerHtml);
 ```
 
@@ -67,7 +64,7 @@ module.exports = {
 
 Pass the JavaScript filename to the `Application` constructor, then `writeHtml` for HTML file.
 ```
-const application = new Application(javaScriptFilename = './foo/bar.js');
+const application = routineDesign.createApplication(javaScriptFilename = './foo/bar.js');
 application.writeHtml('./index.html', htmlBodyInnerHtml);
 ```
 
@@ -90,7 +87,7 @@ If you have an HTML file, which imports a specific CSS file, you can use `create
 
 Pass the CSS filename to the `Application` constructor, then `createConfig` for the Webpack server.
 ```
-const application = new Application(cssFilename = './foo/bar.css');
+const application = routineDesign.createApplication(cssFilename = './foo/bar.css');
 const config = application.createConfig('./index.js');
 new WebpackDevServer(compiler).listen(8080, '127.0.0.1', () => {});
 ```
@@ -109,7 +106,7 @@ If you have an HTML file, which imports a specific JavaScript file, you can use 
 
 Pass the JavaScript filename to the `Application` constructor, then `createConfig` for the Webpack server.
 ```
-const application = new Application(javaScriptFilename = './foo/bar.js');
+const application = routineDesign.createApplication(javaScriptFilename = './foo/bar.js');
 const config = application.createConfig('./index.js');
 new WebpackDevServer(compiler).listen(8080, '127.0.0.1', () => {});
 ```

@@ -25,7 +25,7 @@ Run `routine-design -h` for more commands and help.
 
 ## JavaScript API
 ```
-import {RoutineDesign} from 'routine-design';
+const RoutineDesign = require('routine-design');
 const routineDesign = new RoutineDesign();
 ```
 
@@ -47,10 +47,10 @@ Creates a new [`LocalStorage`](./src/local-storage/README.md), which provides to
 
 ### createWebPage(browser, port, path)
 
-Creates a new WebPage, which interact with a local Web page.
+Creates a new `WebPage`, which interact with a local Web page.
 
 ```
-import puppeteer from 'puppeteer';
+const puppeteer = require('puppeteer');
 const browser = await puppeteer.launch();
 const webPage = routineDesign.createWebPage(browser, 8080, 'path');
 ```

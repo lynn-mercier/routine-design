@@ -9,9 +9,10 @@ Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.
 Creates a new `GcpImage` for managing a PNG image stored on Google Cloud Platform.
 
 ```
-const {GcpImageBucket} = require('routine-design');
-const gcpImageBucket = new GcpImageBucket('project-id', 'storage-bucket-name');
-const gcpImage = gcpImageBucket.createGcpImage(, 'foo.png');
+const RoutineDesign = require('routine-design');
+const routineDesign = new RoutineDesign();
+const gcpImageBucket = routineDesign.createGcpImageBucket('project-id', 'storage-bucket-name');
+const gcpImage = gcpImageBucket.createGcpImage('foo.png');
 ```
 
 ### GcpImage.upload(png)

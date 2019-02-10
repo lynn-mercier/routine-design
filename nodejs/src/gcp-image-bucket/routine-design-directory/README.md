@@ -3,10 +3,11 @@
 Manages screenshot images of `React.Component` on [Google Cloud Platform](https://cloud.google.com/). Say `./render/foo` is a directory with `React.Component`.
 
 ```
-import {RoutineDesignTree, GcpImageBucket} from 'routine-design';
-const routineDesignTree = new RoutineDesignTree('./render');
+const RoutineDesign = require('routine-design');
+const routineDesign = new RoutineDesign();
+const routineDesignTree = routineDesign.createRoutineDesignTree('./render');
 const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get('foo');
-const gcpImageBucket = new GcpImageBucket('project-id', 'storage-bucket-name');
+const gcpImageBucket = routineDesign.createGcpImageBucket('project-id', 'storage-bucket-name');
 const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
 ```
 

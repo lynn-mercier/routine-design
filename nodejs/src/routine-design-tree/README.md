@@ -6,9 +6,10 @@ Provides tools for operating on a directory with `React.Component`.
 
 Turns the directory a Webpack server. Say `./render` was the directory with the components, then JavaScript will turn it into a Webpack server.
 ```
-import {RoutineDesignTree} from 'routine-design';
-const routineDesignTree = new RoutineDesignTree('./render');
-routineDesignTree.run();
+const RoutineDesign = require('routine-design');
+const routineDesign = new RoutineDesign();
+const routineDesignTree = routineDesign.createRoutineDesignTree('./render');
+routineDesignTree.render();
 ```
 
 You can accomplish the same thing from the Command Line Interface. 
@@ -18,8 +19,7 @@ routine-design render ./render
 
 You can specify a different port
 ```
-const routineDesignTree = new RoutineDesignTree('./render')
-routineDesignTree.run(8080 /* port */);
+routineDesignTree.render(8080 /* port */);
 ```
 
 Or from the command line 

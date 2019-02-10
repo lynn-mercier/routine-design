@@ -1,13 +1,15 @@
 # ImageStorage
 
-Connects the `React.Component` in a directory to images stored on [Google Cloud Platform](https://cloud.google.com/)(GCP).  
+Connects the `React.Component` in a directory to images stored on [Google Cloud Platform](https://cloud.google.com/) (GCP).  
 ```
-import {RoutineDesignDirectory, ComponentTree} from 'routine-design';
-const componentTree = new ComponentTree('./dir');
-componentTree.getDirectories().forEach((componentDirectory) => {
-  const routineDesignDirectory = new RoutineDesignDirectory('project-id', 'storage-bucket-name', componentDirectory);
-  const imageStorage = routineDesignDirectory.getImageStorage();
-});
+const RoutineDesign = require('routine-design');
+const routineDesign = new RoutineDesign();
+const routineDesignTree = routineDesign.createRoutineDesignTree('./dir');
+const componentTree = routineDesignTree.getComponentTree();
+const componentDirectory = componentTree.getDirectories().get('foo');
+const gcpImageBucket = routineDesign.createGcpImageBucket('project-id', 'storage-bucket-name');
+const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
+const imageStorage = routineDesignDirectory.getImageStorage();
 ```
 
 Requires your `GOOGLE_APPLICATION_CREDENTIALS` environment variable to be set.

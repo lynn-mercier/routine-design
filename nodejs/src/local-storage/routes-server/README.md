@@ -2,8 +2,9 @@
 
 Manages a Webpack server built for a `routes.js`.
 ```
-import {LocalStorage} from 'routine-design';
-const localStorage = new LocalStorage();
+const RoutineDesign = require('routine-design');
+const routineDesign = new RoutineDesign();
+const localStorage = routineDesign.getLocalStorage();
 const routesServer = localStorage.createRoutesServer();
 ```
 
