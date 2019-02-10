@@ -9,8 +9,8 @@ class RoutineDesignContainer {
 	constructor(containerName, MyDocker = Docker, MyLocalDirectory = LocalDirectory, myFs = fs) {
     this.containerName_ = containerName;
     this.docker_ = new MyDocker();
-    const localDirectory = new MyLocalDirectory(containerName);
-    this.googleCredentialsPath_ = localDirectory.getFilePath('auth.json');
+    this.localDirectory_ = new MyLocalDirectory(containerName);
+    this.googleCredentialsPath_ = this.localDirectory_.getFilePath('auth.json');
     this.myFs_ = myFs;
   }
 
@@ -22,6 +22,7 @@ class RoutineDesignContainer {
       this.docker_.command('create -t '+volumeFlag+' '+nameFlag+' '+sysAdminFlag+' routine-design').then(() => {
         return this.docker_.command('start '+this.containerName_);
       });
+    await this.localDirectory_.create();
     const writeGoogleCredsPromise = new Promise((resolve, reject) => {
       this.myFs_.writeFile(this.googleCredentialsPath_, process.env.ROUTINE_DESIGN_GOOGLE_CREDS, function(err) {
         if (err) {
@@ -38,7 +39,7 @@ class RoutineDesignContainer {
     const userFlagPromise = myUsername().then((usernameResult) => {
       return '-u '+myUserid.uid(usernameResult);
     });
-    const googleEnvironmentFlag = '-e GOOGLE_APPLICATION_CREDENTIALS="'+path.join(process.env.PWD, this.googleCredentialsPath_)+'"';
+    const googleEnvironmentFlag = '-e GOOGLE_APPLICATION_CREDENTIALS="'+path.join('/home/routine-design', this.googleCredentialsPath_)+'"';
     return this.docker_.command('exec '+(await userFlagPromise)+' '+googleEnvironmentFlag+' '+this.containerName_+' bash -c "'+command+'"');
   }
 

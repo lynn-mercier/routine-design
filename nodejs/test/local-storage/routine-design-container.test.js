@@ -24,6 +24,7 @@ describe('local-storage/RoutineDesignContainer', function() {
         expect(dockerCalls.length).to.equal(2);
         expect(dockerCalls[0].args[0]).to.equal('create -t -v /home:/home/routine-design --name=foo --cap-add=SYS_ADMIN routine-design');
         expect(dockerCalls[1].args[0]).to.equal('start foo');
+        expect(td.explain(LocalDirectory.prototype.create).calls.length).to.equal(1);
         expect(td.explain(successfulFs.writeFile).calls[0].args[0]).to.equal('auth.json');
         expect(td.explain(successfulFs.writeFile).calls[0].args[1]).to.equal('routine-design-google-creds');
       });
@@ -35,7 +36,7 @@ describe('local-storage/RoutineDesignContainer', function() {
       td.when(username()).thenResolve('username');
       td.when(userid.uid(td.matchers.anything())).thenReturn(1234);
       return container.run('command', username, userid).then(function() {
-        expect(td.explain(MockDocker.prototype.command).calls[0].args[0]).to.equal('exec -u 1234 -e GOOGLE_APPLICATION_CREDENTIALS="/home/auth.json" foo bash -c "command"');
+        expect(td.explain(MockDocker.prototype.command).calls[0].args[0]).to.equal('exec -u 1234 -e GOOGLE_APPLICATION_CREDENTIALS="/home/routine-design/auth.json" foo bash -c "command"');
         expect(td.explain(userid.uid).calls[0].args[0]).to.equal('username');
       });
     });
