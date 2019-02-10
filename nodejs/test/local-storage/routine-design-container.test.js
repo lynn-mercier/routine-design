@@ -29,6 +29,14 @@ describe('local-storage/RoutineDesignContainer', function() {
         expect(td.explain(successfulFs.writeFile).calls[0].args[1]).to.equal('routine-design-google-creds');
       });
     });
+    it('#buildNodeSass', async function() {
+      const MockDocker = td.constructor(Docker);
+      const container = new RoutineDesignContainer('foo', MockDocker, LocalDirectory, successfulFs);
+      td.when(MockDocker.prototype.command(td.matchers.anything())).thenResolve();
+      return container.buildNodeSass().then(function() {
+        expect(td.explain(MockDocker.prototype.command).calls[0].args[0]).to.equal('exec foo bash -c "npm rebuild node-sass"');
+      });
+    });
     it('#run', async function() {
       const MockDocker = td.constructor(Docker);
       const container = new RoutineDesignContainer('foo', MockDocker, LocalDirectory, successfulFs);

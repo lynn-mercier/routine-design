@@ -18,7 +18,7 @@ class RoutineDesignContainer {
     const volumeFlag = '-v '+process.env.PWD+':/home/routine-design';
     const nameFlag = '--name='+this.containerName_;
     const sysAdminFlag = '--cap-add=SYS_ADMIN';
-    const startContainerPromise = 
+    const startContainerPromise =
       this.docker_.command('create -t '+volumeFlag+' '+nameFlag+' '+sysAdminFlag+' routine-design').then(() => {
         return this.docker_.command('start '+this.containerName_);
       });
@@ -33,6 +33,10 @@ class RoutineDesignContainer {
       });
     });
     return Promise.all([startContainerPromise, writeGoogleCredsPromise]);
+  }
+
+  async buildNodeSass() {
+    return this.docker_.command('exec '+this.containerName_+' bash -c "npm rebuild node-sass"');
   }
 
   async run(command, myUsername = username, myUserid = userid) {

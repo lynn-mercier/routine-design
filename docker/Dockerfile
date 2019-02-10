@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:11
 
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq libgconf-2-4 git
