@@ -3,20 +3,19 @@ const program = require('commander');
 const LocalStorage = require('../src/local-storage');
 
 program
-  .option('--port <port>', 'Specify port')
-  .option('--name <name>', 'Specify name');
-
-program
   .arguments('<routesPath>')
-  .action(async function(routesPath) {
+  .option('--port <port>', 'Specify port')
+  .option('--name <name>', 'Specify name')
+  .action(async function(routesPath, options) {
     try {
       const localStorage = new LocalStorage();
-      const routesServer = localStorage.createRoutesServer(program.name);
+      const routesServer = localStorage.createRoutesServer(options.name);
       await routesServer.emptyDirectory();
       await routesServer.write(routesPath);
-      await routesServer.startServer(program.port);
+      await routesServer.startServer(options.port);
     } catch (err) {
       console.error(err);
+      process.exitCode = 1;
     }
   });
 

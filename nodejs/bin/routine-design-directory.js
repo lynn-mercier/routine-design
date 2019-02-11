@@ -18,10 +18,14 @@ program
       const gcpImageBucket = new GcpImageBucket(projectId, storageBucketName);
       const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
       const screenshotCollection = routineDesignDirectory.createScreenshotCollection(options.port);
-      await screenshotCollection.capture();
-      await screenshotCollection.cleanup();
+      try {
+        await screenshotCollection.capture();
+      } finally {
+        await screenshotCollection.cleanup();
+      }
     } catch (err) {
       console.error(err);
+      process.exitCode = 1;
     }
   });
 
@@ -40,11 +44,15 @@ program
       const gcpImageBucket = new GcpImageBucket(projectId, storageBucketName);
       const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
       const screenshotCollection = routineDesignDirectory.createScreenshotCollection(options.port);
-      const result = await screenshotCollection.pixelValidate();
-      console.log(JSON.stringify(result));
-      await screenshotCollection.cleanup();
+      try {
+        const result = await screenshotCollection.pixelValidate();
+        console.log(JSON.stringify(result));
+      } finally {
+        await screenshotCollection.cleanup();
+      }
     } catch (err) {
       console.error(err);
+      process.exitCode = 1;
     }
   });
 
