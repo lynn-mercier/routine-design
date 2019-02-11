@@ -46,8 +46,12 @@ class RoutesServer {
       }
     });
     return new Promise(function(resolve, reject) {
-      server.listen(port, '127.0.0.1', () => {
-        resolve();
+      server.listen(port, '127.0.0.1', function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
       });
     });
   }
