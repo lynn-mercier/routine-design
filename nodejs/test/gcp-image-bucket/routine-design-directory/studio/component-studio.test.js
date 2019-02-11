@@ -37,7 +37,7 @@ describe('gcp-image-bucket/routine-design-directory/studio/ComponentStudio', fun
         return componentStudio.getNewImage().then((newImage) => {
           expect(td.explain(SameWebPage).calls[0].args[0]).to.equal('browser');
           expect(td.explain(SameWebPage).calls[0].args[1]).to.equal(1234);
-          expect(td.explain(SameWebPage).calls[0].args[2]).to.equal('path');
+          expect(td.explain(SameWebPage).calls[0].args[2]).to.equal('#/path');
           expect(td.explain(SameWebPage.prototype.waitForResolution).calls[0].args[0]).to.equal(3);
           expect(newImage).to.equal(newPng);
         });

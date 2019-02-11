@@ -21,12 +21,12 @@ describe('WebPage', function() {
     it('#resolves', async function() {
       return webPage.resolves().then(function(resolves) {
         expect(resolves).to.equal(true);
-        expect(td.explain(goodPage.goto).calls[0].args[0]).to.equal('http://localhost:8080/#/url');
+        expect(td.explain(goodPage.goto).calls[0].args[0]).to.equal('http://localhost:8080/url');
       });
     });
     it('#waitForResolution(tryCount)', async function() {
       return webPage.waitForResolution(1).then(function() { 
-        expect(td.explain(goodPage.goto).calls[0].args[0]).to.equal('http://localhost:8080/#/url');
+        expect(td.explain(goodPage.goto).calls[0].args[0]).to.equal('http://localhost:8080/url');
       });
     });
     it('#screenshot', async function() {
@@ -40,7 +40,7 @@ describe('WebPage', function() {
     const timeoutBrowser = td.object({
       newPage: () => {}
     });
-    const webPage = new WebPage(timeoutBrowser, 'url');
+    const webPage = new WebPage(timeoutBrowser, 8080, 'url');
     const timeoutPage = td.object({
       goto: () => {}
     });
@@ -54,7 +54,7 @@ describe('WebPage', function() {
     });
     it('#waitForResolution(tryCount)', async function() {
       return webPage.waitForResolution(1).catch(function(error) { 
-        expect(error).to.equal("Doesn't resolve");
+        expect(error.message).to.equal("http://localhost:8080/url doesn't resolve");
       });
     });
   });

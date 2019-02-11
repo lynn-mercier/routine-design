@@ -27,7 +27,7 @@ class ComponentStudio {
       return this.newImage_;
     }
 
-    const webPage = new this.MyWebPage_(this.browser_, this.port_, this.file_.getPath());
+    const webPage = new this.MyWebPage_(this.browser_, this.port_, '#/'+this.file_.getPath());
     await webPage.waitForResolution(this.tryCount_);
     this.newImage_ = await webPage.screenshot();
     return this.newImage_;

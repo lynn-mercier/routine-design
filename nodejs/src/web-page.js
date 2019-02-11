@@ -3,7 +3,7 @@ const LocalStorage = require('./local-storage');
 class WebPage {
   constructor(browser, port, path, MyLocalStorage = LocalStorage) {
     this.browser_ = browser;
-    this.url_ = 'http://localhost:'+port+'/#/'+path;
+    this.url_ = 'http://localhost:'+port+'/'+path;
     this.localStorage_ = new MyLocalStorage();
   }
 
@@ -46,7 +46,7 @@ class WebPage {
 
     if (!resolves) {
       if (tryCount === 0) {
-        return Promise.reject("Doesn't resolve");
+        return Promise.reject(new Error(this.url_+" doesn't resolve"));
       }
       await new Promise(res => setTimeout(res, 1000));
       await this.waitForResolution(tryCount - 1);
