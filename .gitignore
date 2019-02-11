@@ -1,4 +1,3 @@
-node_modules
-tmp
-coverage
-.nyc_output
+nodejs/node_modules
+nodejs/coverage
+nodejs/.nyc_output

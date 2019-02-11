@@ -1,0 +1,58 @@
+{
+  "name": "routine-design",
+  "version": "0.5.0",
+  "description": "Align code and design",
+  "main": "index.js",
+  "bin": {
+    "routine-design": "bin/routine-design.js"
+  },
+  "scripts": {
+    "test": "nyc --reporter=html --reporter=text mocha \"test/**/*.test.js\"",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "keywords": [
+    "routine",
+    "design",
+    "react",
+    "sass"
+  ],
+  "author": "Lynn Mercier",
+  "license": "MIT",
+  "homepage": "https://github.com/lynn-mercier/routine-design",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:lynn-mercier/routine-design.git"
+  },
+  "dependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-react-jsx": "^7.0.0",
+    "@google-cloud/storage": "^2.3.1",
+    "babel-loader": "^8.0.4",
+    "commander": "^2.19.0",
+    "css-loader": "^2.1.0",
+    "docker-cli-js": "^2.5.1",
+    "file-loader": "^3.0.1",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.10.0",
+    "pixelmatch": "^4.0.2",
+    "pngjs": "^3.3.3",
+    "puppeteer": "^1.11.0",
+    "randomstring": "^1.1.5",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "sass-loader": "^7.1.0",
+    "userid": "^0.3.1",
+    "username": "^4.0.0",
+    "webpack": "^4.24.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.11"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "testdouble": "^3.8.2"
+  }
+}

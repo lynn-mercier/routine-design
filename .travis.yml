@@ -1,4 +1,21 @@
 language: node_js
-node_js:
-  - "node"
-after_success: npm run coverage
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+matrix:
+  include:
+    - node_js: "11.4.0"
+      install:
+        - cd nodejs
+        - npm install
+      script:
+        - npm test
+      after_success:
+        - npm run coverage
+    - node_js: "node"
+      services:
+        - docker
+      script:
+        - cd docker
+        - docker build -t routine-design .
