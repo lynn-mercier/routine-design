@@ -38,7 +38,12 @@ routine-design directory capture project-id storage-bucket-name ./render --compo
 
 You can specify a different port
 ```
-routine-design directory capture project-id storage-bucket-name ./render --component-directory=foo --port 8080
+routine-design directory capture project-id storage-bucket-name ./render --component-directory=foo --port=8080
+```
+
+You can specify how many times to try capturing a screenshot
+```
+routine-design directory capture project-id storage-bucket-name ./render --component-directory=foo --try-count=20
 ```
 
 ### ScreenshotCollection.pixelValidate()
@@ -52,7 +57,12 @@ routine-design directory pixel-validate project-id storage-bucket-name ./render 
 
 You can specify a different port
 ```
-routine-design directory pixel-validate project-id storage-bucket-name ./render --component-directory=foo --port 8080
+routine-design directory pixel-validate project-id storage-bucket-name ./render --component-directory=foo --port=8080
+```
+
+You can specify how many times to try capturing a screenshot
+```
+routine-design directory pixel-validate project-id storage-bucket-name ./render --component-directory=foo --try-count=20
 ```
 
 ### ScreenshotCollection.getStudio()
