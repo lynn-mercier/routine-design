@@ -29,7 +29,7 @@ describe('local-storage/RoutineDesignContainer', function() {
           return container.start().then(function() {
             const dockerCalls = td.explain(MockDocker.prototype.command).calls;
             expect(dockerCalls.length).to.equal(2);
-            expect(dockerCalls[0].args[0]).to.equal('create -t -v /home:/home/routine-design --name=foo --cap-add=SYS_ADMIN routine-design');
+            expect(dockerCalls[0].args[0]).to.equal('create -t -v /home:/home/routine-design --name=foo --cap-add=SYS_ADMIN lynnmercier/routine-design');
             expect(dockerCalls[1].args[0]).to.equal('start foo');
             expect(td.explain(MyLocalDirectory.prototype.create).calls.length).to.equal(1);
             expect(td.explain(successfulFs.writeFile).calls[0].args[0]).to.equal('auth.json');

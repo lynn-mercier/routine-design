@@ -1,3 +1,9 @@
+# 0.5.2
+
+## Fixes
+
+* Updated `RoutineDesignContainer` to pull from correct Docker repository
+
 # 0.5.1
 
 ## Fixes
