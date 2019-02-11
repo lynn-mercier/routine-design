@@ -22,7 +22,7 @@ class RoutineDesignContainer {
     const nameFlag = '--name='+this.containerName_;
     const sysAdminFlag = '--cap-add=SYS_ADMIN';
     const createContainerPromise = new Promise((resolve, reject) => {
-      this.docker_.command('create -t '+volumeFlag+' '+nameFlag+' '+sysAdminFlag+' routine-design', function(err) {
+      this.docker_.command('create -t '+volumeFlag+' '+nameFlag+' '+sysAdminFlag+' lynnmercier/routine-design', function(err) {
         if (err) {
           const stderrBegin = err.substring(err.indexOf('stderr = \'')+'stderr = \''.length);
           const stderr = stderrBegin.substring(0, stderrBegin.indexOf('\n'));
