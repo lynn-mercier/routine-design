@@ -80,7 +80,7 @@ class RoutineDesignContainer {
     });
   }
 
-  async run(command, myUsername = username, myUserid = userid) {
+  async run(command, detached = false, myUsername = username, myUserid = userid) {
     const userFlagPromise = myUsername().then((usernameResult) => {
       return '-u '+myUserid.uid(usernameResult);
     });
@@ -88,14 +88,21 @@ class RoutineDesignContainer {
     if (this.googleCredentials_.isSet()) {
       googleEnvironmentFlag = '-e GOOGLE_APPLICATION_CREDENTIALS="'+path.join('/home/routine-design', this.googleCredentialsPath_)+'"';
     }
-
+    let detachedFlag;
+    if (detached) {
+      detachedFlag = '--detach';
+    }
     const dockerCommandPromise = userFlagPromise.then((userFlag) => {
-      if (!googleEnvironmentFlag) {
-        return 'exec '+userFlag+' '+this.containerName_+' bash -c "'+command+'"';
+      const flags = [userFlag];
+      if (googleEnvironmentFlag) {
+        flags.push(googleEnvironmentFlag);
       }
-      return 'exec '+userFlag+' '+googleEnvironmentFlag+' '+this.containerName_+' bash -c "'+command+'"';
+      if (detachedFlag) {
+        flags.push(detachedFlag);
+      }
+      const flagsStr = flags.join(' ');
+      return 'exec '+flagsStr+' '+this.containerName_+' bash -c "'+command+'"';
     });
-
     return dockerCommandPromise.then((dockerCommand) => {
       return new Promise((resolve, reject) => {
         this.docker_.command(dockerCommand, function(err, data) {
