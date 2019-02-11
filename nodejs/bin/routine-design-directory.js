@@ -40,7 +40,7 @@ program
       const routineDesignTree = new RoutineDesignTree(renderDirectory);
       let componentDirectoryId = '';
       if (options.componentDirectory) {
-        componentDirectoryId = options.componentDirectoryId;
+        componentDirectoryId = options.componentDirectory;
       }
       const componentDirectory = routineDesignTree.getComponentTree().getDirectories().get(componentDirectoryId);
       const gcpImageBucket = new GcpImageBucket(projectId, storageBucketName);
