@@ -40,6 +40,10 @@ Google Cloud authentication is temporarily written to `./routine-design-output/r
 
 Starts a new Docker container from the routine design Docker image. 
 
+### RoutineDesignContainer.buildNodeSass()
+
+Builds `node-sass` for Linux.
+
 ### RoutineDesignContainer.run(command)
 
 Runs a command in the Docker container.
