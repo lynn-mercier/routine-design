@@ -145,16 +145,7 @@ class RoutineDesignContainer {
         });
       });
     });
-    const deleteGoogleCredsPromise = new Promise((resolve, reject) => {
-      this.myFs_.unlink(this.googleCredentialsPath_, function(err) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
-    return Promise.all([removeContainerPromise, deleteGoogleCredsPromise]);
+    return Promise.all([removeContainerPromise, this.localDirectory_.empty()]);
   }
 }
 

@@ -146,7 +146,7 @@ describe('local-storage/RoutineDesignContainer', function() {
             expect(dockerCalls.length).to.equal(2);
             expect(dockerCalls[0].args[0]).to.equal('stop foo');
             expect(dockerCalls[1].args[0]).to.equal('rm foo');
-            expect(td.explain(successfulFs.unlink).calls[0].args[0]).to.equal('auth.json');
+            expect(td.explain(MyLocalDirectory.prototype.empty).calls.length).to.equal(1);
           });
         });
         it('unsuccessfully stop docker', async function() {
@@ -195,18 +195,6 @@ describe('local-storage/RoutineDesignContainer', function() {
         let caughtError = false;
         try {
           await container.start();
-        } catch (err) {
-          caughtError = true;
-        }
-        expect(caughtError).to.equal(true);
-      });
-      it('#cleanup', async function() {
-        const MockDocker = td.constructor(Docker);
-        const container = new RoutineDesignContainer('foo', MockDocker, MyLocalDirectory, unsuccessfulFs, MyGoogleCredentials);
-        td.when(MockDocker.prototype.command(td.matchers.anything())).thenCallback();
-        let caughtError = false;
-        try {
-          await container.cleanup();
         } catch (err) {
           caughtError = true;
         }
