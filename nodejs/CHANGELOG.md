@@ -1,3 +1,24 @@
+# 0.5.0
+
+## Breaking Changes
+
+* Use exported `RoutineDesign` instead of any previously exported JavaScript class.
+* Return [`PNG`](https://www.npmjs.com/package/pngjs) object, instead of `LocalImage`
+* Changed CLI for capturing a directory
+
+## Features
+
+* RoutineDesignContainer: JavaScript API for manipulating a Routine Design [Docker](https://www.docker.com/) container
+* ComponentStudio.diff: Compares the new image to the old image
+* RoutineDesignDirectory.pixelValidate: Checks that all screenshot images are identical to the screenshots saved on [Google Cloud Platform](https://cloud.google.com/).
+* New CLI command: `routine-design directory pixel-validate project-id storage-bucket-name ./render`
+
+## Fixes
+
+* CLI exits with exitCode=1 if an error is thrown
+* `WebPage.waitForResolution` throws an error if it does not resolve
+* `RoutesServer.start` throws an error if `WebpackDevServer.listen` throws an error
+
 # 0.4.1
 
 ## Fixes
