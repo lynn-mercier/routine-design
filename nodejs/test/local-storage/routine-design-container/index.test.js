@@ -102,7 +102,7 @@ describe('local-storage/RoutineDesignContainer', function() {
         it('successful docker', async function() {
           const MockDocker = td.constructor(Docker);
           const container = new RoutineDesignContainer('foo', MockDocker, MyLocalDirectory, successfulFs, MyGoogleCredentials);
-          td.when(MockDocker.prototype.command(td.matchers.anything())).thenCallback(null, 'data');
+          td.when(MockDocker.prototype.command(td.matchers.anything())).thenCallback(null, {raw:'data'});
           return container.run('command', false, username, userid).then(function(data) {
             expect(data).to.equal('data');
             expect(td.explain(MockDocker.prototype.command).calls[0].args[0]).to.equal('exec -u 1234 -e GOOGLE_APPLICATION_CREDENTIALS="/home/routine-design/auth.json" foo bash -c "command"');
@@ -112,7 +112,7 @@ describe('local-storage/RoutineDesignContainer', function() {
         it('successful detached docker', async function() {
           const MockDocker = td.constructor(Docker);
           const container = new RoutineDesignContainer('foo', MockDocker, MyLocalDirectory, successfulFs, MyGoogleCredentials);
-          td.when(MockDocker.prototype.command(td.matchers.anything())).thenCallback(null, 'data');
+          td.when(MockDocker.prototype.command(td.matchers.anything())).thenCallback(null, {raw:'data'});
           return container.run('command', true, username, userid).then(function(data) {
             expect(td.explain(MockDocker.prototype.command).calls[0].args[0]).to.equal('exec -u 1234 -e GOOGLE_APPLICATION_CREDENTIALS="/home/routine-design/auth.json" --detach foo bash -c "command"');
           });

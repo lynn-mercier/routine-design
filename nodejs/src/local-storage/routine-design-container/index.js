@@ -112,8 +112,10 @@ class RoutineDesignContainer {
             console.error(stderr);
             const errorMessage = stderr.substring(stderr.indexOf(':')+2, stderr.indexOf('\n'));
             reject(new Error(errorMessage));
+          } else if (data) {
+            resolve(data.raw);
           } else {
-            resolve(data);
+            resolve();
           }
         });
       });
