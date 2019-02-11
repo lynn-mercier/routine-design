@@ -32,23 +32,6 @@ Delete the local PNG image.
 
 ## createRoutineDesignContainer(containerName = 'routine-design')
 
-Creates a new `RoutineDesignContainer`. By default, the [Docker](https://www.docker.com/) container name is `routine-design`. Requires your `ROUTINE_DESIGN_GOOGLE_CREDS` environment variable to be set to valid [Google Cloud](https://cloud.google.com/) JSON credentials.
+Creates a new [`RoutineDesignContainer`](./routine-design-container/README.md). By default, the [Docker](https://www.docker.com/) container name is `routine-design`.
 
 Google Cloud authentication is temporarily written to `./routine-design-output/routine-design`. Both the Docker container and directory name match the `containerName` argument.
-
-### RoutineDesignContainer.start()
-
-Starts a new Docker container from the routine design Docker image. 
-
-### RoutineDesignContainer.buildNodeSass()
-
-Builds `node-sass` for Linux.
-
-### RoutineDesignContainer.run(command)
-
-Runs a command in the Docker container.
-
-### RoutineDesignContainer.cleanup()
-
-Stops and removes the Docker container. 
-
