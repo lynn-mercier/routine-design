@@ -1,3 +1,9 @@
+# 0.5.1
+
+## Fixes
+
+* CLI option `--component-directory` actually works
+
 # 0.5.0
 
 ## Breaking Changes
