@@ -18,6 +18,7 @@ class GcpImage {
 
   async download() {
     const localImage = this.localStorage_.createLocalImage();
+    await localImage.prepareForWriting();
     try {
       await this.storageBucket_.file(this.gcpPath_).download({destination: localImage.getPath()});
     } catch (error) {

@@ -1,3 +1,9 @@
+# 0.5.3
+
+## Fixes
+
+* Updated `GcpImage.download` so it works when there is no directory
+
 # 0.5.2
 
 ## Fixes
