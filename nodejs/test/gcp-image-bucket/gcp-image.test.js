@@ -46,6 +46,7 @@ describe('gcp-image-bucket/GcpImage', function() {
     td.when(DownloadLocalImage.prototype.getPath()).thenReturn('local.png');
     td.when(DownloadLocalImage.prototype.getPng()).thenReturn('png');
     const png = await gcpImage.download();
+    expect(td.explain(DownloadLocalImage.prototype.prepareForWriting).calls.length).to.equal(1);
     expect(td.explain(storageBucket.file).calls[0].args[0]).to.equal('foo.png');
     expect(td.explain(gcpFile.download).calls[0].args[0]).to.deep.equal({destination: 'local.png'});
     expect(td.explain(DownloadLocalImage.prototype.delete).calls.length).to.equal(1);
