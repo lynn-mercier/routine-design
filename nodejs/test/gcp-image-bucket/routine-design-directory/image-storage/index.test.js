@@ -3,7 +3,7 @@ const td = require('testdouble');
 const ImageStorage = require('../../../../src/gcp-image-bucket/routine-design-directory/image-storage');
 const fs = require('fs');
 const randomstring = td.object(require('randomstring'));
-const ComponentDirectory = td.constructor(require('../../../../src/routine-design-tree/component-tree/component-directory'));
+const ComponentDirectory = require('../../../../src/routine-design-tree/component-tree/component-directory');
 const ComponentFile = td.constructor(require('../../../../src/routine-design-tree/component-tree/component-file'));
 const ComponentImage = td.constructor(require('../../../../src/gcp-image-bucket/routine-design-directory/image-storage/component-image'));
 const GcpImage = td.constructor(require('../../../../src/gcp-image-bucket/gcp-image'));
@@ -11,7 +11,8 @@ const GcpImage = td.constructor(require('../../../../src/gcp-image-bucket/gcp-im
 describe('gcp-image-bucket/routine-design-directory/ImageStorage', function() {
   td.when(randomstring.generate()).thenReturn('random');
   describe('#getDebugId', function() {
-    const componentDirectory = new ComponentDirectory();
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
+    const componentDirectory = new MyComponentDirectory();
     const myFs = td.object(fs);
     const imageStorage = 
       new ImageStorage('project-id', 'storage-bucket', componentDirectory, myFs, ComponentImage, randomstring);
@@ -23,24 +24,27 @@ describe('gcp-image-bucket/routine-design-directory/ImageStorage', function() {
     const fsExists = td.object(fs);
     td.when(fsExists.existsSync(td.matchers.anything())).thenReturn(true);
     td.when(fsExists.readFile(td.matchers.anything())).thenCallback(null, '{"index.js":{"id":"random"}}');
-    td.when(ComponentImage.prototype.getId()).thenReturn('random');
+    const MyComponentImage = td.constructor(ComponentImage);
+    td.when(MyComponentImage.prototype.getId()).thenReturn('random');
     const gcpImage = new GcpImage();
-    td.when(ComponentImage.prototype.createGcpImage()).thenReturn(gcpImage);
+    td.when(MyComponentImage.prototype.createGcpImage()).thenReturn(gcpImage);
     td.when(gcpImage.getUrl()).thenReturn('https://gcp.com');
-    const componentDirectory = new ComponentDirectory();
-    td.when(componentDirectory.getDirectory()).thenReturn("./tmp");
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
+    const componentDirectory = new MyComponentDirectory();
+    td.when(MyComponentDirectory.prototype.getDirectory()).thenReturn("./tmp");
+    td.when(MyComponentDirectory.prototype.getPath()).thenReturn("/");
     const imageStorage = 
-      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsExists, ComponentImage, randomstring);
+      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsExists, MyComponentImage, randomstring);
     const componentFile = new ComponentFile();
-    td.when(componentDirectory.getFiles()).thenReturn([componentFile]);
+    td.when(MyComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
     td.when(componentFile.getBasename()).thenReturn('index.js');
     it('#getImages', async function() {
       return imageStorage.getImages().then(function(componentImages) {
-        expect(td.explain(ComponentImage).calls[0].args[0]).to.equal("project-id");
-        expect(td.explain(ComponentImage).calls[0].args[1]).to.equal("storage-bucket");
-        expect(td.explain(ComponentImage).calls[0].args[2]).to.equal("./tmp/random");
-        expect(td.explain(ComponentImage).calls[0].args[3]).to.equal(componentDirectory.getFiles()[0]);
-        expect(td.explain(ComponentImage).calls[0].args[4]).to.equal("random");
+        expect(td.explain(MyComponentImage).calls[0].args[0]).to.equal("project-id");
+        expect(td.explain(MyComponentImage).calls[0].args[1]).to.equal("storage-bucket");
+        expect(td.explain(MyComponentImage).calls[0].args[2]).to.equal("/random");
+        expect(td.explain(MyComponentImage).calls[0].args[3]).to.equal(componentDirectory.getFiles()[0]);
+        expect(td.explain(MyComponentImage).calls[0].args[4]).to.equal("random");
         expect(td.explain(fsExists.readFile).calls[0].args[0]).to.equal('./tmp/image.json');
         expect(componentImages.length).to.equal(1);
       });
@@ -58,13 +62,39 @@ describe('gcp-image-bucket/routine-design-directory/ImageStorage', function() {
       });
     });
   });
+  describe('subdirectory of root directory', function() {
+    const fsExists = td.object(fs);
+    td.when(fsExists.existsSync(td.matchers.anything())).thenReturn(true);
+    td.when(fsExists.readFile(td.matchers.anything())).thenCallback(null, '{"index.js":{"id":"random"}}');
+    const MyComponentImage = td.constructor(ComponentImage);
+    td.when(MyComponentImage.prototype.getId()).thenReturn('random');
+    const gcpImage = new GcpImage();
+    td.when(MyComponentImage.prototype.createGcpImage()).thenReturn(gcpImage);
+    td.when(gcpImage.getUrl()).thenReturn('https://gcp.com');
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
+    const componentDirectory = new MyComponentDirectory();
+    td.when(MyComponentDirectory.prototype.getDirectory()).thenReturn("./tmp");
+    td.when(MyComponentDirectory.prototype.getPath()).thenReturn("/foo");
+    const imageStorage = 
+      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsExists, MyComponentImage, randomstring);
+    const componentFile = new ComponentFile();
+    td.when(MyComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
+    td.when(componentFile.getBasename()).thenReturn('index.js');
+    it('#getImages', async function() {
+      return imageStorage.getImages().then(function(componentImages) {
+        expect(td.explain(MyComponentImage).calls[0].args[2]).to.equal("/foo/random");
+      });
+    });
+  });
   describe('cannot read/write json file', function() {
     const fsDoesNotExist = td.object(fs);
     td.when(fsDoesNotExist.existsSync(td.matchers.anything())).thenReturn(true);
     td.when(fsDoesNotExist.readFile(td.matchers.anything())).thenCallback('error');
-    const componentDirectory = new ComponentDirectory();
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
+    const componentDirectory = new MyComponentDirectory();
+    const MyComponentImage = td.constructor(ComponentImage);
     const imageStorage = 
-      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsDoesNotExist, ComponentImage, randomstring);
+      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsDoesNotExist, MyComponentImage, randomstring);
     it('#getImages', async function() {
       td.when(fsDoesNotExist.readFile(td.matchers.anything())).thenCallback('error');
 

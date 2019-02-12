@@ -1,4 +1,5 @@
 const glob = require('glob');
+const path = require('path');
 const ComponentFile = require('./component-file');
 
 class ComponentDirectory {
@@ -24,6 +25,10 @@ class ComponentDirectory {
 
   getDirectory() {
     return this.directory_;
+  }
+
+  getPath() {
+    return path.relative(this.rootDirectory_, this.directory_);
   }
 }
 

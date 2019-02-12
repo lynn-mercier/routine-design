@@ -26,7 +26,8 @@ class ComponentTree {
 
     this.directories_ = new Map();
     dirnames.forEach((dirname) => {
-      this.directories_.set(path.relative(this.directory_, dirname), new this.MyComponentDirectory_(this.directory_, dirname));
+      const componentDirectory = new this.MyComponentDirectory_(this.directory_, dirname);
+      this.directories_.set(componentDirectory.getPath(), componentDirectory);
     })
     return this.directories_;
   }

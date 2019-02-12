@@ -4,17 +4,19 @@ const fs = require('fs');
 const ComponentTree = require('../../../src/routine-design-tree/component-tree');
 const glob = require('glob');
 const mockFs = td.object(fs);
-const ComponentDirectory = td.constructor(require('../../../src/routine-design-tree/component-tree/component-directory'));
+const ComponentDirectory = require('../../../src/routine-design-tree/component-tree/component-directory');
 const ComponentFile = td.constructor(require('../../../src/routine-design-tree/component-tree/component-file'));
 const ComponentRoute = td.constructor(require('../../../src/routine-design-tree/component-tree/component-route'));
 
 describe('routine-design-tree/ComponentTree', function() {
   const componentFile = new ComponentFile();
-  td.when(ComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
   td.when(ComponentRoute.prototype.getRoute()).thenReturn("<Route/>");
   describe('one file per directory', function() {
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
+    td.when(MyComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
+    td.when(MyComponentDirectory.prototype.getPath()).thenReturn("");
     const singleGlob = td.func(glob);
-    const componentTree = new ComponentTree('./tmp', singleGlob, ComponentDirectory);
+    const componentTree = new ComponentTree('./tmp', singleGlob, MyComponentDirectory);
     td.when(singleGlob.sync(td.matchers.anything())).thenReturn(['./tmp/index.js']);
     describe('#getDirectories', function() {
       const componentDirectories = componentTree.getDirectories();
@@ -22,10 +24,10 @@ describe('routine-design-tree/ComponentTree', function() {
         expect(td.explain(singleGlob.sync).calls[0].args[0]).to.equal("./tmp/**/*.js");
       });
       it('has ./tmp root directory', function() {
-        expect(td.explain(ComponentDirectory).calls[0].args[0]).to.equal('./tmp');
+        expect(td.explain(MyComponentDirectory).calls[0].args[0]).to.equal('./tmp');
       });
       it('has ./tmp component directory', function() {
-        expect(td.explain(ComponentDirectory).calls[0].args[1]).to.equal('./tmp');
+        expect(td.explain(MyComponentDirectory).calls[0].args[1]).to.equal('./tmp');
       });
       it('one component directory', function() {
         expect(componentDirectories.size).to.equal(1);
@@ -57,8 +59,9 @@ describe('routine-design-tree/ComponentTree', function() {
     });
   });
   describe('more than one file per directory', function() {
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
     const multiGlob = td.func(glob);
-    const componentTree = new ComponentTree('./tmp', multiGlob, ComponentDirectory);
+    const componentTree = new ComponentTree('./tmp', multiGlob, MyComponentDirectory);
     td.when(multiGlob.sync(td.matchers.anything())).thenReturn(['./tmp/index.js', './tmp/foo.js']);
     describe('#getDirectories', function() {
       const componentDirectories = componentTree.getDirectories();
@@ -68,6 +71,8 @@ describe('routine-design-tree/ComponentTree', function() {
     });
   });
   describe('sub-directory', function() {
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
+    td.when(MyComponentDirectory.prototype.getPath()).thenReturn("foo");
     const multiGlob = td.func(glob);
     const componentTree = new ComponentTree('./tmp', multiGlob, ComponentDirectory);
     td.when(multiGlob.sync(td.matchers.anything())).thenReturn(['./tmp/foo/index.js']);

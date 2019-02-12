@@ -11,7 +11,6 @@ class ImageStorage {
     this.myFs_ = myFs;
     this.MyComponentImage_ = MyComponentImage;
     this.debugId_ = myRandomstring.generate();
-    this.gcpDebugPath_ = componentDirectory.getDirectory() + "/" + this.debugId_;
   }
 
   async getImages() {
@@ -35,12 +34,19 @@ class ImageStorage {
     }
 
     this.images_ = [];
+
+    let componentDirectoryPath = this.componentDirectory_.getPath();
+    if (componentDirectoryPath === '/') {
+      componentDirectoryPath = '';
+    }
+    const gcpDebugPath = componentDirectoryPath + '/' + this.debugId_;
+
     this.componentDirectory_.getFiles().forEach((componentFile) => {
       let imageId = null;
       if (imageJson[componentFile.getBasename()]) {
         imageId = imageJson[componentFile.getBasename()].id
       }
-      const componentImage = new this.MyComponentImage_(this.projectId_, this.storageBucketName_, this.gcpDebugPath_, componentFile, imageId);
+      const componentImage = new this.MyComponentImage_(this.projectId_, this.storageBucketName_, gcpDebugPath, componentFile, imageId);
       this.images_.push(componentImage);
     });
     return this.images_;
