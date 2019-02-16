@@ -1,3 +1,9 @@
+# 0.5.4
+
+## Fixes
+
+* Updated `ComponentImage.createGcpDebugImage` so it actually uploads to GCP
+
 # 0.5.3
 
 ## Fixes

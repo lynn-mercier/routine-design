@@ -24,6 +24,10 @@ Returns a list of `ComponentFile`, one for each JavaScript file found in the dir
 
 Returns the path to the directory.
 
+### ComponentDirectory.getPath()
+
+Returns the path from the root directory to the `directory`.
+
 ### ComponentFile.getPath()
 
 Returns the path from the `directory` to the JavaScript file.
