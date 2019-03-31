@@ -20,6 +20,11 @@ describe('gcp-image-bucket/routine-design-directory/Studio', function() {
     const notOnDockerPuppeteer = td.object(puppeteer);
     td.when(notOnDockerPuppeteer.launch(td.matchers.anything())).thenResolve(mockBrowser);
     const studio = new Studio('project-id', 'storage-bucket', componentDirectory, 1234, 3, ImageStorage, notOnDockerPuppeteer);
+    it('#init', async function() {
+      return studio.init().then(function() {
+        expect(td.explain(notOnDockerPuppeteer.launch).calls[0].args[0]).to.deep.equal({});
+      });
+    });
     it('returns debug id', function() {
       expect(studio.getDebugId()).to.equal('image-storage-debug-id');
     });
@@ -38,16 +43,11 @@ describe('gcp-image-bucket/routine-design-directory/Studio', function() {
         expect(componentImages[0]).to.equal(componentImage);
       });
     });
-    it('#getBrowser', async function() {
-      return studio.getBrowser().then(function(actualBrowser) {
-        expect(actualBrowser).to.equal(mockBrowser);
-        expect(td.explain(notOnDockerPuppeteer.launch).calls[0].args[0]).to.deep.equal({});
-      });
-    });
     describe('#getComponentCount', function() {
       expect(studio.getComponentCount()).to.equal(1);
     });
     it('#getComponent', async function() {
+      await studio.init();
       return studio.getComponent(0, ComponentStudio).then(function() {
         expect(td.explain(ComponentStudio).calls[0].args[0]).to.equal(componentFile);
         expect(td.explain(ComponentStudio).calls[0].args[1]).to.equal(componentImage);
@@ -72,10 +72,9 @@ describe('gcp-image-bucket/routine-design-directory/Studio', function() {
     const onDockerPuppeteer = td.object(puppeteer);
     td.when(onDockerPuppeteer.launch(td.matchers.anything())).thenResolve(mockBrowser);
     const studio = new Studio('project-id', 'storage-bucket', componentDirectory, 1234, 3, ImageStorage, onDockerPuppeteer);
-    it('#getBrowser', async function() {
+    it('#init', async function() {
       process.env.ROUTINE_DESIGN_DOCKER = 'true';
-      return studio.getBrowser().then(function(actualBrowser) {
-        expect(actualBrowser).to.equal(mockBrowser);
+      return studio.init().then(function() {
         expect(td.explain(onDockerPuppeteer.launch).calls[0].args[0]).to.deep.equal({
           args: ["--disable-dev-shm-usage"],
           executablePath: "google-chrome-unstable"

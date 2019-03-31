@@ -1,6 +1,6 @@
 {
   "name": "routine-design",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Align code and design",
   "main": "index.js",
   "bin": {
@@ -40,7 +40,7 @@
     "randomstring": "^1.1.5",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.0.0",
     "sass-loader": "^7.1.0",
     "userid": "^0.3.1",
     "username": "^4.0.0",
@@ -51,7 +51,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "coveralls": "^3.0.2",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "nyc": "^13.1.0",
     "testdouble": "^3.8.2"
   }

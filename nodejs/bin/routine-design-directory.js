@@ -19,6 +19,7 @@ program
       const gcpImageBucket = new GcpImageBucket(projectId, storageBucketName);
       const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
       const screenshotCollection = routineDesignDirectory.createScreenshotCollection(options.port, options.tryCount);
+      await screenshotCollection.init();
       try {
         await screenshotCollection.capture();
       } finally {
@@ -46,6 +47,7 @@ program
       const gcpImageBucket = new GcpImageBucket(projectId, storageBucketName);
       const routineDesignDirectory = gcpImageBucket.createRoutineDesignDirectory(componentDirectory);
       const screenshotCollection = routineDesignDirectory.createScreenshotCollection(options.port, options.tryCount);
+      await screenshotCollection.init();
       try {
         const result = await screenshotCollection.pixelValidate();
         console.log(JSON.stringify(result));

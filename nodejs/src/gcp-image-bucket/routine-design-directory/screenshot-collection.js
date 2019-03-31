@@ -5,6 +5,10 @@ class ScreenshotCollection {
     this.studio_ = new MyStudio(projectId, storageBucketName, componentDirectory, port, tryCount);
   }
 
+  async init() {
+    await this.studio_.init();
+  }
+
   getStudio() {
     return this.studio_;
   }
