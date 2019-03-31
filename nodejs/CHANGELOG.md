@@ -1,3 +1,9 @@
+# 0.5.5
+
+## Fixes
+
+* Updated `Studio` to launch only one browser, so it doesn't open multiple browsers when run in multiple threads
+
 # 0.5.4
 
 ## Fixes
