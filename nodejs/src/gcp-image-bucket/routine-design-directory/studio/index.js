@@ -11,6 +11,21 @@ class Studio {
     this.myPuppeteer_ = myPuppeteer;
   }
 
+  async init() {
+    if (this.browser_) {
+      return;
+    }
+    
+    const launchOptions = {};
+    const isDocker = process.env.ROUTINE_DESIGN_DOCKER;
+    if (isDocker === 'true') {
+      launchOptions.executablePath = 'google-chrome-unstable';
+      launchOptions.args = ['--disable-dev-shm-usage'];
+    }
+
+    this.browser_ = await this.myPuppeteer_.launch(launchOptions);
+  }
+
   async getComponentImages() {
     if (this.componentImages_) {
       return this.componentImages_;
@@ -20,39 +35,14 @@ class Studio {
     return this.componentImages_;
   }
 
-  async getBrowser() {
-    if (this.browser_) {
-      return this.browser_;
-    }
-
-    const launchOptions = {};
-    const isDocker = process.env.ROUTINE_DESIGN_DOCKER;
-    if (isDocker === 'true') {
-      launchOptions.executablePath = 'google-chrome-unstable';
-      launchOptions.args = ['--disable-dev-shm-usage'];
-    }
-
-    this.browser_ = await this.myPuppeteer_.launch(launchOptions);
-    return this.browser_;
-  }
-
   getComponentCount() {
     return this.componentFiles_.length;
   }
 
   async getComponent(index, MyComponentStudio = ComponentStudio) {
-    const componentImagePromise = this.getComponentImages().then(function(componentImages) {
-      return componentImages[index];
+    return this.getComponentImages().then((componentImages) => {
+      return new MyComponentStudio(this.componentFiles_[index], componentImages[index], this.browser_, this.port_, this.tryCount_);
     });
-    const browserPromise = this.getBrowser();
-
-    let componentImage;
-    let browser;
-    await Promise.all([componentImagePromise, browserPromise]).then(function(values) {
-      componentImage = values[0];
-      browser = values[1];
-    });
-    return new MyComponentStudio(this.componentFiles_[index], componentImage, browser, this.port_, this.tryCount_);
   }
 
   async save() {
@@ -64,9 +54,7 @@ class Studio {
   }
 
   async cleanup() {
-    if (this.browser_) {
-      await this.browser_.close();
-    }
+    await this.browser_.close();
   }
 }
 

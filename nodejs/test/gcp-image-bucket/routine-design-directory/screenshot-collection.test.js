@@ -17,6 +17,11 @@ describe('gcp-image-bucket/routine-design-directory/ScreenshotCollection', funct
     td.when(NotSetComponentStudio.prototype.isImageSet()).thenReturn(false);
     const screenshotCollection =
       new ScreenshotCollection('project-id', 'screenshot-bucket', componentDirectory, 1234, 3, NotSetStudio);
+    it('#init', async function() {
+      return screenshotCollection.init().then(function() {
+        expect(td.explain(NotSetStudio.prototype.init).calls.length).to.equal(1);
+      })
+    });
     it('#capture', async function() {
       return screenshotCollection.capture().then(function() {
         expect(td.explain(NotSetStudio).calls[0].args[0]).to.equal('project-id');
