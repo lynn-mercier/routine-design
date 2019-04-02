@@ -3,12 +3,13 @@ const {PNG} = require('pngjs');
 const WebPage = require('../../../web-page');
 
 class ComponentStudio {
-  constructor(componentFile, componentImage, browser, port, tryCount, MyWebPage = WebPage, MyPngFactory = PngFactory) {
+  constructor(componentFile, componentImage, browser, port, tryCount, viewportWidth, MyWebPage = WebPage, MyPngFactory = PngFactory) {
     this.file_ = componentFile;
     this.image_ = componentImage;
     this.browser_ = browser;
     this.port_ = port;
     this.tryCount_ = tryCount;
+    this.viewportWidth_ = viewportWidth;
     this.MyWebPage_ = MyWebPage;
     this.pngFactory = new MyPngFactory();
   }
@@ -27,7 +28,7 @@ class ComponentStudio {
       return this.newImage_;
     }
 
-    const webPage = new this.MyWebPage_(this.browser_, this.port_, '#/'+this.file_.getPath());
+    const webPage = new this.MyWebPage_(this.browser_, this.port_, '#/'+this.file_.getPath(), this.viewportWidth_);
     await webPage.waitForResolution(this.tryCount_);
     this.newImage_ = await webPage.screenshot();
     return this.newImage_;

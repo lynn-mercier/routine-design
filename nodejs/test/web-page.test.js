@@ -12,7 +12,7 @@ describe('WebPage', function() {
     const goodBrowser = td.object({
       newPage: () => {}
     });
-    const webPage = new WebPage(goodBrowser, 8080, 'url', LocalStorage);
+    const webPage = new WebPage(goodBrowser, 8080, 'url', null, LocalStorage);
     const goodPage = td.object({
       goto: () => {},
       screenshot: () => {}
@@ -34,6 +34,22 @@ describe('WebPage', function() {
       expect(td.explain(LocalImage.prototype.prepareForWriting).calls.length).to.equal(1);
       expect(td.explain(goodPage.screenshot).calls[0].args[0]).to.deep.equal({path: 'local-image.png'});
       expect(td.explain(LocalImage.prototype.delete).calls.length).to.equal(1);
+    });
+  });
+  describe('specify width', function() {
+    const goodBrowser = td.object({
+      newPage: () => {}
+    });
+    const webPage = new WebPage(goodBrowser, 8080, 'url', 320, LocalStorage);
+    const goodPage = td.object({
+      goto: () => {},
+      screenshot: () => {},
+      setViewport: () => {}
+    });
+    td.when(goodBrowser.newPage()).thenReturn(goodPage);
+    it('#screenshot', async function() {
+      await webPage.screenshot();
+      expect(td.explain(goodPage.setViewport).calls[0].args[0]).to.deep.equal({width: 320, height: 600});
     });
   });
   describe('times out', function() {
@@ -62,7 +78,7 @@ describe('WebPage', function() {
     const cantConnectBrowser = td.object({
       newPage: () => {}
     });
-    const webPage = new WebPage(cantConnectBrowser, 'url');
+    const webPage = new WebPage(cantConnectBrowser, 8080, 'url');
     const cantConnectPage = td.object({
       goto: () => {}
     });
@@ -79,7 +95,7 @@ describe('WebPage', function() {
     const unknownBrowser = td.object({
       newPage: () => {}
     });
-    const webPage = new WebPage(unknownBrowser, 'url');
+    const webPage = new WebPage(unknownBrowser, 8080, 'url');
     const unknownPage = td.object({
       goto: () => {}
     });

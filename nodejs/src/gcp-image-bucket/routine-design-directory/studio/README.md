@@ -14,13 +14,18 @@ const screenshotCollection = routineDesignDirectory.createScreenshotCollection()
 const studio = screenshotCollection.getStudio();
 ```
 
+You can specify the viewport width of the browser by including a `viewport.json` file in the directory.
+Each key in the JSON file is the name of a file in the directory.
+
+```
+{
+  "index.js": {"width":320}
+}
+```
+
 ## getComponentImages()
 
 Returns a list of `ComponentImage`, one for each component file in the `directory`.
-
-## getBrowser()
-
-Returns a Puppeteer browser object.
 
 ## getComponentCount()
 
