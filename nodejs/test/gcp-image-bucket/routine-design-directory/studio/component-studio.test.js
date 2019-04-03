@@ -27,7 +27,7 @@ describe('gcp-image-bucket/routine-design-directory/studio/ComponentStudio', fun
       td.when(MyPngFactory.prototype.pixelmatch(td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything(),td.matchers.anything()))
         .thenReturn(0); 
       td.when(MyPngFactory.prototype.createPng(td.matchers.anything())).thenReturn(new PNG());
-      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, SameWebPage, MyPngFactory);
+      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, 320, SameWebPage, MyPngFactory);
       describe('#isImageSet', function() {
         it('image is set', function() {
           expect(componentStudio.isImageSet()).to.equal(true);
@@ -38,6 +38,7 @@ describe('gcp-image-bucket/routine-design-directory/studio/ComponentStudio', fun
           expect(td.explain(SameWebPage).calls[0].args[0]).to.equal('browser');
           expect(td.explain(SameWebPage).calls[0].args[1]).to.equal(1234);
           expect(td.explain(SameWebPage).calls[0].args[2]).to.equal('#/path');
+          expect(td.explain(SameWebPage).calls[0].args[3]).to.equal(320);
           expect(td.explain(SameWebPage.prototype.waitForResolution).calls[0].args[0]).to.equal(3);
           expect(newImage).to.equal(newPng);
         });
@@ -80,7 +81,7 @@ describe('gcp-image-bucket/routine-design-directory/studio/ComponentStudio', fun
     describe('ComponentImage has no ID', function() {
       const NoIdComponentImage = td.constructor(ComponentImage);
       td.when(NoIdComponentImage.prototype.getId()).thenReturn(undefined);
-      const componentStudio = new ComponentStudio(new ComponentFile(), new NoIdComponentImage(), 'browser', 1234, 3);
+      const componentStudio = new ComponentStudio(new ComponentFile(), new NoIdComponentImage(), 'browser', 1234, 3, 320);
       describe('#isImageSet', function() {
         it('image is not set', function() {
           expect(componentStudio.isImageSet()).to.equal(false);
@@ -117,7 +118,7 @@ describe('gcp-image-bucket/routine-design-directory/studio/ComponentStudio', fun
         .thenReturn(100);
       const diffPng = new PNG();
       td.when(MyPngFactory.prototype.createPng(td.matchers.anything())).thenReturn(diffPng);
-      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, DifferentWebPage, MyPngFactory);
+      const componentStudio = new ComponentStudio(new ComponentFile(), new IdComponentImage(), 'browser', 1234, 3, 320, DifferentWebPage, MyPngFactory);
       it('#isSame', async function() {
         return componentStudio.isSame().then((isSame) => {
           expect(isSame).to.equal(false);

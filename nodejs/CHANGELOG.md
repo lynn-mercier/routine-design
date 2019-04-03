@@ -1,3 +1,9 @@
+# 0.5.6
+
+## Features
+
+* Added support for specifying viewport width in `Webpage` and `Studio`
+
 # 0.5.5
 
 ## Fixes

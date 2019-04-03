@@ -55,6 +55,12 @@ const browser = await puppeteer.launch();
 const webPage = routineDesign.createWebPage(browser, 8080, 'path');
 ```
 
+You can specify the width of the `WebPage`.
+
+```
+const webPage = routineDesign.createWebPage(browser, 8080, 'path', 320);
+```
+
 #### WebPage.screenshot()
 
 Returns a screenshot as a PNG object, like from [pngjs](https://www.npmjs.com/package/pngjs).
