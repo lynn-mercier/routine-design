@@ -13,7 +13,7 @@ describe('gcp-image-bucket/routine-design-directory/ScreenshotCollection', funct
     td.when(NotSetStudio.prototype.getDebugId()).thenReturn('studio-debug-id');
     const NotSetComponentStudio = td.constructor(ComponentStudio);
     const componentStudio = new NotSetComponentStudio();
-    td.when(NotSetStudio.prototype.getComponent(td.matchers.anything())).thenResolve(componentStudio);
+    td.when(NotSetStudio.prototype.getComponent(td.matchers.anything())).thenReturn(componentStudio);
     td.when(NotSetComponentStudio.prototype.isImageSet()).thenReturn(false);
     const screenshotCollection =
       new ScreenshotCollection('project-id', 'screenshot-bucket', componentDirectory, 1234, 3, NotSetStudio);
@@ -57,7 +57,7 @@ describe('gcp-image-bucket/routine-design-directory/ScreenshotCollection', funct
     td.when(SetStudio.prototype.getComponentCount()).thenReturn(1);
     const SetComponentStudio = td.constructor(ComponentStudio);
     const componentStudio = new SetComponentStudio();
-    td.when(SetStudio.prototype.getComponent(td.matchers.anything())).thenResolve(componentStudio);
+    td.when(SetStudio.prototype.getComponent(td.matchers.anything())).thenReturn(componentStudio);
     td.when(SetComponentStudio.prototype.isImageSet()).thenReturn(true);
     td.when(SetComponentStudio.prototype.isSame()).thenResolve(false);
     td.when(SetComponentStudio.prototype.diff()).thenResolve(100);
@@ -79,7 +79,7 @@ describe('gcp-image-bucket/routine-design-directory/ScreenshotCollection', funct
     td.when(SameStudio.prototype.getComponentCount()).thenReturn(1);
     const SameComponentStudio = td.constructor(ComponentStudio);
     const componentStudio = new SameComponentStudio();
-    td.when(SameStudio.prototype.getComponent(td.matchers.anything())).thenResolve(componentStudio);
+    td.when(SameStudio.prototype.getComponent(td.matchers.anything())).thenReturn(componentStudio);
     td.when(SameComponentStudio.prototype.isImageSet()).thenReturn(true);
     td.when(SameComponentStudio.prototype.isSame()).thenResolve(true);
     td.when(SameComponentStudio.prototype.diff()).thenResolve(0);

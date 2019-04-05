@@ -27,6 +27,7 @@ describe('gcp-image-bucket/routine-design-directory/Studio', function() {
       const myFs = td.object(fs);
       td.when(myFs.existsSync(td.matchers.anything())).thenReturn(false);
       return studio.init().then(function(myFs) {
+        expect(td.explain(ImageStorage.prototype.init).calls.length).to.equal(1);
         expect(td.explain(notOnDockerPuppeteer.launch).calls[0].args[0]).to.deep.equal({});
       });
     });
@@ -42,12 +43,6 @@ describe('gcp-image-bucket/routine-design-directory/Studio', function() {
     it('connected to images.json', function() {
       expect(td.explain(ImageStorage).calls[0].args[2]).to.equal(componentDirectory);
     });
-    it('#getComponentImages', async function() {
-      return studio.getComponentImages().then(function(componentImages) {
-        expect(componentImages.length).to.equal(1);
-        expect(componentImages[0]).to.equal(componentImage);
-      });
-    });
     it('#getComponentCount', function() {
       expect(studio.getComponentCount()).to.equal(1);
     });
@@ -55,8 +50,8 @@ describe('gcp-image-bucket/routine-design-directory/Studio', function() {
       const MyComponentStudio = td.constructor(ComponentStudio);
       const myFs = td.object(fs);
       td.when(myFs.existsSync(td.matchers.anything())).thenReturn(false);
-      await studio.init(myFs);
-      return studio.getComponent(0, MyComponentStudio).then(function() {
+      return studio.init(myFs).then(function() {
+        studio.getComponent(0, MyComponentStudio);
         expect(td.explain(MyComponentStudio).calls[0].args[0]).to.equal(componentFile);
         expect(td.explain(MyComponentStudio).calls[0].args[1]).to.equal(componentImage);
         expect(td.explain(MyComponentStudio).calls[0].args[2]).to.equal(mockBrowser);
@@ -81,20 +76,40 @@ describe('gcp-image-bucket/routine-design-directory/Studio', function() {
     const mockBrowser = td.object();
     const notOnDockerPuppeteer = td.object(puppeteer);
     td.when(notOnDockerPuppeteer.launch(td.matchers.anything())).thenResolve(mockBrowser);
-    const studio = new Studio('project-id', 'storage-bucket', componentDirectory, 1234, 3, ImageStorage, notOnDockerPuppeteer);
-    it('#getComponent', async function() {
+    describe('successfully read JSON file', function() {
+      const studio = new Studio('project-id', 'storage-bucket', componentDirectory, 1234, 3, ImageStorage, notOnDockerPuppeteer);
       const MyComponentStudio = td.constructor(ComponentStudio);
       const myFs = td.object(fs);
       td.when(myFs.existsSync(td.matchers.anything())).thenReturn(true);
       td.when(myFs.readFile(td.matchers.anything())).thenCallback(null, '{"index.js":{"width":320}}');
-      await studio.init(myFs);
-      return studio.getComponent(0, MyComponentStudio).then(function() {
-        expect(td.explain(MyComponentStudio).calls[0].args[0]).to.equal(componentFile);
-        expect(td.explain(MyComponentStudio).calls[0].args[1]).to.equal(componentImage);
-        expect(td.explain(MyComponentStudio).calls[0].args[2]).to.equal(mockBrowser);
-        expect(td.explain(MyComponentStudio).calls[0].args[3]).to.equal(1234);
-        expect(td.explain(MyComponentStudio).calls[0].args[4]).to.equal(3);
-        expect(td.explain(MyComponentStudio).calls[0].args[5]).to.equal(320);
+      it('#getComponent', async function() {
+        return studio.init(myFs).then(function() {;
+          studio.getComponent(0, MyComponentStudio);
+          expect(td.explain(MyComponentStudio).calls[0].args[0]).to.equal(componentFile);
+          expect(td.explain(MyComponentStudio).calls[0].args[1]).to.equal(componentImage);
+          expect(td.explain(MyComponentStudio).calls[0].args[2]).to.equal(mockBrowser);
+          expect(td.explain(MyComponentStudio).calls[0].args[3]).to.equal(1234);
+          expect(td.explain(MyComponentStudio).calls[0].args[4]).to.equal(3);
+          expect(td.explain(MyComponentStudio).calls[0].args[5]).to.equal(320);
+        });
+      });
+    });
+    describe('fail to read JSON file', function() {
+      const studio = new Studio('project-id', 'storage-bucket', componentDirectory, 1234, 3, ImageStorage, notOnDockerPuppeteer);
+      const MyComponentStudio = td.constructor(ComponentStudio);
+      const myFs = td.object(fs);
+      td.when(myFs.existsSync(td.matchers.anything())).thenReturn(true);
+      td.when(myFs.readFile(td.matchers.anything())).thenCallback('error');
+      it('#init', async function() {
+
+        let caughtError = false;
+        try {
+          await studio.init(myFs);
+        } catch {
+          caughtError = true;
+        }
+
+        expect(caughtError).to.equal(true);
       });
     });
   });

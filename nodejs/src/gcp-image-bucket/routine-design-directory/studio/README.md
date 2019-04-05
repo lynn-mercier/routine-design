@@ -23,10 +23,6 @@ Each key in the JSON file is the name of a file in the directory.
 }
 ```
 
-## getComponentImages()
-
-Returns a list of `ComponentImage`, one for each component file in the `directory`.
-
 ## getComponentCount()
 
 Return the number of components, one for each component file in the `directory`. 

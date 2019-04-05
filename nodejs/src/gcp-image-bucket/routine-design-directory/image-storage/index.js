@@ -13,9 +13,9 @@ class ImageStorage {
     this.debugId_ = myRandomstring.generate();
   }
 
-  async getImages() {
+  async init() {
     if (this.images_) {
-      return this.images_;
+      return;
     }
 
     let imageJson = {};
@@ -49,6 +49,9 @@ class ImageStorage {
       const componentImage = new this.MyComponentImage_(this.projectId_, this.storageBucketName_, gcpDebugPath, componentFile, imageId);
       this.images_.push(componentImage);
     });
+  }
+
+  getImages() {
     return this.images_;
   }
 
@@ -56,9 +59,8 @@ class ImageStorage {
     const json = {};
 
     const componentFiles = this.componentDirectory_.getFiles();
-    const componentImages = await this.getImages();
 
-    componentImages.forEach((componentImage, index) => {
+    this.images_.forEach((componentImage, index) => {
       const imageId = componentImage.getId();
       if (imageId) {
         json[componentFiles[index].getBasename()] = {

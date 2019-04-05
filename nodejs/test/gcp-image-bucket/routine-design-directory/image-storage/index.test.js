@@ -38,8 +38,9 @@ describe('gcp-image-bucket/routine-design-directory/ImageStorage', function() {
     const componentFile = new ComponentFile();
     td.when(MyComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
     td.when(componentFile.getBasename()).thenReturn('index.js');
-    it('#getImages', async function() {
-      return imageStorage.getImages().then(function(componentImages) {
+    it('#init', async function() {
+      return imageStorage.init().then(function() {
+        const componentImages = imageStorage.getImages();
         expect(td.explain(MyComponentImage).calls[0].args[0]).to.equal("project-id");
         expect(td.explain(MyComponentImage).calls[0].args[1]).to.equal("storage-bucket");
         expect(td.explain(MyComponentImage).calls[0].args[2]).to.equal("/random");
@@ -49,8 +50,8 @@ describe('gcp-image-bucket/routine-design-directory/ImageStorage', function() {
         expect(componentImages.length).to.equal(1);
       });
     });
-    it('#getImages twice', async function() {
-      return imageStorage.getImages().then(function() {
+    it('#init twice', async function() {
+      return imageStorage.init().then(function() {
         expect(td.explain(fsExists.readFile).calls.length).to.equal(1);
       });
     });
@@ -80,13 +81,14 @@ describe('gcp-image-bucket/routine-design-directory/ImageStorage', function() {
     const componentFile = new ComponentFile();
     td.when(MyComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
     td.when(componentFile.getBasename()).thenReturn('index.js');
-    it('#getImages', async function() {
-      return imageStorage.getImages().then(function(componentImages) {
+    it('#init', async function() {
+      const componentImages = imageStorage.getImages();
+      return imageStorage.init().then(function() {
         expect(td.explain(MyComponentImage).calls[0].args[2]).to.equal("/foo/random");
       });
     });
   });
-  describe('cannot read/write json file', function() {
+  describe('cannot read json file', function() {
     const fsDoesNotExist = td.object(fs);
     td.when(fsDoesNotExist.existsSync(td.matchers.anything())).thenReturn(true);
     td.when(fsDoesNotExist.readFile(td.matchers.anything())).thenCallback('error');
@@ -95,27 +97,41 @@ describe('gcp-image-bucket/routine-design-directory/ImageStorage', function() {
     const MyComponentImage = td.constructor(ComponentImage);
     const imageStorage = 
       new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsDoesNotExist, MyComponentImage, randomstring);
-    it('#getImages', async function() {
-      td.when(fsDoesNotExist.readFile(td.matchers.anything())).thenCallback('error');
-
+    it('#init', async function() {
       let caughtError = false;
       try {
-        await imageStorage.getImages();
+        await imageStorage.init();
       } catch (error) {
         caughtError = true;
       };
       expect(caughtError).to.equal(true);
     });
+  });
+  describe('cannot write json file', function() {
+    const fsExists = td.object(fs);
+    td.when(fsExists.existsSync(td.matchers.anything())).thenReturn(true);
+    td.when(fsExists.readFile(td.matchers.anything())).thenCallback(null, '{"index.js":{"id":"random"}}');
+    const MyComponentImage = td.constructor(ComponentImage);
+    td.when(MyComponentImage.prototype.getId()).thenReturn('random');
+    const gcpImage = new GcpImage();
+    td.when(MyComponentImage.prototype.createGcpImage()).thenReturn(gcpImage);
+    td.when(gcpImage.getUrl()).thenReturn('https://gcp.com');
+    const MyComponentDirectory = td.constructor(ComponentDirectory);
+    const componentDirectory = new MyComponentDirectory();
+    td.when(MyComponentDirectory.prototype.getDirectory()).thenReturn("./tmp");
+    td.when(MyComponentDirectory.prototype.getPath()).thenReturn("/");
+    const imageStorage = 
+      new ImageStorage('project-id', 'storage-bucket', componentDirectory, fsExists, MyComponentImage, randomstring);
+    const componentFile = new ComponentFile();
+    td.when(MyComponentDirectory.prototype.getFiles()).thenReturn([componentFile]);
+    td.when(componentFile.getBasename()).thenReturn('index.js');
     it('#save', async function() {
-      td.when(fsDoesNotExist.writeFile(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenCallback('error');
-
-      let caughtError = false;
-      try {
-        await imageStorage.save();
-      } catch (error) {
-        caughtError = true;
-      };
-      expect(caughtError).to.equal(true);
+      td.when(fsExists.writeFile(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenCallback();
+      await imageStorage.init();
+      return imageStorage.save().then(function() {
+        expect(td.explain(fsExists.writeFile).calls[0].args[0]).to.equal('./tmp/image.json');
+        expect(td.explain(fsExists.writeFile).calls[0].args[1]).to.equal('{\n  "index.js": {\n    "id": "random",\n    "url": "https://gcp.com"\n  }\n}');
+      });
     });
   });
 });
