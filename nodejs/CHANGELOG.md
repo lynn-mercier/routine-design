@@ -1,3 +1,9 @@
+# 0.5.7
+
+## Fixes
+
+* Updated `ImageStorage` to only save one copy of `image.json`, so it doesn't miss files when run in multiple threads
+
 # 0.5.6
 
 ## Features
