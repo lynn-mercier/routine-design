@@ -16,19 +16,18 @@ class ScreenshotCollection {
   async capture() {
     const promises = [];
     for (let i=0; i<this.studio_.getComponentCount(); i++) {
-      const promise = this.studio_.getComponent(i).then(function(componentStudio) {
-        return new Promise(function(resolve) {
-          if (!componentStudio.isImageSet()) {
-            resolve(componentStudio.saveNewImage());
-          } else {
-            const similarityPromise = componentStudio.isSame().then(function(same) {
-              if (!same) {
-                return componentStudio.saveNewImage();
-              }
-            });
-            resolve(similarityPromise);
-          }
-        });
+      const componentStudio = this.studio_.getComponent(i);
+      const promise = new Promise(function(resolve) {
+        if (!componentStudio.isImageSet()) {
+          resolve(componentStudio.saveNewImage());
+        } else {
+          const similarityPromise = componentStudio.isSame().then(function(same) {
+            if (!same) {
+              return componentStudio.saveNewImage();
+            }
+          });
+          resolve(similarityPromise);
+        }
       });
       promises.push(promise);
     }
@@ -39,17 +38,16 @@ class ScreenshotCollection {
   async pixelValidate() {
     const promises = [];
     for (let i=0; i<this.studio_.getComponentCount(); i++) {
-      const promise = this.studio_.getComponent(i).then(function(componentStudio) {
-        return new Promise(function(resolve) {
-          if (!componentStudio.isImageSet()) {
-            resolve(false);
-          } else {
-            const diffPromise = componentStudio.diff().then(function(pixelDiffCount) {
-              return pixelDiffCount === 0;
-            });
-            resolve(diffPromise);
-          }
-        });
+      const componentStudio = this.studio_.getComponent(i);
+      const promise = new Promise(function(resolve) {
+        if (!componentStudio.isImageSet()) {
+          resolve(false);
+        } else {
+          const diffPromise = componentStudio.diff().then(function(pixelDiffCount) {
+            return pixelDiffCount === 0;
+          });
+          resolve(diffPromise);
+        }
       });
       promises.push(promise);
     }

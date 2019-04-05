@@ -14,6 +14,8 @@ class Studio {
   }
 
   async init(myFs = fs) {
+    await this.imageStorage_.init();
+
     if (!this.browser_) {
       const launchOptions = {};
       const isDocker = process.env.ROUTINE_DESIGN_DOCKER;
@@ -47,36 +49,26 @@ class Studio {
     }
   }
 
-  async getComponentImages() {
-    if (this.componentImages_) {
-      return this.componentImages_;
-    }
-
-    this.componentImages_ = await this.imageStorage_.getImages();
-    return this.componentImages_;
-  }
-
   getComponentCount() {
     return this.componentFiles_.length;
   }
 
-  async getComponent(index, MyComponentStudio = ComponentStudio) {
+  getComponent(index, MyComponentStudio = ComponentStudio) {
     const compontentFile = this.componentFiles_[index];
-    return this.getComponentImages().then((componentImages) => {
-      let viewportWidth;
+    const componentImage = this.imageStorage_.getImages()[index];
+    let viewportWidth;
 
-      if (this.viewport_[compontentFile.getBasename()]) {
-        viewportWidth = this.viewport_[compontentFile.getBasename()].width;
-      }
+    if (this.viewport_[compontentFile.getBasename()]) {
+      viewportWidth = this.viewport_[compontentFile.getBasename()].width;
+    }
 
-      return new MyComponentStudio(
-        compontentFile, 
-        componentImages[index], 
-        this.browser_, 
-        this.port_, 
-        this.tryCount_,
-        viewportWidth);
-    });
+    return new MyComponentStudio(
+      compontentFile, 
+      componentImage, 
+      this.browser_, 
+      this.port_, 
+      this.tryCount_,
+      viewportWidth);
   }
 
   async save() {
