@@ -8,6 +8,7 @@ describe('WebPage', function() {
   const localImage = new LocalImage();
   td.when(LocalStorage.prototype.createLocalImage()).thenReturn(localImage);
   td.when(LocalImage.prototype.getPath()).thenReturn('local-image.png');
+  td.when(LocalImage.prototype.getPng()).thenResolve('png');
   describe('resolves successfully', function() {
     const goodBrowser = td.object({
       newPage: () => {}
@@ -30,7 +31,7 @@ describe('WebPage', function() {
       });
     });
     it('#screenshot', async function() {
-      await webPage.screenshot();
+      expect(await webPage.screenshot()).to.equal('png');
       expect(td.explain(LocalImage.prototype.prepareForWriting).calls.length).to.equal(1);
       expect(td.explain(goodPage.screenshot).calls[0].args[0]).to.deep.equal({path: 'local-image.png'});
       expect(td.explain(LocalImage.prototype.delete).calls.length).to.equal(1);

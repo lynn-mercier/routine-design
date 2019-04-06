@@ -25,7 +25,7 @@ class WebPage {
       await page.setViewport({width: this.width_, height: 600});
     }
     await page.screenshot({path: localImage.getPath()});
-    const localImagePng = localImage.getPng();
+    const localImagePng = await localImage.getPng();
     await localImage.delete();
     return localImagePng;
   }
