@@ -28,7 +28,7 @@
     "@babel/plugin-transform-react-jsx": "^7.0.0",
     "@google-cloud/storage": "^3.0.0",
     "babel-loader": "^8.0.4",
-    "commander": "^2.19.0",
+    "commander": "^3.0.0",
     "css-loader": "^3.0.0",
     "docker-cli-js": "^2.5.1",
     "file-loader": "^4.0.0",
