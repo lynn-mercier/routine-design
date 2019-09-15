@@ -1,3 +1,9 @@
+# 0.5.8
+
+## Fixes
+
+* Updated `WebPage` to delete the local image after the image has been completely read into a PNG.
+
 # 0.5.7
 
 ## Fixes

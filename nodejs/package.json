@@ -1,6 +1,6 @@
 {
   "name": "routine-design",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "Align code and design",
   "main": "index.js",
   "bin": {
@@ -26,24 +26,24 @@
   "dependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "@google-cloud/storage": "^2.3.1",
+    "@google-cloud/storage": "^3.0.0",
     "babel-loader": "^8.0.4",
-    "commander": "^2.19.0",
-    "css-loader": "^2.1.0",
+    "commander": "^3.0.0",
+    "css-loader": "^3.0.0",
     "docker-cli-js": "^2.5.1",
-    "file-loader": "^3.0.1",
-    "mini-css-extract-plugin": "^0.6.0",
+    "file-loader": "^4.0.0",
+    "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.10.0",
-    "pixelmatch": "^4.0.2",
+    "pixelmatch": "^5.0.0",
     "pngjs": "^3.3.3",
     "puppeteer": "^1.11.0",
     "randomstring": "^1.1.5",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^5.0.0",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^8.0.0",
     "userid": "^0.3.1",
-    "username": "^4.0.0",
+    "username": "^5.0.0",
     "webpack": "^4.24.0",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.11"
@@ -52,7 +52,7 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.2",
     "mocha": "^6.0.0",
-    "nyc": "^14.0.0",
+    "nyc": "^14.1.0",
     "testdouble": "^3.8.2"
   }
 }
