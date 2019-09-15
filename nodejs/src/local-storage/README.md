@@ -10,6 +10,18 @@ Creates a new [`RoutesServer`](./routes-server/README.md). By default, the serve
 
 Creates new `LocalImage` to represent a local PNG image. Images are saved in `./routine-design-output/images`.
 
+## writeMocha(renderDirectory, gcpProjectId, storageBucketName)
+
+Writes a new `index.test.js` file with [Mocha](https://mochajs.org/) tests for validating pixels. 
+
+```
+const RoutineDesign = require('routine-design');
+const localStorage = new RoutineDesign().getLocalStorage();
+localStorage.writeMocha('./render', 'gcp-project', 'storage-bucket');
+```
+
+By default, the `index.test.js` file is saved in `./routine-design-output/mocha-writer`. 
+
 ### LocalImage.getPath()
 
 Returns the path to the local PNG image.

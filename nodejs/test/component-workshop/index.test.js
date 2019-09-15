@@ -58,8 +58,11 @@ describe('ComponentWorkshop', function() {
         expect(pixelValidators.length).to.equal(1);
       });
 
+      it('PixelValidator.getComponentDirectoryId', function() {
+        expect(pixelValidators[0].getComponentDirectoryId()).to.equal('componentDirectoryId');
+      });
+
       it('PixelValidator.validate', async function() {
-        const result = await pixelValidators[0].validate();
         return pixelValidators[0].validate().then(function(result) {
           expect(td.explain(routineDesignContainer.run).calls[0].args[0]).to.equal(
             'routine-design directory pixel-validate gcp-project-id storage-bucket ./render --component-directory=componentDirectoryId');

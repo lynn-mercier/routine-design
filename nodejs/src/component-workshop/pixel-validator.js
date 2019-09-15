@@ -9,6 +9,10 @@ class PixelValidator {
     this.routineDesignContainer_ = routineDesignContainer;
   }
 
+  getComponentDirectoryId() {
+    return this.componentDirectoryId_;
+  }
+
   async validate() {
     let dockerCommand = 'routine-design directory pixel-validate '+this.gcpProjectId_+' '
     +this.storageBucketName_+' '+this.renderDirectory_;
