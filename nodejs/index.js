@@ -22,6 +22,13 @@ class RoutineDesign {
     return new this.RoutineDesignTree_(directory)
   }
 
+  createComponentWorkshop(renderDirectory, gcpProjectId, storageBucketName) {
+    if (!this.ComponentWorkshop_) {
+      this.ComponentWorkshop_ = require('./src/component-workshop');
+    }
+    return new this.ComponentWorkshop_(renderDirectory, gcpProjectId, storageBucketName)
+  }
+
   createWebPage(browser, port, path) {
     if (!this.WebPage_) {
       this.WebPage_ = require('./src/web-page');

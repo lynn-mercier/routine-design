@@ -45,6 +45,10 @@ const routineDesignTree = routineDesign.createTree('./render');
 
 Creates a new [`LocalStorage`](./src/local-storage/README.md), which provides tools for writing local files.
 
+### createComponentWorkshop(renderDirectory, gcpProjectId, storageBucketName)
+
+Creates a new [`ComponentWorkshop`](./src/component-workshop/README.md), which connects a directory of components to a storage bucket of screenshots.
+
 ### createWebPage(browser, port, path)
 
 Creates a new `WebPage`, which interact with a local Web page.
