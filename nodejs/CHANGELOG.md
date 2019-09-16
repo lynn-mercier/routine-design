@@ -1,3 +1,9 @@
+# 0.6.1
+
+## Features
+
+* Added `--try-count` option to `capture` and `test` commands
+
 # 0.6.0
 
 ## Features
