@@ -11,17 +11,29 @@ Turn `./render` into a Webpack server
 routine-design render ./render
 ```
 
-Save screenshot images of `./render/foo` on [Google Cloud Platform](https://cloud.google.com/)
+See below for more commands, or run `routine-design -h` for more commands and help.
+
+### Capturing
+Saves a screenshot images of every component in [Google Cloud Platform](https://cloud.google.com/).
+```
+routine-design capture ./render project-id storage-bucket-name 
+```
+
+Save screenshot images of `./render/foo` on Google Cloud Platform.
 ```
 routine-design directory capture project-id storage-bucket-name ./render --component-directory=foo 
 ```
 
-Checks that all screenshot images are identical to the screenshots saved on Google Cloud Platform. Check screenshot images of `./render/foo`
+### Validating Pixels
+Tests that all screenshot images are identical to the golden screenshots saved on Google Cloud Platform.
+```
+routine-design test ./render project-id storage-bucket-name 
+```
+
+You can also check just one directory using the `pixel-validate` command. For example, here's how to check screenshot images of `./render/foo`
 ```
 routine-design directory pixel-validate project-id storage-bucket-name ./render --component-directory=foo 
 ```
-
-Run `routine-design -h` for more commands and help.
 
 ## JavaScript API
 ```
@@ -44,6 +56,10 @@ const routineDesignTree = routineDesign.createTree('./render');
 ### getLocalStorage()
 
 Creates a new [`LocalStorage`](./src/local-storage/README.md), which provides tools for writing local files.
+
+### createComponentWorkshop(renderDirectory, gcpProjectId, storageBucketName)
+
+Creates a new [`ComponentWorkshop`](./src/component-workshop/README.md), which connects a directory of components to a storage bucket of screenshots.
 
 ### createWebPage(browser, port, path)
 
