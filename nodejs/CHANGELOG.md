@@ -1,3 +1,11 @@
+# 0.6.0
+
+## Features
+
+* Added `capture` and `test` commands to the CLI
+* Added `ComponentWorkshop` which connects a directory of components to a storage bucket of screenshots.
+* Added `LocalStorage.writeMocha`, which writes a new `index.test.js` file with [Mocha](https://mochajs.org/) tests for validating pixels.
+
 # 0.5.8
 
 ## Fixes
