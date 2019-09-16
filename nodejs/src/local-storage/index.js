@@ -7,11 +7,11 @@ class LocalStorage {
     return new this.LocalImage_();
   }
 
-  writeMocha(renderDirectory, gcpProjectId, storageBucketName, name = "mocha-writer") {
+  writeMocha(renderDirectory, gcpProjectId, storageBucketName, tryCount = 10, name = "mocha-writer") {
     if (!this.MochaWriter_) {
       this.MochaWriter_ = require('./mocha-writer');
     }
-    return new this.MochaWriter_().write(renderDirectory, gcpProjectId, storageBucketName, name);
+    return new this.MochaWriter_().write(renderDirectory, gcpProjectId, storageBucketName, name, tryCount);
   }
 
   createRoutesServer(name = 'routes-server') {
