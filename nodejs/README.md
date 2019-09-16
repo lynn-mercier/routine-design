@@ -25,7 +25,12 @@ routine-design directory capture project-id storage-bucket-name ./render --compo
 ```
 
 ### Validating Pixels
-Checks that all screenshot images are identical to the screenshots saved on Google Cloud Platform. Check screenshot images of `./render/foo`
+Tests that all screenshot images are identical to the golden screenshots saved on Google Cloud Platform.
+```
+routine-design test ./render project-id storage-bucket-name 
+```
+
+You can also check just one directory using the `pixel-validate` command. For example, here's how to check screenshot images of `./render/foo`
 ```
 routine-design directory pixel-validate project-id storage-bucket-name ./render --component-directory=foo 
 ```
