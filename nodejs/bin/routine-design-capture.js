@@ -4,12 +4,13 @@ const ComponentWorkshop = require('../src/component-workshop');
 
 program
   .arguments('<renderDirectory> <gcpProjectId> <storageBucketName>')
-  .action(async function(renderDirectory, gcpProjectId, storageBucketName) {
+  .option('--try-count <tryCount>', 'Specify number of times to try capturing a screenshot')
+  .action(async function(renderDirectory, gcpProjectId, storageBucketName, options) {
     try {
       const componentWorkshop = new ComponentWorkshop(renderDirectory, gcpProjectId, storageBucketName);
       try {
         await componentWorkshop.setup();
-        await componentWorkshop.captureAll();
+        await componentWorkshop.captureAll(options.tryCount);
       } finally {
         await componentWorkshop.cleanup();
       }

@@ -19,14 +19,20 @@ class ComponentWorkshop {
     await this.routineDesignContainer_.run('routine-design render '+this.renderDirectory_, true);
   }
   
-  async captureAll() {
+  async captureAll(tryCount = 10) {
     const promises = [];
 
     for (let entry of this.routineDesignTree_.getComponentTree().getDirectories()) {
       const componentDirectoryId = entry[0];
-      const promise = this.routineDesignContainer_.run(
+      let dockerCommand = 
         'routine-design directory capture '+this.gcpProjectId_+' '+this.storageBucketName_+' '
-        +this.renderDirectory_+' --component-directory='+componentDirectoryId);
+        +this.renderDirectory_+' --try-count='+tryCount;
+
+      if (componentDirectoryId != '') {
+        dockerCommand+=' --component-directory='+componentDirectoryId;
+      }
+
+      const promise = this.routineDesignContainer_.run(dockerCommand);
       promises.push(promise);
     }
 
