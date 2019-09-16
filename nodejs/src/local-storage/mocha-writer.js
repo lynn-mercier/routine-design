@@ -4,7 +4,7 @@ const LocalDirectory = require('./local-directory');
 
 class MochaWriter {
 
-  async write(renderDirectory, gcpProjectId, storageBucketName, name, MyLocalDirectory = LocalDirectory, myFs = fs) {
+  async write(renderDirectory, gcpProjectId, storageBucketName, name, tryCount = 10, MyLocalDirectory = LocalDirectory, myFs = fs) {
     const localDirectory = new MyLocalDirectory(name);
     const javaScriptPath = './'+localDirectory.getFullPath()+'/index.test.js';
     let fileContent = "const RoutineDesign = require('routine-design');";
@@ -17,7 +17,7 @@ class MochaWriter {
     fileContent += "\nconst pixelValidators = componentWorkshop.getPixelValidators();";
     fileContent += "\nfor (pixelValidator in pixelValidators) {";
     fileContent += "\nit(pixelValidator.getName(), async function() {";
-    fileContent += "\nconst result = await pixelValidator.validate();";
+    fileContent += "\nconst result = await pixelValidator.validate("+tryCount+");";
     fileContent += "\nassert(result.allPass, result.gcpUrl);";
     fileContent += "\n});";
     fileContent += "\n}";

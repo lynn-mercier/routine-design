@@ -5,9 +5,10 @@ const MochaWriter = require('../src/local-storage/mocha-writer');
 
 program
   .arguments('<renderDirectory> <gcpProjectId> <storageBucketName>')
-  .action(async function(renderDirectory, gcpProjectId, storageBucketName) {
+  .option('--try-count <tryCount>', 'Specify number of times to try capturing a screenshot')
+  .action(async function(renderDirectory, gcpProjectId, storageBucketName, options) {
     try {
-      await new MochaWriter().write(renderDirectory, gcpProjectId, storageBucketName);
+      await new MochaWriter().write(renderDirectory, gcpProjectId, storageBucketName, options.tryCount);
       const mocha = new Mocha({
         timeout: 60000
       });

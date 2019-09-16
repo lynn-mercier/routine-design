@@ -38,9 +38,9 @@ describe('ComponentWorkshop', function() {
       td.when(MyLocalStorage.prototype.createRoutineDesignContainer()).thenReturn(routineDesignContainer);
       const componentWorkshop = 
         new ComponentWorkshop('./render', 'gcp-project-id', 'storage-bucket', MyLocalStorage, MyRoutineDesignTree);
-      return componentWorkshop.captureAll().then(function() {
+      return componentWorkshop.captureAll(20).then(function() {
         expect(td.explain(routineDesignContainer.run).calls[0].args[0]).to.equal(
-          'routine-design directory capture gcp-project-id storage-bucket ./render --component-directory=componentDirectoryId');
+          'routine-design directory capture gcp-project-id storage-bucket ./render --try-count=20 --component-directory=componentDirectoryId');
       });
     });
 
@@ -63,9 +63,9 @@ describe('ComponentWorkshop', function() {
       });
 
       it('PixelValidator.validate', async function() {
-        return pixelValidators[0].validate().then(function(result) {
+        return pixelValidators[0].validate(20).then(function(result) {
           expect(td.explain(routineDesignContainer.run).calls[0].args[0]).to.equal(
-            'routine-design directory pixel-validate gcp-project-id storage-bucket ./render --component-directory=componentDirectoryId');
+            'routine-design directory pixel-validate gcp-project-id storage-bucket ./render --try-count=20 --component-directory=componentDirectoryId');
           expect(result.allPass).to.be.true;
           expect(result.gcpUrl).to.equal('https://console.cloud.google.com/storage/browser/storage-bucket/componentDirectoryId/debugId/?project=gcp-project-id');
         });
@@ -94,6 +94,19 @@ describe('ComponentWorkshop', function() {
     directoriesMap.set('', componentDirectory);
     td.when(MyComponentTree.prototype.getDirectories()).thenReturn(directoriesMap);
 
+    it('#captureAll', async function() {
+      const MyLocalStorage = td.constructor(LocalStorage);
+      const MyRoutineDesignContainer = td.constructor(RoutineDesignContainer);
+      const routineDesignContainer = new MyRoutineDesignContainer();
+      td.when(MyLocalStorage.prototype.createRoutineDesignContainer()).thenReturn(routineDesignContainer);
+      const componentWorkshop = 
+        new ComponentWorkshop('./render', 'gcp-project-id', 'storage-bucket', MyLocalStorage, MyRoutineDesignTree);
+      return componentWorkshop.captureAll(20).then(function() {
+        expect(td.explain(routineDesignContainer.run).calls[0].args[0]).to.equal(
+          'routine-design directory capture gcp-project-id storage-bucket ./render --try-count=20');
+      });
+    });
+
     describe('#getPixelValidators', function() {
       const MyLocalStorage = td.constructor(LocalStorage);
       const MyRoutineDesignContainer = td.constructor(RoutineDesignContainer);
@@ -105,10 +118,9 @@ describe('ComponentWorkshop', function() {
       const pixelValidators = componentWorkshop.getPixelValidators();
 
       it('PixelValidator.validate', async function() {
-        const result = await pixelValidators[0].validate();
-        return pixelValidators[0].validate().then(function(result) {
+        return pixelValidators[0].validate(20).then(function(result) {
           expect(td.explain(routineDesignContainer.run).calls[0].args[0]).to.equal(
-            'routine-design directory pixel-validate gcp-project-id storage-bucket ./render');
+            'routine-design directory pixel-validate gcp-project-id storage-bucket ./render --try-count=20');
           expect(result.allPass).to.be.true;
           expect(result.gcpUrl).to.equal('https://console.cloud.google.com/storage/browser/storage-bucket/debugId/?project=gcp-project-id');
         });
