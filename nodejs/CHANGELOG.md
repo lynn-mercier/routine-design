@@ -1,3 +1,10 @@
+# 0.6.2
+
+## Fixes
+* Create directory before for writing mocha test file
+* Add equals sign to fix syntax of mocha testfile
+* Fix reference to routine-design-output directory
+
 # 0.6.1
 
 ## Features
