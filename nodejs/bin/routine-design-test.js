@@ -8,11 +8,13 @@ program
   .option('--try-count <tryCount>', 'Specify number of times to try capturing a screenshot')
   .action(async function(renderDirectory, gcpProjectId, storageBucketName, options) {
     try {
-      await new MochaWriter().write(renderDirectory, gcpProjectId, storageBucketName, options.tryCount);
+      const mochaWriter= new MochaWriter();
+      await mochaWriter.prepareForWriting();
+      await mochaWriter.write(renderDirectory, gcpProjectId, storageBucketName, options.tryCount);
       const mocha = new Mocha({
         timeout: 60000
       });
-      mocha.addFile('./routine-design-out/mocha-writer/index.test.js');
+      mocha.addFile('./routine-design-output/mocha-writer/index.test.js');
       const promise = new Promise(function(resolve, reject) {
         mocha.run(() => {
           resolve();
