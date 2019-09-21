@@ -1,3 +1,8 @@
+# 0.6.3
+
+## Fixes
+* Mocha writer to use `PixelValidator.getComponentDirectoryId`
+
 # 0.6.2
 
 ## Fixes
