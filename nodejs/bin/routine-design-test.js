@@ -16,8 +16,12 @@ program
       });
       mocha.addFile('./routine-design-output/mocha-writer/index.test.js');
       const promise = new Promise(function(resolve, reject) {
-        mocha.run(() => {
-          resolve();
+        mocha.run((failures) => {
+          if (failures > 0) {
+            reject();
+          } else {
+            resolve();
+          }
         });
       });
       await promise;
