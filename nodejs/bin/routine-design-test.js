@@ -12,7 +12,7 @@ program
       const mocha = new Mocha({
         timeout: 60000
       });
-      mocha.addFile('./routine-design-out/mocha-writer/index.test.js');
+      mocha.addFile('./routine-design-output/mocha-writer/index.test.js');
       const promise = new Promise(function(resolve, reject) {
         mocha.run(() => {
           resolve();
