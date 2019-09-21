@@ -10,7 +10,7 @@ class MochaWriter {
     let fileContent = "const RoutineDesign = require('routine-design');";
     fileContent += "\nconst assert = require('assert');";
     fileContent += "\ndescribe('render', function() {";
-    fileContent += "\nconst componentWorkshop new RoutineDesign().createComponentWorkshop('"+renderDirectory+"', '"+gcpProjectId+"', '"+storageBucketName+"');";
+    fileContent += "\nconst componentWorkshop = new RoutineDesign().createComponentWorkshop('"+renderDirectory+"', '"+gcpProjectId+"', '"+storageBucketName+"');";
     fileContent += "\nbefore(async function() {";
     fileContent += "\nawait componentWorkshop.setup();";
     fileContent += "\n});";

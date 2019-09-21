@@ -1,7 +1,7 @@
 const RoutineDesign = require('routine-design');
 const assert = require('assert');
 describe('render', function() {
-const componentWorkshop new RoutineDesign().createComponentWorkshop('./render', 'gcp-project', 'storage-bucket');
+const componentWorkshop = new RoutineDesign().createComponentWorkshop('./render', 'gcp-project', 'storage-bucket');
 before(async function() {
 await componentWorkshop.setup();
 });
