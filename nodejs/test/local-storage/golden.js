@@ -7,7 +7,7 @@ await componentWorkshop.setup();
 });
 const pixelValidators = componentWorkshop.getPixelValidators();
 for (pixelValidator in pixelValidators) {
-it(pixelValidator.getName(), async function() {
+it(pixelValidator.getComponentDirectoryId(), async function() {
 const result = await pixelValidator.validate(20);
 assert(result.allPass, result.gcpUrl);
 });

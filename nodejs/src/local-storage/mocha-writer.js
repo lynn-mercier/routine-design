@@ -22,7 +22,7 @@ class MochaWriter {
     fileContent += "\n});";
     fileContent += "\nconst pixelValidators = componentWorkshop.getPixelValidators();";
     fileContent += "\nfor (pixelValidator in pixelValidators) {";
-    fileContent += "\nit(pixelValidator.getName(), async function() {";
+    fileContent += "\nit(pixelValidator.getComponentDirectoryId(), async function() {";
     fileContent += "\nconst result = await pixelValidator.validate("+tryCount+");";
     fileContent += "\nassert(result.allPass, result.gcpUrl);";
     fileContent += "\n});";
