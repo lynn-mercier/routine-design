@@ -21,7 +21,7 @@ class MochaWriter {
     fileContent += "\nawait componentWorkshop.setup();";
     fileContent += "\n});";
     fileContent += "\nconst pixelValidators = componentWorkshop.getPixelValidators();";
-    fileContent += "\nfor (pixelValidator in pixelValidators) {";
+    fileContent += "\nfor (pixelValidator of pixelValidators) {";
     fileContent += "\nit(pixelValidator.getComponentDirectoryId(), async function() {";
     fileContent += "\nconst result = await pixelValidator.validate("+tryCount+");";
     fileContent += "\nassert(result.allPass, result.gcpUrl);";
