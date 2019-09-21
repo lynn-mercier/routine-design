@@ -1,3 +1,8 @@
+# 0.6.4
+
+## Fixes
+* Actually throw an error when Mocha tests fail
+
 # 0.6.3
 
 ## Fixes
