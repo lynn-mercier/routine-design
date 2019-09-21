@@ -11,7 +11,7 @@ class LocalStorage {
     if (!this.MochaWriter_) {
       this.MochaWriter_ = require('./mocha-writer');
     }
-    return new this.MochaWriter_().write(renderDirectory, gcpProjectId, storageBucketName, name, tryCount);
+    return new this.MochaWriter_(name).write(renderDirectory, gcpProjectId, storageBucketName, tryCount);
   }
 
   createRoutesServer(name = 'routes-server') {
