@@ -34,7 +34,7 @@ class WebPage {
     const page = await this.getPage();
     return new Promise(async (resolve, reject) => {
       try {
-        await page.goto(this.url_, {timeout: 1000});
+        await page.goto(this.url_, {timeout: 2000});
         return resolve(true);
       } catch (error) {
         if (!error.message.includes('net::ERR_CONNECTION_REFUSED') && 
@@ -53,7 +53,7 @@ class WebPage {
       if (tryCount === 0) {
         return Promise.reject(new Error(this.url_+" doesn't resolve"));
       }
-      await new Promise(res => setTimeout(res, 1000));
+      await new Promise(res => setTimeout(res, 2000));
       await this.waitForResolution(tryCount - 1);
     }
   }
