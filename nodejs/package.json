@@ -7,7 +7,7 @@
     "routine-design": "bin/routine-design.js"
   },
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha \"test/**/*.test.js\"",
+    "test": "nyc --reporter=html --reporter=text mocha --timeout 3000 \"test/**/*.test.js\"",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [
