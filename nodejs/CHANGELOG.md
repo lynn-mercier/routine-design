@@ -1,3 +1,9 @@
+# 0.6.5
+
+## Fixes
+* Update timeout for resolving a web page
+* Fix syntax in Mocha test file 
+
 # 0.6.4
 
 ## Fixes
