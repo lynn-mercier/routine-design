@@ -33,7 +33,7 @@
     "docker-cli-js": "^2.6.0",
     "file-loader": "^4.0.0",
     "mini-css-extract-plugin": "^0.7.0",
-    "mocha": "^6.2.0",
+    "mocha": "^7.0.1",
     "node-sass": "^4.10.0",
     "pixelmatch": "^5.0.0",
     "pngjs": "^3.3.3",
